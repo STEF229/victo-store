@@ -56,10 +56,6 @@ export function Heading({
     <HeadingTag 
       data-ui="heading"
       className={`font-bold tracking-tight ${className}`}
-      style={{ 
-        fontFamily: 'var(--vs-font-display)',
-        fontWeight: level === 1 ? '800' : level === 2 ? '700' : level === 3 ? '600' : '500'
-      }}
     >
       {children}
     </HeadingTag>
