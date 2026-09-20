@@ -81,7 +81,7 @@ export function DesignPage() {
   return (
     <Container>
       <SiteHeader 
-        navigation={[
+        navItems={[
           { label: 'Femme', href: '/femme' },
           { label: 'Homme', href: '/homme' },
           { label: 'Soldes', href: '/soldes' }
