@@ -13,9 +13,9 @@ import {
   SizeSelector, 
   QuantityStepper, 
   ProductCard 
-} from '../../components/ui';
-import { SiteHeader } from '../../components/layout';
-import { Produit } from '../../lib/catalogue';
+} from '@/components/ui';
+import { SiteHeader } from '@/components/layout';
+import { Produit } from '@/lib/catalogue';
 
 export function DesignPage() {
   // State for size selector and quantity stepper
