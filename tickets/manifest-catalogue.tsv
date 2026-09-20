@@ -1,0 +1,9 @@
+# id	cible	tests	spec	contexte_lecture_seule
+030	src/lib/donnees.ts	tests/donnees.test.ts	tickets/030-donnees.md	src/lib/catalogue.ts
+031	src/lib/filtres.ts	tests/filtres.test.ts	tickets/031-filtres.md	src/lib/catalogue.ts
+032	src/components/catalogue/FiltresPanneau.tsx	tests/FiltresPanneau.test.tsx	tickets/032-filtres-panneau.md	src/lib/catalogue.ts,src/lib/filtres.ts
+033	src/components/catalogue/TriSelect.tsx	tests/TriSelect.test.tsx	tickets/033-tri-select.md	src/lib/filtres.ts
+034	src/components/catalogue/GrilleProduits.tsx	tests/GrilleProduits.test.tsx	tickets/034-grille-produits.md	src/lib/catalogue.ts,src/components/ui/ProductCard.tsx
+035	src/components/catalogue/Pagination.tsx	tests/Pagination.test.tsx	tickets/035-pagination.md	
+036	src/components/ui/SiteFooter.tsx	tests/SiteFooter.test.tsx	tickets/036-site-footer.md	src/components/ui/layout.tsx
+037	src/app/boutique/page.tsx	tests/boutique-page.test.tsx	tickets/037-page-boutique.md	src/lib/donnees.ts,src/lib/filtres.ts,src/components/catalogue/FiltresPanneau.tsx,src/components/catalogue/TriSelect.tsx,src/components/catalogue/Pagination.tsx,src/components/ui/SiteFooter.tsx
