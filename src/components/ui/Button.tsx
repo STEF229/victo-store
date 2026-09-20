@@ -77,9 +77,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Handle loading state
     const disabled = props.disabled || loading;
 
-    // Handle aria-busy attribute
-    const ariaProps = loading ? { 'aria-busy': 'true' } : {};
-
     return (
       <button
         ref={ref}
@@ -87,7 +84,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
         className={combinedClasses}
         {...dataAttributes}
-        {...ariaProps}
+        {...(loading ? { 'aria-busy': true } : {})}
         {...props}
       />
     );
