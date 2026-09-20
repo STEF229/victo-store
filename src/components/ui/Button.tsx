@@ -77,17 +77,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Handle loading state
     const disabled = props.disabled || loading;
 
-    // Merge data attributes with any existing ones
-    const dataProps: Record<string, string> = {};
-    Object.entries(dataAttributes).forEach(([key, value]) => {
-      dataProps[key] = value;
-    });
-
     // Handle aria-busy attribute
-    const ariaProps = {};
-    if (loading) {
-      ariaProps['aria-busy'] = 'true';
-    }
+    const ariaProps = loading ? { 'aria-busy': 'true' } : {};
 
     return (
       <button
@@ -95,7 +86,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={props.type || 'button'}
         disabled={disabled}
         className={combinedClasses}
-        {...dataProps}
+        {...dataAttributes}
         {...ariaProps}
         {...props}
       />
