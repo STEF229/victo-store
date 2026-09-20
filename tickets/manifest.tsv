@@ -1,0 +1,15 @@
+# id	cible	tests	spec	contexte_lecture_seule
+001	src/lib/formatPrice.ts	tests/formatPrice.test.ts	tickets/001-format-price.md	
+002	src/lib/clampQuantity.ts	tests/clampQuantity.test.ts	tickets/002-clamp-quantity.md	
+010	src/lib/tokens.ts	tests/tokens.test.ts	tickets/010-tokens.md	
+011	src/lib/catalogue.ts	tests/catalogue.test.ts	tickets/011-domaine.md	
+012	src/components/ui/layout.tsx	tests/layout.test.tsx	tickets/012-layout.md	src/lib/tokens.ts
+013	src/components/ui/Button.tsx	tests/Button.test.tsx	tickets/013-button.md	src/lib/tokens.ts
+014	src/components/ui/Badge.tsx	tests/Badge.test.tsx	tickets/014-badge.md	src/lib/tokens.ts
+015	src/components/ui/Price.tsx	tests/Price.test.tsx	tickets/015-price.md	src/lib/formatPrice.ts,src/lib/tokens.ts
+016	src/components/ui/Field.tsx	tests/Field.test.tsx	tickets/016-field.md	src/lib/tokens.ts
+017	src/components/ui/SizeSelector.tsx	tests/SizeSelector.test.tsx	tickets/017-size-selector.md	src/lib/tokens.ts
+018	src/components/ui/QuantityStepper.tsx	tests/QuantityStepper.test.tsx	tickets/018-quantity-stepper.md	src/lib/clampQuantity.ts,src/lib/tokens.ts
+019	src/components/ui/ProductCard.tsx	tests/ProductCard.test.tsx	tickets/019-product-card.md	src/lib/catalogue.ts,src/components/ui/Price.tsx,src/components/ui/Badge.tsx
+020	src/components/ui/SiteHeader.tsx	tests/SiteHeader.test.tsx	tickets/020-site-header.md	src/components/ui/Badge.tsx,src/lib/tokens.ts
+021	src/app/design/page.tsx	tests/design-page.test.tsx	tickets/021-page-design.md	src/lib/catalogue.ts,src/components/ui/ProductCard.tsx,src/components/ui/SizeSelector.tsx,src/components/ui/Field.tsx,src/components/ui/Button.tsx
