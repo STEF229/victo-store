@@ -78,6 +78,17 @@ export function DesignPage() {
     }
   ];
 
+  // Get the first product for size selector, or fallback to a default if needed
+  const firstProduct = mockProducts[0] || {
+    id: '',
+    slug: '',
+    nom: '',
+    marque: { id: '', nom: '', slug: '' },
+    imageUrl: '',
+    prixCents: 0,
+    variantes: []
+  };
+
   return (
     <Container>
       <SiteHeader 
@@ -147,7 +158,7 @@ export function DesignPage() {
           <div>
             <Text className="mb-2">Sélecteur de taille :</Text>
             <SizeSelector
-              sizes={optionsDeTaille(mockProducts[0])}
+              sizes={optionsDeTaille(firstProduct)}
               value={selectedSize}
               onChange={setSelectedSize}
               label="Taille"
