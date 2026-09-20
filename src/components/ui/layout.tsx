@@ -50,7 +50,7 @@ export function Heading({
   level?: 1 | 2 | 3 | 4; 
   className?: string; 
 }) {
-  const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+  const HeadingTag = `h${level}`;
   
   return (
     <HeadingTag 
