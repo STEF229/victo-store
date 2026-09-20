@@ -24,6 +24,7 @@ export function SiteHeader({
     <header 
       data-ui="site-header" 
       className={`border-b border-[var(--vs-ligne)] bg-[var(--vs-blanc)] ${className}`}
+      role="banner"
     >
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <a 
