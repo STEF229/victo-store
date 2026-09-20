@@ -45,8 +45,8 @@ export function remisePourcent(produit: Produit): number | null {
   return Math.round(remise * 100);
 }
 
-export function optionsDeTaille(produit: Produite): Array<{ value: string; available: boolean }> {
-  return produit.variantes.map(variante => ({
+export function optionsDeTaille(produit: Produit): Array<{ value: string; available: boolean }> {
+  return produit.variantes.map((variante) => ({
     value: variante.taille,
     available: variante.stock > 0
   }));
