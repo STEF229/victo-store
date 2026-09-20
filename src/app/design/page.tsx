@@ -13,8 +13,8 @@ import {
   SizeSelector, 
   QuantityStepper, 
   ProductCard 
-} from '@/components/ui';
-import { SiteHeader } from '@/components/layout';
+} from '../../components/ui';
+import { SiteHeader } from '../../components/layout';
 import { Produit } from '@/lib/catalogue';
 
 export function DesignPage() {
