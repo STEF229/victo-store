@@ -41,3 +41,28 @@ Structure attendue :
 
 ## Critère de fin
 `npm run typecheck` et `npm test` passent.
+
+## Bloc d'imports exact
+
+Recopie ce bloc **tel quel**, en tête de fichier, sans rien y changer. Il n'existe
+aucun fichier baril : chaque composant a son propre module, un par fichier.
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import { Field } from '@/components/ui/Field';
+import { Price } from '@/components/ui/Price';
+import { ProductCard } from '@/components/ui/ProductCard';
+import { QuantityStepper } from '@/components/ui/QuantityStepper';
+import { SiteHeader } from '@/components/ui/SiteHeader';
+import { SizeSelector } from '@/components/ui/SizeSelector';
+import { Container, Heading, Section, Text } from '@/components/ui/layout';
+import { optionsDeTaille, type Produit } from '@/lib/catalogue';
+```
+
+N'importe **jamais** depuis `../../components/ui`, `@/components/ui`,
+`@/components/layout` ou tout autre chemin de dossier : ces modules n'existent
+pas. Seuls les chemins ci-dessus sont valides.
