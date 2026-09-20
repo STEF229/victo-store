@@ -43,3 +43,28 @@ Le ton `muted` utilise `var(--vs-gris)`.
 
 ## Critère de fin
 `npm run typecheck` et `npm test` passent.
+
+## Motif imposé pour `Heading` (React 19)
+
+Ne construis **pas** la balise par interpolation (`` `h${level}` ``) : son type
+serait `string` et TypeScript refuse un `string` comme composant JSX. Ne
+référence pas non plus le namespace global `JSX`, qui n'existe plus depuis
+React 19 — il faut `React.JSX` si tu en as besoin, mais tu n'en as pas besoin.
+
+Utilise une table de correspondance figée, dont les valeurs sont des littéraux :
+
+```tsx
+const BALISES = { 1: 'h1', 2: 'h2', 3: 'h3', 4: 'h4' } as const;
+
+export function Heading({ children, level = 2, className = '' }: HeadingProps) {
+  const Balise = BALISES[level];
+  return (
+    <Balise data-ui="heading" className={`... ${className}`}>
+      {children}
+    </Balise>
+  );
+}
+```
+
+Le `as const` donne à `Balise` le type `'h1' | 'h2' | 'h3' | 'h4'`, que JSX
+accepte. C'est le seul motif valide ici.
