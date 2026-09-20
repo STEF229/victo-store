@@ -1,0 +1,3 @@
+019	src/components/ui/ProductCard.tsx	tests/ProductCard.test.tsx	tickets/019-product-card.md	src/lib/catalogue.ts,src/components/ui/Price.tsx,src/components/ui/Badge.tsx
+020	src/components/ui/SiteHeader.tsx	tests/SiteHeader.test.tsx	tickets/020-site-header.md	src/components/ui/Badge.tsx,src/lib/tokens.ts
+021	src/app/design/page.tsx	tests/design-page.test.tsx	tickets/021-page-design.md	src/lib/catalogue.ts,src/components/ui/ProductCard.tsx,src/components/ui/SizeSelector.tsx,src/components/ui/Field.tsx,src/components/ui/Button.tsx
