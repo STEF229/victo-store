@@ -1,0 +1,8 @@
+node_modules/
+.logs/
+.next/
+.aider*
+!.aider.model.settings.yml
+.env
+.env.*
+!.env.example

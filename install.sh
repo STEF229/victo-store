@@ -302,13 +302,22 @@ EOF
 ok "tests/smoke.test.tsx (React, node:fs, PostCSS)"
 
 etape "5/7  Harnais et tickets"
-for f in run.sh serve.sh; do
-  cp "$SRC_DIR/$f" . || mort "$f introuvable dans $SRC_DIR"
-  chmod +x "$f"
+if [ "$SRC_DIR" != "$REPO" ]; then
+  for f in run.sh serve.sh; do
+    cp "$SRC_DIR/$f" . || mort "$f introuvable dans $SRC_DIR"
+  done
+  cp "$SRC_DIR"/tickets/*.md          tickets/       || mort "tickets absents"
+  cp "$SRC_DIR"/tickets/manifest.tsv  tickets/       || mort "manifeste absent"
+  cp "$SRC_DIR"/tickets/tests/*       tickets/tests/ || mort "tests absents"
+else
+  act "kit déjà en place dans le dépôt, aucune copie"
+fi
+chmod +x run.sh serve.sh
+for f in run.sh serve.sh tickets/manifest.tsv; do
+  [ -f "$f" ] || mort "$f manquant"
 done
-cp "$SRC_DIR"/tickets/*.md tickets/ || mort "tickets absents"
-cp "$SRC_DIR"/tickets/manifest.tsv tickets/ || mort "manifeste absent"
-cp "$SRC_DIR"/tickets/tests/* tickets/tests/ || mort "tests absents"
+[ "$(ls tickets/*.md 2>/dev/null | wc -l)" -ge 14 ] || mort "tickets incomplets"
+[ "$(ls tickets/tests/* 2>/dev/null | wc -l)" -ge 14 ] || mort "tests incomplets"
 
 # [LEÇON] Les tests attendent hors du périmètre de la porte. Un test dont le
 # composant n'existe pas encore ferait échouer TOUS les autres tickets.
