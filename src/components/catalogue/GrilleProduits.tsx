@@ -18,7 +18,7 @@ export function GrilleProduits({ produits, className = '' }: GrilleProduitsProps
   return (
     <ul 
       data-testid="grille" 
-      className={`grid gap-6 ${className}`}
+      className={`grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ${className}`}
     >
       {produits.map((produit) => (
         <li 
