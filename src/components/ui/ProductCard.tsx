@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Badge } from '@/components/ui/Badge';
 import { Price } from '@/components/ui/Price';
 import { estEnPromotion, hrefProduit, remisePourcent, type Produit } from '@/lib/catalogue';
+import { Heart } from 'lucide-react';
 
 interface ProductCardProps {
   produit: Produit;
@@ -75,21 +76,7 @@ export function ProductCard({ produit, className = '' }: ProductCardProps) {
           onClick={() => setFavori(!favori)}
           className="absolute top-2 right-2 bg-white rounded-full w-11 h-11 flex items-center justify-center ml-4"
         >
-          <svg 
-            aria-hidden="true" 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill={favori ? "#C70026" : "none"} 
-            stroke={favori ? "#C70026" : "#1E1E26"} 
-            strokeWidth="1.5" 
-            className="w-6 h-6"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              d="M21 8.25c0-2.485-2.099-4.5-4.5-4.5s-4.5 2.015-4.5 4.5c0 1.016-.07 2.012-.203 3m-2.118 6.844A12.025 12.025 0 0112 19.5c-2.553 0-4.997-.658-7.077-1.855M12 19.5c2.553 0 4.997-.658 7.077-1.855M12 19.5c2.553 0 4.997-.658 7.077-1.855m-7.077 1.855c-.133.04-.27.067-.41.082a12.025 12.025 0 00-7.077-1.855M12 19.5c2.553 0 4.997-.658 7.077-1.855m-7.077 1.855c-.133.04-.27.067-.41.082a12.025 12.025 0 00-7.077-1.855M12 19.5c2.553 0 4.997-.658 7.077-1.855m-7.077 1.855c-.133.04-.27.067-.41.082a12.025 12.025 0 00-7.077-1.855" 
-            />
-          </svg>
+          <Heart aria-hidden size={18} fill={favori ? 'currentColor' : 'none'} />
         </button>
       </div>
     </article>
