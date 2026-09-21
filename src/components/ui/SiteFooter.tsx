@@ -24,7 +24,7 @@ export function SiteFooter({ colonnes, annee = new Date().getFullYear(), classNa
           <div className="md:col-span-2">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
-                <h1 className="text-[26px] font-900">VICTO STORE</h1>
+                <p className="text-[26px] font-black tracking-[0.1em]">VICTO STORE</p>
                 <p className="text-[var(--vs-blanc)] mt-2">Des grandes marques, au bon prix.</p>
               </div>
             </div>
