@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Diapo {
   surTitre: string;
@@ -132,17 +133,7 @@ export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) 
         className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-[var(--vs-blanc)] p-3 shadow-lg"
         onClick={allerPrecedent}
       >
-        <svg 
-          aria-hidden="true" 
-          xmlns="http://www.w3.org/2000/svg" 
-          fill="none" 
-          viewBox="0 0 24 24" 
-          strokeWidth={1.5} 
-          stroke="currentColor" 
-          className="h-6 w-6"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19l-3-3m0 0l-3 3m3-3v12m0-18l-3 3m3-3l3 3" />
-        </svg>
+        <ChevronLeft aria-hidden size={20} />
       </button>
       
       <button 
@@ -151,17 +142,7 @@ export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) 
         className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-[var(--vs-blanc)] p-3 shadow-lg"
         onClick={allerSuivant}
       >
-        <svg 
-          aria-hidden="true" 
-          xmlns="http://www.w3.org/2000/svg" 
-          fill="none" 
-          viewBox="0 0 24 24" 
-          strokeWidth={1.5} 
-          stroke="currentColor" 
-          className="h-6 w-6"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
+        <ChevronRight aria-hidden size={20} />
       </button>
 
       {/* Points */}
