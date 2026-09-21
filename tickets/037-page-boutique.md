@@ -67,3 +67,20 @@ mobile. Le tri et le compteur sur une même ligne au-dessus de la grille.
 
 ## Critère de fin
 `npm run typecheck` et `npm test` passent.
+
+## Le compteur — élément obligatoire, souvent oublié
+
+Quatre tests sur dix en dépendent. Calcule le libellé à partir du nombre de
+produits **filtrés** (avant pagination) et rends-le **exactement** ainsi, au-dessus
+de la grille, à côté du `TriSelect` :
+
+```tsx
+const total = produitsTries.length;
+const libelle = `${total} ${total > 1 ? 'produits' : 'produit'}`;
+
+<p data-testid="compteur">{libelle}</p>
+```
+
+Donc `12 produits`, `1 produit`, `0 produit`. L'élément est **toujours** rendu,
+même quand la grille est vide. Relis le test `tests/boutique-page.test.tsx` avant
+de terminer : chaque `data-testid` qu'il cherche doit exister dans ta page.
