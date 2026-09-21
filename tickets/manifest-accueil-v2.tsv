@@ -1,0 +1,14 @@
+# id	cible	tests	spec	contexte_lecture_seule
+040	src/components/catalogue/GrilleProduits.tsx	tests/GrilleProduits.classes.test.tsx	tickets/040-grille-classes.md	
+050	src/components/ui/Price.tsx	tests/accueil2-Price.test.tsx	tickets/050-prix-remise.md	
+051	src/components/ui/ProductCard.tsx	tests/accueil2-ProductCard.test.tsx	tickets/051-carte-produit.md	src/components/ui/Price.tsx,src/components/ui/Badge.tsx,src/lib/catalogue.ts
+052	src/components/accueil/BarreAnnonce.tsx	tests/accueil2-BarreAnnonce.test.tsx	tickets/052-barre-annonce.md	
+053	src/components/ui/SiteHeader.tsx	tests/accueil2-SiteHeader.test.tsx	tickets/053-en-tete.md	
+054	src/components/accueil/Carrousel.tsx	tests/accueil2-Carrousel.test.tsx	tickets/054-carrousel.md	
+055	src/components/accueil/BandeMarques.tsx	tests/accueil2-BandeMarques.test.tsx	tickets/055-bande-marques.md	src/lib/catalogue.ts
+056	src/components/accueil/SectionBonnesAffaires.tsx	tests/accueil2-BonnesAffaires.test.tsx	tickets/056-bonnes-affaires.md	src/components/ui/ProductCard.tsx
+057	src/components/accueil/MosaiqueCategories.tsx	tests/accueil2-Mosaique.test.tsx	tickets/057-mosaique.md	
+058	src/components/accueil/Infolettre.tsx	tests/accueil2-Infolettre.test.tsx	tickets/058-infolettre.md	
+059	src/components/accueil/Reassurance.tsx	tests/accueil2-Reassurance.test.tsx	tickets/059-reassurance.md	
+060	src/components/ui/SiteFooter.tsx	tests/accueil2-SiteFooter.test.tsx	tickets/060-pied.md	
+061	src/app/page.tsx	tests/accueil2-page.test.tsx	tickets/061-page-accueil.md	
