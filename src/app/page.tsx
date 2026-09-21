@@ -1,4 +1,4 @@
-import { AccueilPage } from '@/components/accueil2/AccueilPage';
+import { AccueilPage } from '@/components/accueil/AccueilPage';
 
 export default function Home() {
   return (
@@ -7,3 +7,5 @@ export default function Home() {
     </div>
   );
 }
+
+export { AccueilPage };
