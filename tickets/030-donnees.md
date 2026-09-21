@@ -45,3 +45,48 @@ import type { Marque, Produit } from '@/lib/catalogue';
 
 ## Critère de fin
 `npm run typecheck` et `npm test` passent.
+
+## Motif imposé pour référencer les marques
+
+`noUncheckedIndexedAccess` est actif : `MARQUES[0]` a le type `Marque | undefined`
+et TypeScript le refuse là où un `Marque` est attendu. N'utilise donc **jamais**
+l'accès par index, ni `!`, ni `as Marque`.
+
+Déclare les marques comme des constantes nommées, puis compose le tableau :
+
+```ts
+const NIKE: Marque = { id: 'm1', nom: 'Nike', slug: 'nike' };
+const ADIDAS: Marque = { id: 'm2', nom: 'Adidas', slug: 'adidas' };
+const CONVERSE: Marque = { id: 'm3', nom: 'Converse', slug: 'converse' };
+const LACOSTE: Marque = { id: 'm4', nom: 'Lacoste', slug: 'lacoste' };
+const LEVIS: Marque = { id: 'm5', nom: "Levi's", slug: 'levis' };
+const NEW_BALANCE: Marque = { id: 'm6', nom: 'New Balance', slug: 'new-balance' };
+
+export const MARQUES: Marque[] = [NIKE, ADIDAS, CONVERSE, LACOSTE, LEVIS, NEW_BALANCE];
+```
+
+Chaque produit référence alors la constante directement :
+
+```ts
+{ id: 'p1', slug: 'air-zoom-pegasus-41', nom: 'Air Zoom Pegasus 41', marque: NIKE, ... }
+```
+
+C'est le seul motif valide. Le test vérifie que chaque `produit.marque.slug`
+appartient bien à `MARQUES`, donc réutiliser ces constantes le satisfait.
+
+## Motif imposé pour `taillesCatalogue`
+
+Le tri demandé n'est pas lexicographique. Sépare les deux familles :
+
+```ts
+const ORDRE_ALPHA = ['S', 'M', 'L', 'XL'];
+
+export function taillesCatalogue(): string[] {
+  const vues = new Set<string>();
+  for (const p of PRODUITS) for (const v of p.variantes) vues.add(v.taille);
+  const toutes = [...vues];
+  const num = toutes.filter((t) => /^\d+$/.test(t)).sort((a, b) => Number(a) - Number(b));
+  const alpha = ORDRE_ALPHA.filter((t) => vues.has(t));
+  return [...num, ...alpha];
+}
+```
