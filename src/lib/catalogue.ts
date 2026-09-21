@@ -11,6 +11,15 @@ export interface Variante {
   stock: number;       // entier >= 0
 }
 
+export type Genre = 'femme' | 'homme' | 'mixte';
+export type Categorie = 'chaussures' | 'vetements' | 'accessoires';
+
+export const LIBELLES_CATEGORIE: Record<Categorie, string> = {
+  chaussures: 'Chaussures',
+  vetements: 'Vêtements',
+  accessoires: 'Accessoires',
+};
+
 export interface Produit {
   id: string;
   slug: string;
@@ -21,6 +30,11 @@ export interface Produit {
   prixCompareCents?: number;
   variantes: Variante[];
   badge?: string;
+  genre?: Genre;
+  categorie?: Categorie;
+  description?: string;
+  composition?: string;
+  images?: string[];
 }
 
 export function hrefProduit(produit: Produit): string {
@@ -58,4 +72,22 @@ export function stockTotal(produit: Produit): number {
 
 export function estEnRupture(produit: Produit): boolean {
   return stockTotal(produit) === 0;
+}
+
+export function imagesProduit(produit: Produit): string[] {
+  if (produit.images && produit.images.length > 0) {
+    return [...produit.images];
+  }
+  return [produit.imageUrl];
+}
+
+export function correspondAuGenre(produit: Produit, genre: 'femme' | 'homme'): boolean {
+  return produit.genre === genre || produit.genre === 'mixte';
+}
+
+export function economieCents(produit: Produit): number {
+  if (estEnPromotion(produit)) {
+    return produit.prixCompareCents! - produit.prixCents;
+  }
+  return 0;
 }
