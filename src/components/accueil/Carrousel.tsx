@@ -90,7 +90,7 @@ export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) 
             data-testid={`diapo-${n}`}
             className={`w-full shrink-0 ${diapo.fond}`}
             aria-hidden={n !== index}
-            inert={n !== index ? '' : undefined}
+            inert={n !== index ? true : undefined}
           >
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
               <div>
