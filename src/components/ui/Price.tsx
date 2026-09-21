@@ -3,10 +3,11 @@ import { formatPrice } from '../../lib/formatPrice';
 interface PriceProps {
   amount: number;
   compareAt?: number;
+  afficherRemise?: boolean;
   className?: string;
 }
 
-export function Price({ amount, compareAt, className = '' }: PriceProps) {
+export function Price({ amount, compareAt, afficherRemise = true, className = '' }: PriceProps) {
   const isPromo = compareAt !== undefined && compareAt > amount;
   
   return (
@@ -31,12 +32,14 @@ export function Price({ amount, compareAt, className = '' }: PriceProps) {
           >
             {formatPrice(compareAt)}
           </s>
-          <span 
-            data-testid="prix-remise" 
-            className="ml-2 text-[var(--vs-promo)]"
-          >
-            {`\u2212${Math.round((1 - amount / compareAt) * 100)}\u00A0%`}
-          </span>
+          {afficherRemise && (
+            <span 
+              data-testid="prix-remise" 
+              className="ml-2 text-[var(--vs-promo)]"
+            >
+              {`\u2212${Math.round((1 - amount / compareAt) * 100)}\u00A0%`}
+            </span>
+          )}
         </>
       )}
     </div>
