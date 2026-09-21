@@ -1,0 +1,7 @@
+# id	cible	tests	spec	contexte_lecture_seule
+070	src/components/ui/SiteHeader.tsx	tests/finitions-SiteHeader.test.tsx	tickets/070-entete-icones.md	
+071	src/components/ui/ProductCard.tsx	tests/finitions-ProductCard.test.tsx	tickets/071-carte-icones.md	
+072	src/components/accueil/Carrousel.tsx	tests/finitions-Carrousel.test.tsx	tickets/072-carrousel-icones.md	
+073	src/components/accueil/MosaiqueCategories.tsx	tests/finitions-Mosaique.test.tsx	tickets/073-mosaique-icones.md	
+074	src/components/accueil/Reassurance.tsx	tests/finitions-Reassurance.test.tsx	tickets/074-reassurance-icones.md	
+075	src/components/accueil/Infolettre.tsx	tests/finitions-Infolettre.test.tsx	tickets/075-infolettre-mise-en-page.md	
