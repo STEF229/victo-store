@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 
 const TUILES = [
   { titre: 'Femme', href: '/femme', image: '/img/accueil/photo-8.svg',
@@ -31,21 +32,7 @@ export function MosaiqueCategories() {
               <span className="text-3xl font-900 relative">{t.titre}</span>
               <div className="relative flex justify-end">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--vs-noir)]">
-                  <svg 
-                    aria-hidden="true" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor"
-                    className="h-6 w-6 text-[var(--vs-blanc)]"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M9 5l7 7-7 7" 
-                    />
-                  </svg>
+                  <ArrowUpRight aria-hidden size={20} />
                 </div>
               </div>
             </a>
@@ -60,21 +47,7 @@ export function MosaiqueCategories() {
             <span className="text-4xl font-900">Jusqu’à −50 %</span>
             <div className="relative flex justify-end">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--vs-blanc)]">
-                <svg 
-                  aria-hidden="true" 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                  className="h-6 w-6 text-[var(--vs-noir)]"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M9 5l7 7-7 7" 
-                  />
-                </svg>
+                <ArrowUpRight aria-hidden size={20} />
               </div>
             </div>
           </a>
