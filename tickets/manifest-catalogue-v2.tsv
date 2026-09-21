@@ -1,0 +1,10 @@
+# id	cible	tests	spec	contexte_lecture_seule
+080	src/lib/catalogue.ts	tests/catalogue-enrichi.test.ts	tickets/080-catalogue-enrichi.md	
+081	src/lib/donnees.ts	tests/donnees-enrichies.test.ts	tickets/081-donnees-enrichies.md	src/lib/catalogue.ts
+082	src/lib/navigation.ts	tests/navigation.test.ts	tickets/082-navigation.md	src/components/ui/SiteHeader.tsx
+083	src/components/catalogue/VueCatalogue.tsx	tests/VueCatalogue.test.tsx	tickets/083-vue-catalogue.md	src/components/catalogue/FiltresPanneau.tsx,src/components/catalogue/GrilleProduits.tsx,src/components/catalogue/Pagination.tsx,src/components/catalogue/TriSelect.tsx,src/components/ui/SiteFooter.tsx,src/components/ui/SiteHeader.tsx,src/lib/catalogue.ts,src/lib/donnees.ts,src/lib/filtres.ts,src/lib/navigation.ts
+084	src/app/femme/page.tsx	tests/page-femme.test.tsx	tickets/084-page-femme.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
+085	src/app/homme/page.tsx	tests/page-homme.test.tsx	tickets/085-page-homme.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
+086	src/app/chaussures/page.tsx	tests/page-chaussures.test.tsx	tickets/086-page-chaussures.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
+087	src/app/soldes/page.tsx	tests/page-soldes.test.tsx	tickets/087-page-soldes.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
+088	src/app/marques/[slug]/page.tsx	tests/page-marque.test.tsx	tickets/088-page-marque.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
