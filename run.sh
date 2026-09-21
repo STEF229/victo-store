@@ -89,6 +89,40 @@ run_gate() {
 # Une erreur tsc qui pointe un fichier de tests/ SANS jamais nommer le fichier
 # cible est impossible à corriger par le modèle : il n'a pas le droit d'y toucher.
 # Inutile de brûler trois tentatives, on nomme le coupable tout de suite.
+# Imports du fichier cible qui ne pointent vers aucun fichier réel.
+# Le modèle n'a le droit de créer que sa cible : un module qu'il importe sans
+# qu'il existe n'existera jamais. C'est la cause des échecs d'assemblage 021 et 061.
+imports_inventes() {
+  local f="$1" spec base ext
+  [ -f "$f" ] || return 0
+  grep -oE "from ['\"][^'\"]+['\"]" "$f" | sed -E "s/^from ['\"]//; s/['\"]$//" | sort -u |
+  while read -r spec; do
+    case "$spec" in
+      @/*)       base="src/${spec#@/}" ;;
+      ./*|../*)  base="$(dirname "$f")/$spec" ;;
+      *)         continue ;;
+    esac
+    for ext in "" .ts .tsx /index.ts /index.tsx; do
+      [ -f "$base$ext" ] && continue 2
+    done
+    echo "$spec"
+  done
+}
+
+modules_existants() {
+  find src -type f \( -name '*.ts' -o -name '*.tsx' \) ! -name '*.d.ts' ! -path 'src/app/*' |
+    sed -E 's#^src/#@/#; s#\.(tsx|ts)$##' | sort
+}
+
+# Déclarations de types de tout le projet : un résumé exact des exports et des
+# props, sans le code. Compact et toujours conforme à ce que le modèle a écrit.
+DECL=".logs/decl"
+generer_declarations() {
+  rm -rf "$DECL"
+  npx --no-install tsc -p tsconfig.json --noEmit false --declaration \
+    --emitDeclarationOnly --outDir "$DECL" >/dev/null 2>&1 || true
+}
+
 gate_accuse_les_tests() {
   local log="$1" cible="$2"
   grep -qE '^tests/[^ ]+\([0-9]+,[0-9]+\): error' "$log" || return 1
@@ -164,12 +198,16 @@ while IFS=$'\t' read -r ID TARGET TESTFILE SPEC EXTRA || [ -n "${ID:-}" ]; do
   # erreurs réelles du modèle lors du premier build (image/imageUrl, badge en prop).
   READS=(--read "$TESTFILE")
   if [ -n "$EXTRA" ]; then
+    generer_declarations
     OLDIFS="$IFS"; IFS=','
     for ctx in $EXTRA; do
-      [ -f "$ctx" ] && READS+=(--read "$ctx")
+      decl="$DECL/${ctx%.*}.d.ts"
+      if [ -f "$decl" ]; then READS+=(--read "$decl")
+      elif [ -f "$ctx" ]; then READS+=(--read "$ctx")
+      fi
     done
     IFS="$OLDIFS"
-    log "  contexte : $EXTRA"
+    log "  contexte (déclarations de types) : $EXTRA"
   fi
 
   MSG="$(cat "$SPEC")"
@@ -205,6 +243,24 @@ while IFS=$'\t' read -r ID TARGET TESTFILE SPEC EXTRA || [ -n "${ID:-}" ]; do
     if ! git diff --quiet "$TEST_BASE" HEAD -- "$TESTFILE"; then
       log "  TRICHE : le fichier de test a été modifié sur la branche"
       STATUS="TRICHE"; break
+    fi
+
+    INVENTES="$(imports_inventes "$TARGET")"
+    if [ -n "$INVENTES" ]; then
+      log "  IMPORTS INVENTÉS : $(printf '%s ' $INVENTES)"
+      MSG="Ton fichier $TARGET importe des modules qui N'EXISTENT PAS :
+$INVENTES
+
+Tu n'as le droit de créer AUCUN autre fichier que $TARGET : ces modules
+n'existeront donc jamais. Retire ces imports. Tout ce qui n'est pas importé d'un
+module réel doit être écrit dans $TARGET lui-même.
+
+Voici la liste COMPLÈTE des modules qui existent. N'importe que parmi eux :
+$(modules_existants)
+
+Réécris $TARGET en entier."
+      attempt=$((attempt + 1))
+      continue
     fi
 
     GATELOG="$LOGDIR/$ID.gate.$attempt.log"
