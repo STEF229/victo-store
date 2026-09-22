@@ -8,37 +8,32 @@ mort(){ printf '  \033[31m✗\033[0m %s\n' "$*"; exit 1; }
 
 pgrep -f '(^|[ /])run\.sh( |$)' >/dev/null 2>&1 && mort "le harnais tourne encore"
 git checkout -q main
-[ -z "$(git status --porcelain -- . ':!lot-entete-liste.sh')" ] || mort "arbre sale : commit ou stash d'abord"
 git pull -q --ff-only 2>/dev/null || true
 [ -f src/components/catalogue/VueCatalogue.tsx ] || mort "VueCatalogue manque : termine d'abord le rattrapage 083-088"
 [ -d node_modules/lucide-react ] || mort "lucide-react manque : lance d'abord lot-finitions.sh"
 grep -q 'imports_inventes' run.sh || mort "harnais trop ancien : installe le run.sh a jour"
 ok "base complète : VueCatalogue, lucide, harnais à jour"
 
-# La barre d'annonce devient le filet de l'en-tête : le composant disparaît.
+# Rattrapage : une version précédente de ce script supprimait BarreAnnonce trop tôt.
 for f in src/components/accueil/BarreAnnonce.tsx tests/accueil2-BarreAnnonce.test.tsx \
-         tickets/052-barre-annonce.md tickets/tests/accueil2-BarreAnnonce.test.tsx \
-         tests/accueil2-SiteHeader.test.tsx tickets/tests/accueil2-SiteHeader.test.tsx \
+          tickets/052-barre-annonce.md tickets/tests/accueil2-BarreAnnonce.test.tsx \
+          tests/garde-sans-h1.test.tsx tests/accueil2-SiteHeader.test.tsx \
+          tests/accueil2-page.test.tsx tests/VueCatalogue.test.tsx; do
+  git restore --staged --worktree -- "$f" >/dev/null 2>&1 || true
+done
+[ -z "$(git status --porcelain -- . ':!lot-entete-liste.sh')" ] || mort "arbre sale : commit ou stash d'abord"
+ok "arbre propre"
+
+# Seuls les tests qui CONTREDISENT la nouvelle maquette sont retirés. Le composant
+# BarreAnnonce, lui, reste en place tant que le ticket 091 n'a pas retiré son import
+# de la page d'accueil : le supprimer maintenant casserait la porte avant le run.
+for f in tests/accueil2-SiteHeader.test.tsx tickets/tests/accueil2-SiteHeader.test.tsx \
          tests/accueil2-page.test.tsx tickets/tests/accueil2-page.test.tsx \
          tests/VueCatalogue.test.tsx tickets/tests/VueCatalogue.test.tsx; do
   git rm -q --ignore-unmatch -- "$f" >/dev/null 2>&1 || true
   rm -f -- "$f"
 done
-ok "BarreAnnonce et les tests remplacés ont été retirés"
-
-# La garde sans-h1 référence BarreAnnonce : on la régénère sans lui.
-if [ -f tests/garde-sans-h1.test.tsx ]; then
-  python3 - <<'PYEOF'
-import re
-p = 'tests/garde-sans-h1.test.tsx'
-s = open(p).read()
-s = re.sub(r"import \{ BarreAnnonce \}[^\n]*\n", "", s)
-s = re.sub(r"\s*\['BarreAnnonce', <BarreAnnonce />\],", "", s)
-open(p, 'w').write(s)
-PYEOF
-  grep -q BarreAnnonce tests/garde-sans-h1.test.tsx && mort "la garde référence encore BarreAnnonce" || true
-  ok "garde sans-h1 mise à jour"
-fi
+ok "trois tests devenus contradictoires retirés"
 
 mkdir -p tickets/tests
 cat > 'tickets/090-entete-v3.md' <<'FIN_VICTO_00'
