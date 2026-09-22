@@ -47,7 +47,8 @@ describe('VueCatalogue — nouvelle disposition', () => {
 
   it('aligne le compteur avec le titre', () => {
     render(<VueCatalogue titre="Soldes" produits={HUIT} />);
-    const rangee = screen.getByTestId('compteur').parentElement as Element;
+    const rangee = screen.getByTestId('compteur').closest('.justify-between') as Element;
+    expect(rangee).not.toBeNull();
     for (const k of ['flex', 'items-end', 'justify-between', 'gap-8']) expect(classes(rangee)).toContain(k);
     expect(rangee.contains(screen.getByTestId('liste-titre'))).toBe(true);
   });

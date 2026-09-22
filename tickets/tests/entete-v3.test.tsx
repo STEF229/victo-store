@@ -19,10 +19,13 @@ describe('en-tête — barre noire unique', () => {
 
   it('répartit logo, navigation et actions sur une seule ligne', () => {
     render(<SiteHeader navItems={NAV} />);
-    const ligne = screen.getByTestId('entete-marque').parentElement as Element;
+    // La rangée en grille est l'enfant direct de l'en-tête ; le lien de marque est
+    // dans la zone de gauche, donc on part de l'en-tête, pas du parent du lien.
+    const ligne = screen.getByTestId('entete').firstElementChild as Element;
     for (const k of ['grid', 'h-20', 'grid-cols-[auto_1fr_auto]', 'items-center']) {
       expect(classes(ligne)).toContain(k);
     }
+    expect(ligne.contains(screen.getByTestId('entete-marque'))).toBe(true);
     expect(ligne.contains(screen.getByRole('navigation', { name: 'Navigation principale' }))).toBe(true);
   });
 

@@ -1,6 +1,3 @@
-083	src/components/catalogue/VueCatalogue.tsx	tests/VueCatalogue.test.tsx	tickets/083-vue-catalogue.md	src/components/catalogue/FiltresPanneau.tsx,src/components/catalogue/GrilleProduits.tsx,src/components/catalogue/Pagination.tsx,src/components/catalogue/TriSelect.tsx,src/components/ui/SiteFooter.tsx,src/components/ui/SiteHeader.tsx,src/lib/catalogue.ts,src/lib/donnees.ts,src/lib/filtres.ts,src/lib/navigation.ts
-084	src/app/femme/page.tsx	tests/page-femme.test.tsx	tickets/084-page-femme.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
-085	src/app/homme/page.tsx	tests/page-homme.test.tsx	tickets/085-page-homme.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
-086	src/app/chaussures/page.tsx	tests/page-chaussures.test.tsx	tickets/086-page-chaussures.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
-087	src/app/soldes/page.tsx	tests/page-soldes.test.tsx	tickets/087-page-soldes.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
-088	src/app/marques/[slug]/page.tsx	tests/page-marque.test.tsx	tickets/088-page-marque.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
+090	src/components/ui/SiteHeader.tsx	tests/entete-v3.test.tsx	tickets/090-entete-v3.md	src/lib/navigation.ts
+091	src/app/page.tsx	tests/accueil3-page.test.tsx	tickets/091-accueil-sans-barre.md	src/components/ui/SiteHeader.tsx
+094	src/components/catalogue/VueCatalogue.tsx	tests/VueCatalogue-v2.test.tsx	tickets/094-vue-catalogue-v2.md	src/components/catalogue/FiltresBarre.tsx,src/components/catalogue/GrilleProduits.tsx,src/components/catalogue/Pagination.tsx,src/components/ui/SiteFooter.tsx,src/components/ui/SiteHeader.tsx,src/lib/catalogue.ts,src/lib/donnees.ts,src/lib/filtres.ts,src/lib/navigation.ts
