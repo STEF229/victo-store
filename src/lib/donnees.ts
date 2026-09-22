@@ -21,6 +21,11 @@ const PRODUIT_1: Produit = {
     { id: 'v1', taille: '40', sku: 'nike-pegasus-41-40', stock: 5 },
     { id: 'v2', taille: '41', sku: 'nike-pegasus-41-41', stock: 3 },
   ],
+  genre: 'homme',
+  categorie: 'chaussures',
+  description: 'Chaussure de running haute performance avec technologie d amortissement avancée. Conçue pour offrir un confort optimal lors des entraînements quotidiens.',
+  composition: 'Semelle en mousse EVA, tige en maille respirante et semelle extérieure en caoutchouc.',
+  images: ['/img/pegasus.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_2: Produit = {
@@ -35,6 +40,11 @@ const PRODUIT_2: Produit = {
     { id: 'v3', taille: '42', sku: 'adidas-boost-22-42', stock: 2 },
     { id: 'v4', taille: '43', sku: 'adidas-boost-22-43', stock: 0 },
   ],
+  genre: 'homme',
+  categorie: 'chaussures',
+  description: 'Baskets confortables et stylées avec technologie Boost pour un amorti exceptionnel. Parfaites pour la ville ou les activités sportives.',
+  composition: 'Tige en mesh respirant, semelle intermédiaire en EVA et semelle extérieure en caoutchouc.',
+  images: ['/img/chuck70.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_3: Produit = {
@@ -48,6 +58,11 @@ const PRODUIT_3: Produit = {
     { id: 'v5', taille: '38', sku: 'converse-chuck-38', stock: 10 },
     { id: 'v6', taille: '39', sku: 'converse-chuck-39', stock: 7 },
   ],
+  genre: 'mixte',
+  categorie: 'chaussures',
+  description: 'Classique intemporelle avec une silhouette emblématique. Parfaite pour un style casual élégant.',
+  composition: 'Tige en coton biologique, semelle en caoutchouc naturel et doublure en coton.',
+  images: ['/img/chuck70.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_4: Produit = {
@@ -62,6 +77,11 @@ const PRODUIT_4: Produit = {
     { id: 'v7', taille: 'M', sku: 'lacoste-polo-m', stock: 4 },
     { id: 'v8', taille: 'L', sku: 'lacoste-polo-l', stock: 6 },
   ],
+  genre: 'homme',
+  categorie: 'vetements',
+  description: 'Chemise de style polo élégante et confortable. Idéale pour les occasions informelles ou professionnelles.',
+  composition: 'Tissu en coton biologique, col et manches en coton extensible.',
+  images: ['/img/polo.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_5: Produit = {
@@ -75,6 +95,11 @@ const PRODUIT_5: Produit = {
     { id: 'v9', taille: '32', sku: 'levis-501-32', stock: 8 },
     { id: 'v10', taille: '34', sku: 'levis-501-34', stock: 12 },
   ],
+  genre: 'homme',
+  categorie: 'vetements',
+  description: 'Jeans classique avec coupe ajustée et confortable. Un incontournable pour un style urbain élégant.',
+  composition: 'Tissu en coton biologique, avec élasthanne pour un ajustement parfait.',
+  images: ['/img/pegasus.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_6: Produit = {
@@ -89,6 +114,11 @@ const PRODUIT_6: Produit = {
     { id: 'v11', taille: '40', sku: 'nb-fresh-foam-40', stock: 3 },
     { id: 'v12', taille: '41', sku: 'nb-fresh-foam-41', stock: 5 },
   ],
+  genre: 'homme',
+  categorie: 'chaussures',
+  description: 'Baskets avec technologie Fresh Foam pour un amorti exceptionnel. Parfaites pour les longues promenades.',
+  composition: 'Semelle en mousse Fresh Foam, tige en maille respirante et semelle extérieure en caoutchouc.',
+  images: ['/img/chuck70.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_7: Produit = {
@@ -102,6 +132,11 @@ const PRODUIT_7: Produit = {
     { id: 'v13', taille: '42', sku: 'nike-air-force-42', stock: 0 },
     { id: 'v14', taille: '43', sku: 'nike-air-force-43', stock: 0 },
   ],
+  genre: 'homme',
+  categorie: 'chaussures',
+  description: 'Baskets emblématiques avec une silhouette intemporelle. Parfaites pour un style urbain moderne.',
+  composition: 'Tige en cuir et tissu, semelle intermédiaire en mousse Air et semelle extérieure en caoutchouc.',
+  images: ['/img/pegasus.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_8: Produit = {
@@ -116,6 +151,11 @@ const PRODUIT_8: Produit = {
     { id: 'v15', taille: '40', sku: 'adidas-gazelle-40', stock: 1 },
     { id: 'v16', taille: '41', sku: 'adidas-gazelle-41', stock: 2 },
   ],
+  genre: 'femme',
+  categorie: 'chaussures',
+  description: 'Baskets élégantes avec une silhouette classique. Parfaites pour un look chic et confortable.',
+  composition: 'Tige en cuir, semelle intermédiaire en mousse et semelle extérieure en caoutchouc.',
+  images: ['/img/polo.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_9: Produit = {
@@ -129,6 +169,11 @@ const PRODUIT_9: Produit = {
     { id: 'v17', taille: '38', sku: 'converse-high-38', stock: 6 },
     { id: 'v18', taille: '39', sku: 'converse-high-39', stock: 4 },
   ],
+  genre: 'femme',
+  categorie: 'chaussures',
+  description: 'Baskets hautes avec une silhouette audacieuse. Parfaites pour un style urbain et moderne.',
+  composition: 'Tige en coton biologique, semelle en caoutchouc naturel et doublure en coton.',
+  images: ['/img/chuck70.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_10: Produit = {
@@ -142,6 +187,11 @@ const PRODUIT_10: Produit = {
     { id: 'v19', taille: 'S', sku: 'lacoste-shirt-s', stock: 5 },
     { id: 'v20', taille: 'M', sku: 'lacoste-shirt-m', stock: 3 },
   ],
+  genre: 'femme',
+  categorie: 'vetements',
+  description: 'Chemise élégante et confortable pour un style casual chic. Parfaite pour les journées en ville.',
+  composition: 'Tissu en coton biologique, col en coton extensible et manches ajustées.',
+  images: ['/img/polo.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_11: Produit = {
@@ -156,6 +206,11 @@ const PRODUIT_11: Produit = {
     { id: 'v21', taille: '30', sku: 'levis-jeans-30', stock: 7 },
     { id: 'v22', taille: '32', sku: 'levis-jeans-32', stock: 9 },
   ],
+  genre: 'femme',
+  categorie: 'vetements',
+  description: 'Jeans classique avec une coupe confortable et élégante. Un incontournable pour un style urbain.',
+  composition: 'Tissu en coton biologique, avec élasthanne pour un ajustement parfait.',
+  images: ['/img/pegasus.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 const PRODUIT_12: Produit = {
@@ -169,6 +224,11 @@ const PRODUIT_12: Produit = {
     { id: 'v23', taille: '42', sku: 'nb-990-v3-42', stock: 0 },
     { id: 'v24', taille: '43', sku: 'nb-990-v3-43', stock: 0 },
   ],
+  genre: 'homme',
+  categorie: 'chaussures',
+  description: 'Baskets de luxe avec une technologie d amortissement avancée. Parfaites pour les amateurs de confort.',
+  composition: 'Semelle en mousse Fresh Foam, tige en cuir et semelle extérieure en caoutchouc.',
+  images: ['/img/chuck70.svg', '/img/produits/vue-2.svg', '/img/produits/vue-3.svg', '/img/produits/vue-4.svg'],
 };
 
 export const PRODUITS: Produit[] = [
@@ -196,6 +256,14 @@ export function listerMarques(): Marque[] {
 
 export function trouverProduit(slug: string): Produit | undefined {
   return PRODUITS.find((produit) => produit.slug === slug);
+}
+
+export function trouverMarque(slug: string): Marque | undefined {
+  return MARQUES.find((marque) => marque.slug === slug);
+}
+
+export function produitsDeMarque(slug: string): Produit[] {
+  return PRODUITS.filter((produit) => produit.marque.slug === slug);
 }
 
 const ORDRE_ALPHA = ['S', 'M', 'L', 'XL'];
