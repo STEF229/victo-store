@@ -1,0 +1,6 @@
+# id	cible	tests	spec	contexte_lecture_seule
+090	src/components/ui/SiteHeader.tsx	tests/entete-v3.test.tsx	tickets/090-entete-v3.md	src/lib/navigation.ts
+091	src/app/page.tsx	tests/accueil3-page.test.tsx	tickets/091-accueil-sans-barre.md	src/components/ui/SiteHeader.tsx
+092	src/components/catalogue/GrilleProduits.tsx	tests/grille-colonnes.test.tsx	tickets/092-grille-colonnes.md	src/lib/catalogue.ts
+093	src/components/catalogue/FiltresBarre.tsx	tests/FiltresBarre.test.tsx	tickets/093-filtres-barre.md	src/lib/catalogue.ts,src/lib/filtres.ts
+094	src/components/catalogue/VueCatalogue.tsx	tests/VueCatalogue-v2.test.tsx	tickets/094-vue-catalogue-v2.md	src/components/catalogue/FiltresBarre.tsx,src/components/catalogue/GrilleProduits.tsx,src/components/catalogue/Pagination.tsx,src/components/ui/SiteFooter.tsx,src/components/ui/SiteHeader.tsx,src/lib/catalogue.ts,src/lib/donnees.ts,src/lib/filtres.ts,src/lib/navigation.ts
