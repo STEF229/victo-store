@@ -1,5 +1,3 @@
-# id	cible	tests	spec	contexte_lecture_seule
-081	src/lib/donnees.ts	tests/donnees-enrichies.test.ts	tickets/081-donnees-enrichies.md	src/lib/catalogue.ts
 083	src/components/catalogue/VueCatalogue.tsx	tests/VueCatalogue.test.tsx	tickets/083-vue-catalogue.md	src/components/catalogue/FiltresPanneau.tsx,src/components/catalogue/GrilleProduits.tsx,src/components/catalogue/Pagination.tsx,src/components/catalogue/TriSelect.tsx,src/components/ui/SiteFooter.tsx,src/components/ui/SiteHeader.tsx,src/lib/catalogue.ts,src/lib/donnees.ts,src/lib/filtres.ts,src/lib/navigation.ts
 084	src/app/femme/page.tsx	tests/page-femme.test.tsx	tickets/084-page-femme.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
 085	src/app/homme/page.tsx	tests/page-homme.test.tsx	tickets/085-page-homme.md	src/components/catalogue/VueCatalogue.tsx,src/lib/catalogue.ts,src/lib/donnees.ts
