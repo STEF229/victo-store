@@ -18,91 +18,102 @@ export function SiteHeader({
   cartCount = 0, 
   className = '' 
 }: SiteHeaderProps) {
-  const cartLabel = cartCount <= 1 
+  const libellePanier = cartCount <= 1 
     ? `Panier, ${cartCount} article` 
     : `Panier, ${cartCount} articles`;
 
   return (
-    <header 
-      data-ui="site-header" 
-      className={`border-b border-[var(--vs-ligne)] bg-[var(--vs-blanc)] ${className}`}
-      role="banner"
-    >
-      <div className="grid grid-cols-3 items-center container mx-auto px-4 py-3">
-        {/* Left zone - Menu button */}
-        <div className="flex justify-start">
-          <button 
-            type="button" 
-            aria-label="Ouvrir le menu"
-            className="lg:hidden"
-          >
-            <Menu aria-hidden size={22} />
-          </button>
-        </div>
+    <>
+      <header 
+        data-testid="entete" 
+        className={`bg-[var(--vs-noir)] text-[var(--vs-blanc)] ${className}`}
+        role="banner"
+      >
+        <div className="grid h-20 grid-cols-[auto_1fr_auto] items-center gap-6 px-5 lg:px-12">
+          <div className="flex items-center gap-2">
+            <button 
+              type="button" 
+              aria-label="Ouvrir le menu" 
+              className="flex h-11 w-11 items-center justify-center lg:hidden"
+            >
+              <Menu aria-hidden size={22} />
+            </button>
+            <a 
+              href="/" 
+              data-testid="entete-marque" 
+              className="text-[23px] font-black tracking-[0.1em] whitespace-nowrap"
+            >
+              VICTO STORE
+            </a>
+          </div>
 
-        {/* Center zone - Brand */}
-        <div className="flex justify-center">
-          <a 
-            href="/" 
-            data-testid="entete-marque"
-            className="text-[var(--vs-font-display)] font-bold tracking-wide text-2xl"
+          <nav 
+            aria-label="Navigation principale" 
+            className="hidden justify-self-center gap-8 text-[15px] font-semibold lg:flex"
           >
-            VICTO STORE
-          </a>
-        </div>
-
-        {/* Right zone - Actions */}
-        <div className="flex justify-end space-x-4">
-          <button 
-            type="button" 
-            aria-label="Rechercher"
-          >
-            <Search aria-hidden size={21} />
-          </button>
-          
-          <button 
-            type="button" 
-            aria-label="Mon compte"
-          >
-            <User aria-hidden size={21} />
-          </button>
-          
-          <a 
-            href="/panier" 
-            data-testid="entete-panier"
-            data-cart-count={cartCount}
-            aria-label={cartLabel}
-            className="relative"
-          >
-            <span className="sr-only">Panier</span>
-            <ShoppingBag aria-hidden size={21} />
-            {cartCount > 0 && (
-              <span 
-                data-testid="entete-panier-compte"
-                className="absolute -top-2 -right-2 bg-[var(--vs-accent)] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold"
-              >
-                {cartCount}
-              </span>
-            )}
-          </a>
-        </div>
-      </div>
-      
-      {/* Navigation - hidden on mobile, visible on large screens */}
-      <nav aria-label="Navigation principale" className="hidden lg:flex">
-        <ul className="flex space-x-6 justify-center">
-          {navItems.map((item) => (
-            <li key={item.href}>
+            {navItems.map((item) => (
               <a 
+                key={item.href} 
                 href={item.href} 
-                className={`text-[var(--vs-noir)] hover:text-[var(--vs-accent)] transition-colors ${item.promo ? 'text-[var(--vs-promo)]' : ''}`}
+                className={item.promo ? 'text-[#FF5A74]' : undefined}
               >
                 {item.label}
               </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
+            ))}
+          </nav>
+
+          <div className="flex items-center justify-self-end gap-2">
+            <label 
+              htmlFor="recherche-entete" 
+              className="sr-only"
+            >
+              Rechercher un produit
+            </label>
+            <div className="hidden h-11 w-[250px] items-center gap-2 rounded-full border border-[#2A2A30] bg-[#1E1E26] px-4 lg:flex">
+              <Search aria-hidden size={17} />
+              <input
+                id="recherche-entete"
+                type="search"
+                placeholder="Rechercher"
+                className="h-10 min-w-0 flex-1 border-none bg-transparent text-sm text-[var(--vs-blanc)] outline-none"
+              />
+            </div>
+            <button 
+              type="button" 
+              aria-label="Mon compte" 
+              className="hidden h-11 w-11 items-center justify-center lg:flex"
+            >
+              <User aria-hidden size={21} />
+            </button>
+            <a 
+              href="/panier" 
+              data-testid="entete-panier"
+              data-cart-count={cartCount}
+              aria-label={libellePanier}
+              className="relative flex h-11 w-11 items-center justify-center"
+            >
+              <ShoppingBag aria-hidden size={21} />
+              {cartCount > 0 && (
+                <span 
+                  data-testid="entete-panier-compte"
+                  className="absolute right-0 top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--vs-accent)] px-1 text-[11px] font-extrabold"
+                >
+                  {cartCount}
+                </span>
+              )}
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div 
+        data-testid="filet-annonce"
+        className="flex h-9 items-center justify-center gap-6 border-b border-[var(--vs-ligne)] bg-[var(--vs-surface)] text-[12.5px] font-semibold text-[var(--vs-gris)]"
+      >
+        <span>Livraison offerte au Canada</span>
+        <span className="hidden sm:inline">Retours gratuits 30 jours</span>
+        <span className="hidden sm:inline">Authenticité garantie</span>
+      </div>
+    </>
   );
 }
