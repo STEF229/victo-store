@@ -28,6 +28,14 @@ export OLLAMA_API_BASE="${OLLAMA_API_BASE:-http://192.168.40.30:11434}"
 export AIDER_NO_ANALYTICS=1
 
 cd "$REPO" || { echo "Dépôt introuvable : $REPO"; exit 2; }
+
+# Aider coupe par défaut un appel au modèle après 600 s puis le relance depuis
+# zéro : un gros fichier généré sur CPU n'aboutit alors jamais. On aligne son
+# délai sur celui du harnais, seulement si cette version d'Aider connaît l'option.
+AIDER_DELAI=()
+if aider --help 2>/dev/null | grep -q -- '--timeout'; then
+  AIDER_DELAI=(--timeout "$((AIDER_TIMEOUT - 120))")
+fi
 RUN_ID="$(date +%Y%m%d-%H%M%S)"
 LOGDIR=".logs/$RUN_ID"
 mkdir -p "$LOGDIR"
@@ -121,6 +129,17 @@ generer_declarations() {
   rm -rf "$DECL"
   npx --no-install tsc -p tsconfig.json --noEmit false --declaration \
     --emitDeclarationOnly --outDir "$DECL" >/dev/null 2>&1 || true
+}
+
+# Ne renvoie au modèle que ce qui échoue : les erreurs TypeScript, sinon les
+# assertions vitest en échec, sinon la fin du journal (erreur de build).
+erreurs_utiles() {
+  local log="$1" r
+  r="$(grep -E 'error TS[0-9]+' "$log" | head -40)"
+  if [ -n "$r" ]; then printf '%s\n' "$r"; return; fi
+  r="$(grep -E '×|FAIL |AssertionError|Expected|Received|^[[:space:]]*[-+] |→ ' "$log" | grep -v '✓' | head -60)"
+  if [ -n "$r" ]; then printf '%s\n' "$r"; return; fi
+  tail -n 60 "$log"
 }
 
 gate_accuse_les_tests() {
@@ -226,6 +245,7 @@ while IFS=$'\t' read -r ID TARGET TESTFILE SPEC EXTRA || [ -n "${ID:-}" ]; do
         --no-stream \
         --no-check-update \
         --no-show-model-warnings \
+        "${AIDER_DELAI[@]}" \
         "${READS[@]}" \
         --file "$TARGET" \
         --message "$MSG" \
@@ -248,7 +268,11 @@ while IFS=$'\t' read -r ID TARGET TESTFILE SPEC EXTRA || [ -n "${ID:-}" ]; do
     INVENTES="$(imports_inventes "$TARGET")"
     if [ -n "$INVENTES" ]; then
       log "  IMPORTS INVENTÉS : $(printf '%s ' $INVENTES)"
-      MSG="Ton fichier $TARGET importe des modules qui N'EXISTENT PAS :
+      MSG="$(cat "$SPEC")
+
+════════════════════════════════════════════════════════════
+TENTATIVE PRÉCÉDENTE : IMPORTS INVENTÉS
+Ton fichier $TARGET importe des modules qui N'EXISTENT PAS :
 $INVENTES
 
 Tu n'as le droit de créer AUCUN autre fichier que $TARGET : ces modules
@@ -274,13 +298,17 @@ Réécris $TARGET en entier."
       STATUS="TEST_SUSPECT"; break
     fi
 
-    log "  porte ROUGE — renvoi de la sortie brute au modèle"
-    MSG="La porte de qualité a échoué (tsc --noEmit puis vitest run).
-Corrige UNIQUEMENT le code applicatif dans $TARGET.
-N'écris pas, ne modifie pas, ne contourne pas les tests : ils font foi.
-Sortie brute :
+    log "  porte ROUGE — relance avec la spec et les seuls échecs"
+    MSG="$(cat "$SPEC")
 
-$(tail -n 120 "$GATELOG")"
+════════════════════════════════════════════════════════════
+TENTATIVE PRÉCÉDENTE : ROUGE
+$TARGET contient ta dernière version. Garde tout ce qui fonctionne et corrige
+UNIQUEMENT les échecs ci-dessous. Respecte à la lettre les imports et les exports
+imposés par la spécification ci-dessus. Ne modifie aucun test.
+
+Échecs :
+$(erreurs_utiles "$GATELOG")"
     attempt=$((attempt + 1))
   done
 
