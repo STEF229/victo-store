@@ -28,8 +28,8 @@ export function SiteHeader({
         className={`bg-[var(--vs-noir)] text-[var(--vs-blanc)] ${className}`}
         role="banner"
       >
-        <div className="grid h-20 grid-cols-3 items-center gap-6 px-5 lg:px-12">
-          <div className="flex items-center justify-start">
+        <div className="grid h-20 grid-cols-[auto_1fr_auto] items-center gap-6 px-5 lg:px-12">
+          <div className="flex items-center gap-2">
             <button 
               type="button" 
               aria-label="Ouvrir le menu" 
@@ -54,14 +54,14 @@ export function SiteHeader({
               <a 
                 key={item.href} 
                 href={item.href} 
-                className={item.promo ? 'text-[var(--vs-promo)]' : undefined}
+                className={item.promo ? 'text-[#FF5A74]' : undefined}
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center justify-self-end gap-2">
             <label 
               htmlFor="recherche-entete" 
               className="sr-only"
