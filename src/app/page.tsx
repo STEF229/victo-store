@@ -1,5 +1,4 @@
 import { BandeMarques } from '@/components/accueil/BandeMarques';
-import { BarreAnnonce } from '@/components/accueil/BarreAnnonce';
 import { Carrousel } from '@/components/accueil/Carrousel';
 import { Infolettre } from '@/components/accueil/Infolettre';
 import { MosaiqueCategories } from '@/components/accueil/MosaiqueCategories';
@@ -42,7 +41,6 @@ export function AccueilPage() {
 
   return (
     <>
-      <BarreAnnonce />
       <SiteHeader navItems={NAV} cartCount={0} />
       <main>
         <Carrousel />
