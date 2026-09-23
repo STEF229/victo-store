@@ -12,9 +12,13 @@ import type { Marque } from '../src/lib/catalogue';
 import type { Criteres } from '../src/lib/filtres';
 
 const classes = (el: Element) => el.className.split(/\s+/).filter(Boolean);
+const nom = (el: Element) =>
+  el.getAttribute('data-testid') ?? el.getAttribute('aria-label') ?? el.textContent ?? el.tagName;
 function porte(el: Element, ...attendues: string[]) {
   const reelles = classes(el);
-  for (const chaine of attendues) for (const k of chaine.split(' ')) expect(reelles, `classe ${k}`).toContain(k);
+  for (const chaine of attendues) {
+    for (const k of chaine.split(' ')) expect(reelles, `${nom(el)} : classe ${k} manquante`).toContain(k);
+  }
 }
 const MARQUES: Marque[] = [
   { id: 'm1', nom: 'Nike', slug: 'nike' },

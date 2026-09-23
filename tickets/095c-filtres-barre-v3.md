@@ -79,10 +79,22 @@ ont `type="button"`.
 
 Racine `<div data-testid="filtres-barre">`, qui contient dans l'ordre :
 
+**Les quatre pilules de la barre** ont exactement ces `className`, où
+`marquesChoisies = criteres.marques ?? []` et `taillesChoisies = criteres.tailles ?? []` :
+```tsx
+// bouton-marques
+className={`${PILULE} ${ouvert === 'marques' || marquesChoisies.length > 0 ? PILULE_ON : PILULE_OFF}`}
+// bouton-tailles
+className={`${PILULE} ${ouvert === 'tailles' || taillesChoisies.length > 0 ? PILULE_ON : PILULE_OFF}`}
+// filtre-promo, avec aria-pressed={criteres.promotionSeulement === true}
+className={`${PILULE} ${criteres.promotionSeulement === true ? PILULE_ON : PILULE_OFF}`}
+// filtre-stock, avec aria-pressed={criteres.enStockSeulement === true}
+className={`${PILULE} ${criteres.enStockSeulement === true ? PILULE_ON : PILULE_OFF}`}
+```
+
 **1. Barre, grand écran** — `<div data-testid="barre-bureau" className="hidden flex-wrap items-center gap-3 lg:flex">` :
 - `<div className="relative">` avec le bouton `data-testid="bouton-marques"`,
-  `aria-expanded={ouvert === 'marques'}`, forme `PILULE`, actif si
-  `ouvert === 'marques' || criteres.marques` non vide. Contenu :
+  `aria-expanded={ouvert === 'marques'}`, `className` ci-dessus. Contenu :
   `<span>` de texte `Marque` sans sélection, `Marque (N)` avec N marques choisies,
   puis `<ChevronDown aria-hidden size={16} />`. Quand `ouvert === 'marques'`, suivi de
   `` <div data-testid="panneau-marques" className={`${PANNEAU} ${PANNEAU_MARQUES}`}> `` :
@@ -91,9 +103,8 @@ Racine `<div data-testid="filtres-barre">`, qui contient dans l'ordre :
 - même chose pour les tailles : `bouton-tailles`, texte `Taille` ou `Taille (N)`,
   `panneau-tailles` avec `PANNEAU_TAILLES`, boutons
   `` data-testid={`filtre-taille-${taille}`} `` de forme `OPTION_TAILLE`, `aria-pressed`.
-- `data-testid="filtre-promo"`, texte `Promotions`, forme `PILULE`,
-  `aria-pressed` et actif si `criteres.promotionSeulement === true`.
-- `data-testid="filtre-stock"`, texte `En stock`, idem avec `enStockSeulement`.
+- `data-testid="filtre-promo"`, texte `Promotions`, `className` et `aria-pressed` ci-dessus.
+- `data-testid="filtre-stock"`, texte `En stock`, idem.
 - `<div className="ml-auto flex items-center gap-2">` contenant
   `<label htmlFor="tri" className={TRI_LIBELLE}>Trier par</label>` et
   `<select id="tri" data-testid="tri" className={TRI_SELECT} value={tri}>` avec une

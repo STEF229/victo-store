@@ -84,11 +84,23 @@ contenant, dans l'ordre :
   un bouton par taille, `` data-testid={`filtre-taille-${taille}`} ``, texte `taille`,
   forme `OPTION_TAILLE`, actif si `criteres.tailles` contient `taille`, clic →
   `onTaille(taille)` ;
-- `<div className="mb-6 flex gap-2">` : deux boutons de forme
-  `` `${PILULE} flex-1 justify-center` `` — `data-testid="filtre-promo"`, texte
-  `Promotions`, actif si `criteres.promotionSeulement === true`, clic → `onPromo()` ;
-  puis `data-testid="filtre-stock"`, texte `En stock`, actif si
-  `criteres.enStockSeulement === true`, clic → `onStock()` ;
+- `<div className="mb-6 flex gap-2">` contenant deux boutons, avec exactement ces
+  attributs :
+  ```tsx
+  data-testid="filtre-promo"
+  aria-pressed={criteres.promotionSeulement === true}
+  className={`${PILULE} flex-1 justify-center ${criteres.promotionSeulement === true ? PILULE_ON : PILULE_OFF}`}
+  onClick={onPromo}
+  ```
+  texte `Promotions` ; puis
+  ```tsx
+  data-testid="filtre-stock"
+  aria-pressed={criteres.enStockSeulement === true}
+  className={`${PILULE} flex-1 justify-center ${criteres.enStockSeulement === true ? PILULE_ON : PILULE_OFF}`}
+  onClick={onStock}
+  ```
+  texte `En stock`. Les trois dernières classes changent avec l'état : c'est ce qui
+  noircit l'interrupteur actif ;
 - `<button type="button" className={VALIDER} onClick={onFermer}>Appliquer les filtres</button>`.
 
 ### `vue === 'tri'`
