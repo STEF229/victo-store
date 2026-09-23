@@ -1,10 +1,9 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { FiltresPanneau } from '@/components/catalogue/FiltresPanneau';
+import { FiltresBarre } from '@/components/catalogue/FiltresBarre';
 import { GrilleProduits } from '@/components/catalogue/GrilleProduits';
 import { Pagination } from '@/components/catalogue/Pagination';
-import { TriSelect } from '@/components/catalogue/TriSelect';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
 import type { Produit } from '@/lib/catalogue';
@@ -50,22 +49,30 @@ export function VueCatalogue({ titre, description, produits }: VueCatalogueProps
   return (
     <>
       <SiteHeader navItems={NAV} cartCount={0} />
-      <main className="mx-auto max-w-[1440px] px-5 py-12 lg:px-20">
-        <h1 data-testid="liste-titre" className="text-5xl font-black tracking-tight">{titre}</h1>
-        {description && (
-          <p data-testid="liste-description" className="mt-3 max-w-2xl text-lg text-[var(--vs-gris)]">{description}</p>
-        )}
-        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[260px_minmax(0,1fr)]">
-          <FiltresPanneau marques={marques} tailles={taillesCatalogue()} criteres={criteres} onChange={changerCriteres} />
+      <main className="mx-auto max-w-[1440px] px-5 py-12 lg:px-12">
+        <div className="flex items-end justify-between gap-8">
           <div>
-            <div className="mb-6 flex items-center justify-between gap-4">
-              <p data-testid="compteur">{libelle}</p>
-              <TriSelect value={tri} onChange={changerTri} />
-            </div>
-            <GrilleProduits produits={pagine.items} />
-            <Pagination page={pagine.page} pages={pagine.pages} onChange={setPage} />
+            <h1 data-testid="liste-titre" className="text-5xl font-black tracking-tight lg:text-6xl">{titre}</h1>
+            {description && (
+              <p data-testid="liste-description" className="mt-3 max-w-2xl text-lg text-[var(--vs-gris)]">{description}</p>
+            )}
           </div>
+          <p data-testid="compteur" className="whitespace-nowrap text-[15px] text-[var(--vs-gris)]">{libelle}</p>
         </div>
+        <div className="mt-8">
+          <FiltresBarre
+            marques={marques}
+            tailles={taillesCatalogue()}
+            criteres={criteres}
+            onChange={changerCriteres}
+            tri={tri}
+            onTriChange={changerTri}
+          />
+        </div>
+        <div className="mt-8">
+          <GrilleProduits produits={pagine.items} colonnes={4} />
+        </div>
+        <Pagination page={pagine.page} pages={pagine.pages} onChange={setPage} />
       </main>
       <SiteFooter colonnes={COLONNES_PIED} annee={2026} />
     </>
