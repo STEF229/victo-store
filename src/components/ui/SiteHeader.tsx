@@ -28,7 +28,10 @@ export function SiteHeader({
         className={`bg-[var(--vs-noir)] text-[var(--vs-blanc)] ${className}`}
         role="banner"
       >
-        <div className="grid h-20 grid-cols-[auto_1fr_auto] items-center gap-6 px-5 lg:px-12">
+        <div 
+          data-testid="entete-ligne"
+          className="grid h-20 grid-cols-[auto_1fr_auto] items-center gap-6 px-5 lg:px-12"
+        >
           <div className="flex items-center gap-2">
             <button 
               type="button" 
