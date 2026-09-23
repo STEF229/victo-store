@@ -68,8 +68,14 @@ export function SiteHeader({
             >
               Rechercher un produit
             </label>
-            <div className="hidden h-11 w-[250px] items-center gap-2 rounded-full border border-[#2A2A30] bg-[#1E1E26] px-4 lg:flex">
+            <button 
+              type="button" 
+              aria-label="Rechercher" 
+              className="hidden h-11 w-11 items-center justify-center lg:flex"
+            >
               <Search aria-hidden size={17} />
+            </button>
+            <div className="hidden h-11 w-[250px] items-center gap-2 rounded-full border border-[#2A2A30] bg-[#1E1E26] px-4 lg:flex">
               <input
                 id="recherche-entete"
                 type="search"
