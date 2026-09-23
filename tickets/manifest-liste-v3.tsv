@@ -1,0 +1,3 @@
+095a	src/components/catalogue/filtres-affichage.ts	tests/filtres-affichage.test.ts	tickets/095a-filtres-affichage.md	src/lib/filtres.ts		
+095b	src/components/catalogue/TiroirsFiltres.tsx	tests/TiroirsFiltres.test.tsx	tickets/095b-tiroirs-filtres.md	src/components/catalogue/filtres-affichage.ts	095a	
+095c	src/components/catalogue/FiltresBarre.tsx	tests/FiltresBarre-v3.test.tsx	tickets/095c-filtres-barre-v3.md	src/components/catalogue/filtres-affichage.ts,src/components/catalogue/TiroirsFiltres.tsx	095a,095b	neuf

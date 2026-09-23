@@ -10,14 +10,23 @@
 #   4. rouge -> on renvoie la sortie brute au modèle (max 3 tentatives)
 #   5. vert  -> merge --no-ff dans main.  calé -> la branche reste isolée.
 #
-# Manifeste TSV : id  cible  tests  spec  [contexte]  [dépend_de]
+# Manifeste TSV : id  cible  tests  spec  [contexte]  [dépend_de]  [mode]
 #   contexte  : fichiers en lecture seule, séparés par des virgules
 #   dépend_de : ids de tickets, séparés par des virgules. Si l'un d'eux n'a pas
 #               été fusionné dans main par le harnais, le ticket est BLOQUÉ sans
 #               appel au modèle — et, n'étant pas fusionné, bloque à son tour
 #               ceux qui dépendent de lui (cascade).
+#   mode      : « neuf » = la cible est vidée sur la branche avant le premier
+#               appel. Le modèle l'écrit d'après la spec seule, sans relire
+#               l'ancienne version : sur CPU, lire un jeton coûte autant
+#               qu'en écrire un.
 #
-# Sortie : VERT / CALÉ / TIMEOUT / TRICHE / BLOQUÉ / TEST_SUSPECT  par ticket.
+# Budget : avant d'appeler le modèle, le harnais estime entrée + sortie en
+# jetons. Au-delà de 90 % de num_ctx, le ticket est TROP_GROS, en quelques
+# secondes au lieu de 40 minutes de TIMEOUT (ticket 095 : 14 062 jetons en
+# entrée, fenêtre saturée, moitié du prompt jetée).
+#
+# Sortie : VERT / CALÉ / TIMEOUT / TRICHE / BLOQUÉ / TEST_SUSPECT / TROP_GROS.
 # =============================================================================
 set -uo pipefail
 
@@ -43,6 +52,21 @@ AIDER_DELAI=()
 if aider --help 2>/dev/null | grep -q -- '--timeout'; then
   AIDER_DELAI=(--timeout "$((AIDER_TIMEOUT - 120))")
 fi
+# Le lint automatique d'Aider relance le modèle avec tout le contexte dès qu'un
+# fichier ne se lit pas : un deuxième prompt complet, à ~12 jetons/s. La porte du
+# harnais fait déjà ce travail, avec la spec. On le coupe si l'option existe.
+if aider --help 2>/dev/null | grep -q -- '--auto-lint'; then
+  AIDER_DELAI+=(--no-auto-lint)
+fi
+
+# Budget de contexte. CAR_PAR_JETON et SURCOUT_AIDER sont calibrés sur le 095 :
+# 36 000 caractères de fichiers → 14 062 jetons observés dans le journal d'Ollama.
+NUM_CTX="$(grep -oE 'num_ctx["]?:[[:space:]]*[0-9]+' .aider.model.settings.yml 2>/dev/null | grep -oE '[0-9]+$' | head -1)"
+NUM_CTX="${NUM_CTX:-16384}"
+CAR_PAR_JETON=3
+SURCOUT_AIDER=2000
+BUDGET_MAX=$((NUM_CTX * 90 / 100))
+
 RUN_ID="$(date +%Y%m%d-%H%M%S)"
 LOGDIR=".logs/$RUN_ID"
 mkdir -p "$LOGDIR"
@@ -172,6 +196,22 @@ dependance_absente() {
   return 1
 }
 
+# Estimation « entree sortie » en jetons. Entrée : spec + fichiers en lecture
+# seule + cible actuelle. Sortie : « Taille attendue : ~N lignes » si la spec le
+# dit (40 caractères par ligne), sinon la taille actuelle de la cible + 10 %.
+budget_ticket() {
+  local spec="$1" cible="$2"; shift 2
+  local car=0 f n sortie=0
+  for f in "$spec" "$@" "$cible"; do
+    [ -f "$f" ] && car=$((car + $(wc -m < "$f")))
+  done
+  n="$(grep -oE 'Taille attendue : ~?[0-9]+ lignes' "$spec" | grep -oE '[0-9]+' | head -1)"
+  if [ -n "$n" ]; then sortie=$((n * 40 / CAR_PAR_JETON))
+  elif [ -f "$cible" ]; then sortie=$(( $(wc -m < "$cible") * 11 / 10 / CAR_PAR_JETON ))
+  fi
+  echo "$((car / CAR_PAR_JETON + SURCOUT_AIDER)) $sortie"
+}
+
 # Empreinte d'un échec : les lignes renvoyées au modèle, sans couleurs ni durées.
 # Deux empreintes égales d'affilée = la tentative suivante n'y changera rien.
 empreinte_echec() {
@@ -208,8 +248,9 @@ while IFS= read -r LIGNE || [ -n "${LIGNE:-}" ]; do
   # Découpage sur un séparateur non blanc : avec IFS=tabulation, bash fusionne
   # deux tabulations consécutives et une colonne vide décalerait les suivantes.
   LIGNE="${LIGNE%$'\r'}"
-  ID="" TARGET="" TESTFILE="" SPEC="" EXTRA="" DEPS=""
-  IFS=$'\x1f' read -r ID TARGET TESTFILE SPEC EXTRA DEPS <<< "${LIGNE//$'\t'/$'\x1f'}"
+  ID="" TARGET="" TESTFILE="" SPEC="" EXTRA="" DEPS="" MODE=""
+  IFS=$'\x1f' read -r ID TARGET TESTFILE SPEC EXTRA DEPS MODE <<< "${LIGNE//$'\t'/$'\x1f'}"
+  MODE="${MODE//[[:space:]]/}"
   [ -z "${ID:-}" ] && continue
   case "$ID" in \#*) continue ;; esac
 
@@ -247,6 +288,14 @@ while IFS= read -r LIGNE || [ -n "${LIGNE:-}" ]; do
     git diff --cached --quiet || git commit -q -m "test($ID): activation des tests par le harnais"
     log "  tests activés : $PENDING → $TESTFILE"
   fi
+  # Mode « neuf » : la cible est vidée sur la branche, main n'est pas touché.
+  if [ "$MODE" = "neuf" ]; then
+    mkdir -p "$(dirname "$TARGET")"
+    : > "$TARGET"
+    git add "$TARGET"
+    git diff --cached --quiet || git commit -q -m "chore($ID): cible vidée pour une réécriture complète"
+    log "  mode neuf : $TARGET vidé sur la branche"
+  fi
   TEST_BASE="$(git rev-parse HEAD)"   # référence anti-triche
 
   # Dépendance manquante : on saute sans appeler le modèle.
@@ -274,6 +323,18 @@ while IFS= read -r LIGNE || [ -n "${LIGNE:-}" ]; do
     log "  contexte (déclarations de types) : $EXTRA"
   fi
 
+  # Budget : la cible (vidée en mode neuf) et tout ce qu'Aider lira.
+  LUS=()
+  for ((k = 1; k < ${#READS[@]}; k += 2)); do LUS+=("${READS[$k]}"); done
+  read -r B_ENTREE B_SORTIE <<< "$(budget_ticket "$SPEC" "$TARGET" "${LUS[@]}")"
+  log "  budget : ≈ $B_ENTREE jetons lus + $B_SORTIE écrits = $((B_ENTREE + B_SORTIE)) / $NUM_CTX (plafond $BUDGET_MAX)"
+  if [ $((B_ENTREE + B_SORTIE)) -gt "$BUDGET_MAX" ]; then
+    log "  TROP_GROS : le ticket saturerait la fenêtre du modèle — découper la spec ou passer en mode neuf"
+    git checkout -q --force main
+    IDS+=("$ID"); STATUSES+=("TROP_GROS"); ATTEMPTS+=(0)
+    continue
+  fi
+
   MSG="$(cat "$SPEC")"
   STATUS="CALÉ"
   attempt=1
@@ -281,6 +342,16 @@ while IFS= read -r LIGNE || [ -n "${LIGNE:-}" ]; do
   EMPREINTE_PREC=""
 
   while [ "$attempt" -le "$MAX_ATTEMPTS" ]; do
+    # Une relance relit la spec, les échecs ET la cible déjà écrite : on refait le compte.
+    if [ "$attempt" -gt 1 ]; then
+      printf '%s\n' "$MSG" > "$LOGDIR/$ID.message.$attempt.txt"
+      read -r B_ENTREE B_SORTIE <<< "$(budget_ticket "$LOGDIR/$ID.message.$attempt.txt" "$TARGET" "${LUS[@]}")"
+      log "  budget de la relance : ≈ $((B_ENTREE + B_SORTIE)) / $NUM_CTX"
+      if [ $((B_ENTREE + B_SORTIE)) -gt "$BUDGET_MAX" ]; then
+        log "  TROP_GROS : la relance saturerait la fenêtre — arrêt"
+        STATUS="TROP_GROS"; break
+      fi
+    fi
     log "  tentative $attempt/$MAX_ATTEMPTS — appel du modèle…"
     timeout --signal=TERM --kill-after=60 "$AIDER_TIMEOUT" \
       aider \
