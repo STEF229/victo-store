@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { Menu, Search, ShoppingBag, User } from 'lucide-react';
 
 export interface NavItem {
