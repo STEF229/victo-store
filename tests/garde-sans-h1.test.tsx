@@ -2,7 +2,6 @@ import { render } from '@testing-library/react';
 import type { ReactElement } from 'react';
 import { describe, expect, it } from 'vitest';
 import { BandeMarques } from '../src/components/accueil/BandeMarques';
-import { BarreAnnonce } from '../src/components/accueil/BarreAnnonce';
 import { Infolettre } from '../src/components/accueil/Infolettre';
 import { MosaiqueCategories } from '../src/components/accueil/MosaiqueCategories';
 import { Reassurance } from '../src/components/accueil/Reassurance';
@@ -22,7 +21,6 @@ const P: Produit = {
 };
 
 const CAS: Array<[string, ReactElement]> = [
-  ['BarreAnnonce', <BarreAnnonce />],
   ['SiteHeader', <SiteHeader navItems={[{ label: 'Femme', href: '/femme' }]} cartCount={1} />],
   ['SiteFooter', <SiteFooter colonnes={[{ titre: 'Aide', liens: [{ label: 'Contact', href: '/contact' }] }]} annee={2026} />],
   ['ProductCard', <ProductCard produit={P} />],

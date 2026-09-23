@@ -10,7 +10,14 @@
 #   4. rouge -> on renvoie la sortie brute au modèle (max 3 tentatives)
 #   5. vert  -> merge --no-ff dans main.  calé -> la branche reste isolée.
 #
-# Sortie : VERT / CALÉ / TIMEOUT / TRICHE  par ticket.
+# Manifeste TSV : id  cible  tests  spec  [contexte]  [dépend_de]
+#   contexte  : fichiers en lecture seule, séparés par des virgules
+#   dépend_de : ids de tickets, séparés par des virgules. Si l'un d'eux n'a pas
+#               été fusionné dans main par le harnais, le ticket est BLOQUÉ sans
+#               appel au modèle — et, n'étant pas fusionné, bloque à son tour
+#               ceux qui dépendent de lui (cascade).
+#
+# Sortie : VERT / CALÉ / TIMEOUT / TRICHE / BLOQUÉ / TEST_SUSPECT  par ticket.
 # =============================================================================
 set -uo pipefail
 
@@ -149,12 +156,38 @@ gate_accuse_les_tests() {
   return 0
 }
 
+# Première dépendance déclarée (6ᵉ colonne) qui n'a pas été fusionnée dans main.
+# Critère unique : le commit de fusion que le harnais écrit au vert. Il vaut
+# d'un run à l'autre, sans état à conserver.
+dependance_absente() {
+  local deps="$1" d IFS=','
+  [ -n "$deps" ] || return 1
+  for d in $deps; do
+    d="${d//[[:space:]]/}"
+    [ -n "$d" ] || continue
+    if [ -z "$(git log main -1 --format=%h --fixed-strings --grep="feat($d): fusionné")" ]; then
+      echo "$d"; return 0
+    fi
+  done
+  return 1
+}
+
+# Empreinte d'un échec : les lignes renvoyées au modèle, sans couleurs ni durées.
+# Deux empreintes égales d'affilée = la tentative suivante n'y changera rien.
+empreinte_echec() {
+  local esc=$'\x1b'
+  erreurs_utiles "$1" |
+    sed -E -e "s/${esc}\[[0-9;]*m//g" -e 's/[0-9]+([.,][0-9]+)? ?ms\b//g' -e 's/[[:space:]]+$//' |
+    sort -u | md5sum | cut -d' ' -f1
+}
+
 # Un ticket dont les tests importent un module absent de main et différent de sa
 # propre cible dépend d'un ticket qui a calé : il échouera à coup sûr.
 ticket_bloque() {
   local test_src="$1" cible="$2" imp chemin
   [ -f "$test_src" ] || return 1
   while read -r imp; do
+    [ -n "$imp" ] || continue   # test sans import relatif : rien à vérifier
     chemin="$(printf '%s' "$imp" | sed -E "s|.*from '\.\./||; s|'.*||")"
     case "$chemin" in
       "${cible%.*}"|"$cible") continue ;;
@@ -171,8 +204,12 @@ EOF
 # ------------------------------------------------------------------ exécution
 declare -a IDS=() STATUSES=() ATTEMPTS=()
 
-while IFS=$'\t' read -r ID TARGET TESTFILE SPEC EXTRA || [ -n "${ID:-}" ]; do
-  EXTRA="${EXTRA:-}"
+while IFS= read -r LIGNE || [ -n "${LIGNE:-}" ]; do
+  # Découpage sur un séparateur non blanc : avec IFS=tabulation, bash fusionne
+  # deux tabulations consécutives et une colonne vide décalerait les suivantes.
+  LIGNE="${LIGNE%$'\r'}"
+  ID="" TARGET="" TESTFILE="" SPEC="" EXTRA="" DEPS=""
+  IFS=$'\x1f' read -r ID TARGET TESTFILE SPEC EXTRA DEPS <<< "${LIGNE//$'\t'/$'\x1f'}"
   [ -z "${ID:-}" ] && continue
   case "$ID" in \#*) continue ;; esac
 
@@ -187,6 +224,14 @@ while IFS=$'\t' read -r ID TARGET TESTFILE SPEC EXTRA || [ -n "${ID:-}" ]; do
     log "tests introuvables : ni $PENDING ni $TESTFILE"
     IDS+=("$ID"); STATUSES+=("CALÉ"); ATTEMPTS+=(0); continue
   fi
+
+  # Dépendance déclarée non fusionnée : on saute avant même de créer la branche.
+  if manque="$(dependance_absente "$DEPS")"; then
+    log "  BLOQUÉ : dépend du ticket $manque, qui n'est pas fusionné dans main"
+    IDS+=("$ID"); STATUSES+=("BLOQUÉ"); ATTEMPTS+=(0)
+    continue
+  fi
+  [ -n "$DEPS" ] && log "  dépendances fusionnées : $DEPS"
 
   git checkout -q main
   git branch -q -D "$BRANCH" 2>/dev/null
@@ -233,6 +278,7 @@ while IFS=$'\t' read -r ID TARGET TESTFILE SPEC EXTRA || [ -n "${ID:-}" ]; do
   STATUS="CALÉ"
   attempt=1
   used=0
+  EMPREINTE_PREC=""
 
   while [ "$attempt" -le "$MAX_ATTEMPTS" ]; do
     log "  tentative $attempt/$MAX_ATTEMPTS — appel du modèle…"
@@ -298,7 +344,18 @@ Réécris $TARGET en entier."
       STATUS="TEST_SUSPECT"; break
     fi
 
-    log "  porte ROUGE — relance avec la spec et les seuls échecs"
+    # Diagnostic d'un coup d'œil dans run.log : premières lignes utiles de l'échec.
+    grep -E 'error TS|×|→' "$GATELOG" | sed -E "s/$(printf '\033')\[[0-9;]*m//g" | head -3 |
+      while IFS= read -r l; do log "    | $l"; done
+
+    EMPREINTE="$(empreinte_echec "$GATELOG")"
+    if [ "$EMPREINTE" = "$EMPREINTE_PREC" ]; then
+      log "  MÊME ÉCHEC qu'à la tentative précédente — arrêt, une relance n'y changera rien"
+      STATUS="CALÉ"; break
+    fi
+    EMPREINTE_PREC="$EMPREINTE"
+
+    [ "$attempt" -lt "$MAX_ATTEMPTS" ] && log "  porte ROUGE — relance avec la spec et les seuls échecs"
     MSG="$(cat "$SPEC")
 
 ════════════════════════════════════════════════════════════

@@ -1,0 +1,2 @@
+095	src/components/catalogue/FiltresBarre.tsx	tests/FiltresBarre-v2.test.tsx	tickets/095-filtres-barre-v2.md	src/lib/catalogue.ts,src/lib/filtres.ts	
+096	src/components/ui/SiteHeader.tsx	tests/entete-v3.test.tsx	tickets/096-entete-ligne.md		
