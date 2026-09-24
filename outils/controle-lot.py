@@ -24,6 +24,9 @@ for f, s in tests.items():
         nav = NAV_DOM.search(l)
         if nav:
             alerte(f, 'navigation DOM', f'ligne {n} : {nav.group(0)} — viser un data-testid ou closest()')
+        # piège : className lu dans un test — sur un SVG ce n'est pas une chaîne (ticket 095c)
+        if '.className' in l:
+            alerte(f, 'className', f"ligne {n} : lire getAttribute('class'), className d'un SVG n'est pas une chaîne")
         # piège : apostrophe courbe dans un texte comparé exactement
         if '’' in l and ('.toBe(' in l or 'name:' in l):
             alerte(f, 'apostrophe', f'ligne {n} : apostrophe courbe dans une comparaison exacte')
