@@ -2,6 +2,11 @@
 
 import { ChevronDown, SlidersHorizontal, X } from 'lucide-react';
 import { useState } from 'react';
+import {
+  MOBILE_FILTRER, MOBILE_TRIER, OPTION_MARQUE, OPTION_TAILLE, OPTIONS_TRI, PANNEAU, PANNEAU_MARQUES,
+  PANNEAU_TAILLES, PASTILLE, PASTILLE_CROIX, PASTILLES, PILULE, PILULE_OFF, PILULE_ON, TOUT_EFFACER, TRI_LIBELLE, TRI_SELECT,
+} from '@/components/catalogue/filtres-affichage';
+import { TiroirsFiltres } from '@/components/catalogue/TiroirsFiltres';
 import type { Marque } from '@/lib/catalogue';
 import type { Criteres, Tri } from '@/lib/filtres';
 
@@ -14,120 +19,107 @@ interface FiltresBarreProps {
   onTriChange: (tri: Tri) => void;
 }
 
-export function FiltresBarre({
-  marques,
-  tailles,
-  criteres,
+export function FiltresBarre({ 
+  marques, 
+  tailles, 
+  criteres, 
   onChange,
   tri,
   onTriChange
 }: FiltresBarreProps) {
-  const [ouvert, setOuvert] = useState<null | 'marques' | 'tailles' | 'tiroir' | 'tri'>(null);
+  const [ouvert, setOuvert] = useState<null | 'marques' | 'tailles' | 'filtres' | 'tri'>(null);
 
-  const togglePanneau = (panneau: 'marques' | 'tailles') => {
-    if (ouvert === panneau) {
-      setOuvert(null);
-    } else {
-      setOuvert(panneau);
-    }
-  };
-
-  const toggleTiroir = () => {
-    setOuvert(ouvert === 'tiroir' ? null : 'tiroir');
-  };
-
-  const toggleTri = () => {
-    setOuvert(ouvert === 'tri' ? null : 'tri');
-  };
-
-  const fermerPanneaux = () => {
-    setOuvert(null);
-  };
-
-  const ajouterFiltre = (filtre: keyof Criteres, valeur: string | boolean) => {
-    const nouveauxCriteres: Criteres = { ...criteres };
-    
-    if (filtre === 'marques' || filtre === 'tailles') {
-      const valeurs = [...(criteres[filtre] || [])];
-      const index = valeurs.indexOf(valeur as string);
-      
-      if (index === -1) {
-        valeurs.push(valeur as string);
-      } else {
-        valeurs.splice(index, 1);
-      }
-      
-      nouveauxCriteres[filtre] = valeurs;
-    } else {
-      nouveauxCriteres[filtre] = valeur as boolean;
-    }
-    
-    onChange(nouveauxCriteres);
-  };
-
-  const retirerFiltre = (filtre: keyof Criteres, valeur: string | boolean) => {
-    const nouveauxCriteres: Criteres = { ...criteres };
-    
-    if (filtre === 'marques' || filtre === 'tailles') {
-      const valeurs = [...(criteres[filtre] || [])];
-      const index = valeurs.indexOf(valeur as string);
-      
-      if (index !== -1) {
-        valeurs.splice(index, 1);
-        nouveauxCriteres[filtre] = valeurs;
-      }
-    } else {
-      delete nouveauxCriteres[filtre];
-    }
-    
-    onChange(nouveauxCriteres);
-  };
-
-  const reinitialiserFiltres = () => {
-    onChange({});
-  };
+  const marquesChoisies = criteres.marques ?? [];
+  const taillesChoisies = criteres.tailles ?? [];
 
   const nombreFiltresActifs = 
-    (criteres.marques?.length || 0) + 
-    (criteres.tailles?.length || 0) + 
+    marquesChoisies.length + 
+    taillesChoisies.length + 
     (criteres.promotionSeulement ? 1 : 0) + 
     (criteres.enStockSeulement ? 1 : 0);
 
-  const marquesSelectionnees = criteres.marques || [];
-  const taillesSelectionnees = criteres.tailles || [];
+  const basculerMarque = (slug: string) => {
+    const nouvellesMarques = marquesChoisies.includes(slug)
+      ? marquesChoisies.filter(m => m !== slug)
+      : [...marquesChoisies, slug];
+    
+    onChange({ ...criteres, marques: nouvellesMarques });
+  };
+
+  const basculerTaille = (taille: string) => {
+    const nouvellesTailles = taillesChoisies.includes(taille)
+      ? taillesChoisies.filter(t => t !== taille)
+      : [...taillesChoisies, taille];
+    
+    onChange({ ...criteres, tailles: nouvellesTailles });
+  };
+
+  const basculerPromo = () => {
+    onChange({ ...criteres, promotionSeulement: !criteres.promotionSeulement });
+  };
+
+  const basculerStock = () => {
+    onChange({ ...criteres, enStockSeulement: !criteres.enStockSeulement });
+  };
+
+  const retirerFiltre = (filtre: string) => {
+    if (marquesChoisies.includes(filtre)) {
+      basculerMarque(filtre);
+    } else if (taillesChoisies.includes(filtre)) {
+      basculerTaille(filtre);
+    } else if (filtre === 'Promotions') {
+      basculerPromo();
+    } else if (filtre === 'En stock') {
+      basculerStock();
+    }
+  };
+
+  const toutEffacer = () => {
+    onChange({});
+  };
+
+  const ouvrirVue = (vue: 'marques' | 'tailles' | 'filtres' | 'tri') => {
+    if (ouvert === vue) {
+      setOuvert(null);
+    } else {
+      setOuvert(vue);
+    }
+  };
+
+  const fermerVue = () => {
+    setOuvert(null);
+  };
 
   return (
     <div data-testid="filtres-barre">
-      {/* Barre de bureau */}
-      <div 
-        data-testid="barre-bureau" 
-        className="hidden flex-wrap items-center gap-3 lg:flex"
-      >
+      {/* Barre bureau */}
+      <div data-testid="barre-bureau" className="hidden flex-wrap items-center gap-3 lg:flex">
         <div className="relative">
           <button
             type="button"
             data-testid="bouton-marques"
             aria-expanded={ouvert === 'marques'}
-            onClick={() => togglePanneau('marques')}
-            className="flex items-center gap-1 rounded-md bg-[var(--vs-blanc)] px-3 py-2 text-sm font-medium text-[var(--vs-noir)] shadow-sm hover:bg-[var(--vs-fond)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]"
+            className={`${PILULE} ${ouvert === 'marques' || marquesChoisies.length > 0 ? PILULE_ON : PILULE_OFF}`}
+            onClick={() => ouvrirVue('marques')}
           >
-            <span>Marque{marquesSelectionnees.length > 0 ? ` (${marquesSelectionnees.length})` : ''}</span>
+            <span>
+              {marquesChoisies.length > 0 
+                ? `Marque (${marquesChoisies.length})` 
+                : 'Marque'}
+            </span>
             <ChevronDown aria-hidden size={16} />
           </button>
           
           {ouvert === 'marques' && (
-            <div 
-              data-testid="panneau-marques" 
-              className="absolute left-0 top-full z-10 mt-1 w-48 rounded-md bg-[var(--vs-blanc)] shadow-lg ring-1 ring-black ring-opacity-5"
-            >
+            <div data-testid="panneau-marques" className={`${PANNEAU} ${PANNEAU_MARQUES}`}>
               {marques.map((marque) => (
                 <button
                   key={marque.slug}
                   type="button"
                   data-testid={`filtre-marque-${marque.slug}`}
-                  aria-pressed={marquesSelectionnees.includes(marque.slug)}
-                  onClick={() => ajouterFiltre('marques', marque.slug)}
-                  className="block w-full px-4 py-2 text-left text-sm text-[var(--vs-noir)] hover:bg-[var(--vs-fond)]"
+                  className={`${OPTION_MARQUE} ${marquesChoisies.includes(marque.slug) ? PILULE_ON : PILULE_OFF}`}
+                  aria-pressed={marquesChoisies.includes(marque.slug)}
+                  onClick={() => basculerMarque(marque.slug)}
                 >
                   {marque.nom}
                 </button>
@@ -135,31 +127,33 @@ export function FiltresBarre({
             </div>
           )}
         </div>
-        
+
         <div className="relative">
           <button
             type="button"
             data-testid="bouton-tailles"
             aria-expanded={ouvert === 'tailles'}
-            onClick={() => togglePanneau('tailles')}
-            className="flex items-center gap-1 rounded-md bg-[var(--vs-blanc)] px-3 py-2 text-sm font-medium text-[var(--vs-noir)] shadow-sm hover:bg-[var(--vs-fond)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]"
+            className={`${PILULE} ${ouvert === 'tailles' || taillesChoisies.length > 0 ? PILULE_ON : PILULE_OFF}`}
+            onClick={() => ouvrirVue('tailles')}
           >
-            <span>Taille{taillesSelectionnees.length > 0 ? ` (${taillesSelectionnees.length})` : ''}</span>
+            <span>
+              {taillesChoisies.length > 0 
+                ? `Taille (${taillesChoisies.length})` 
+                : 'Taille'}
+            </span>
             <ChevronDown aria-hidden size={16} />
           </button>
           
           {ouvert === 'tailles' && (
-            <div 
-              data-testid="panneau-tailles" 
-              className="absolute left-0 top-full z-10 mt-1 w-48 rounded-md bg-[var(--vs-blanc)] shadow-lg ring-1 ring-black ring-opacity-5"
-            >
+            <div data-testid="panneau-tailles" className={`${PANNEAU} ${PANNEAU_TAILLES}`}>
               {tailles.map((taille) => (
                 <button
                   key={taille}
                   type="button"
                   data-testid={`filtre-taille-${taille}`}
-                  onClick={() => ajouterFiltre('tailles', taille)}
-                  className="block w-full px-4 py-2 text-left text-sm text-[var(--vs-noir)] hover:bg-[var(--vs-fond)]"
+                  className={`${OPTION_TAILLE} ${taillesChoisies.includes(taille) ? PILULE_ON : PILULE_OFF}`}
+                  aria-pressed={taillesChoisies.includes(taille)}
+                  onClick={() => basculerTaille(taille)}
                 >
                   {taille}
                 </button>
@@ -167,310 +161,151 @@ export function FiltresBarre({
             </div>
           )}
         </div>
-        
+
         <button
           type="button"
           data-testid="filtre-promo"
-          aria-pressed={!!criteres.promotionSeulement}
-          onClick={() => ajouterFiltre('promotionSeulement', !criteres.promotionSeulement)}
-          className={`rounded-md px-3 py-2 text-sm font-medium ${
-            criteres.promotionSeulement 
-              ? 'bg-[var(--vs-principal)] text-[var(--vs-blanc)]' 
-              : 'bg-[var(--vs-blanc)] text-[var(--vs-noir)] shadow-sm hover:bg-[var(--vs-fond)]'
-          } focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]`}
+          className={`${PILULE} ${criteres.promotionSeulement === true ? PILULE_ON : PILULE_OFF}`}
+          aria-pressed={criteres.promotionSeulement === true}
+          onClick={basculerPromo}
         >
           Promotions
         </button>
-        
+
         <button
           type="button"
           data-testid="filtre-stock"
-          aria-pressed={!!criteres.enStockSeulement}
-          onClick={() => ajouterFiltre('enStockSeulement', !criteres.enStockSeulement)}
-          className={`rounded-md px-3 py-2 text-sm font-medium ${
-            criteres.enStockSeulement 
-              ? 'bg-[var(--vs-principal)] text-[var(--vs-blanc)]' 
-              : 'bg-[var(--vs-blanc)] text-[var(--vs-noir)] shadow-sm hover:bg-[var(--vs-fond)]'
-          } focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]`}
+          className={`${PILULE} ${criteres.enStockSeulement === true ? PILULE_ON : PILULE_OFF}`}
+          aria-pressed={criteres.enStockSeulement === true}
+          onClick={basculerStock}
         >
           En stock
         </button>
-        
+
         <div className="ml-auto flex items-center gap-2">
-          <label htmlFor="tri" className="text-sm font-medium text-[var(--vs-noir)]">Trier par</label>
+          <label htmlFor="tri" className={TRI_LIBELLE}>Trier par</label>
           <select
             id="tri"
             data-testid="tri"
+            className={TRI_SELECT}
             value={tri}
             onChange={(e) => onTriChange(e.target.value as Tri)}
-            className="rounded-md border border-[var(--vs-ligne)] bg-[var(--vs-blanc)] px-3 py-2 text-sm text-[var(--vs-noir)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]"
           >
-            <option value="nouveautes">Nouveautés</option>
-            <option value="prix-croissant">Prix croissant</option>
-            <option value="prix-decroissant">Prix décroissant</option>
-            <option value="remise">Meilleures remises</option>
+            {OPTIONS_TRI.map((option) => (
+              <option key={option.valeur} value={option.valeur}>
+                {option.libelle}
+              </option>
+            ))}
           </select>
         </div>
       </div>
-      
-      {/* Pastilles des filtres actifs */}
+
+      {/* Pastilles */}
       {nombreFiltresActifs > 0 && (
-        <div data-testid="pastilles" className="mt-3 flex flex-wrap gap-2">
-          {marquesSelectionnees.map((slug) => {
+        <div data-testid="pastilles" className={PASTILLES}>
+          {marquesChoisies.map((slug) => {
             const marque = marques.find(m => m.slug === slug);
             return marque ? (
               <button
                 key={slug}
                 type="button"
+                className={PASTILLE}
                 aria-label={`Retirer le filtre ${marque.nom}`}
-                onClick={() => retirerFiltre('marques', slug)}
-                className="flex items-center gap-1 rounded-full bg-[var(--vs-principal)] px-3 py-1 text-xs font-medium text-[var(--vs-blanc)]"
+                onClick={() => retirerFiltre(slug)}
               >
                 <span>{marque.nom}</span>
-                <X aria-hidden size={14} />
+                <X aria-hidden size={14} className={PASTILLE_CROIX} />
               </button>
             ) : null;
           })}
           
-          {taillesSelectionnees.map((taille) => (
+          {taillesChoisies.map((taille) => (
             <button
               key={taille}
               type="button"
+              className={PASTILLE}
               aria-label={`Retirer le filtre Taille ${taille}`}
-              onClick={() => retirerFiltre('tailles', taille)}
-              className="flex items-center gap-1 rounded-full bg-[var(--vs-principal)] px-3 py-1 text-xs font-medium text-[var(--vs-blanc)]"
+              onClick={() => retirerFiltre(taille)}
             >
               <span>Taille {taille}</span>
-              <X aria-hidden size={14} />
+              <X aria-hidden size={14} className={PASTILLE_CROIX} />
             </button>
           ))}
           
-          {criteres.promotionSeulement && (
+          {criteres.promotionSeulement === true && (
             <button
               type="button"
+              className={PASTILLE}
               aria-label="Retirer le filtre Promotions"
-              onClick={() => retirerFiltre('promotionSeulement', true)}
-              className="flex items-center gap-1 rounded-full bg-[var(--vs-principal)] px-3 py-1 text-xs font-medium text-[var(--vs-blanc)]"
+              onClick={() => retirerFiltre('Promotions')}
             >
               <span>Promotions</span>
-              <X aria-hidden size={14} />
+              <X aria-hidden size={14} className={PASTILLE_CROIX} />
             </button>
           )}
           
-          {criteres.enStockSeulement && (
+          {criteres.enStockSeulement === true && (
             <button
               type="button"
+              className={PASTILLE}
               aria-label="Retirer le filtre En stock"
-              onClick={() => retirerFiltre('enStockSeulement', true)}
-              className="flex items-center gap-1 rounded-full bg-[var(--vs-principal)] px-3 py-1 text-xs font-medium text-[var(--vs-blanc)]"
+              onClick={() => retirerFiltre('En stock')}
             >
               <span>En stock</span>
-              <X aria-hidden size={14} />
+              <X aria-hidden size={14} className={PASTILLE_CROIX} />
             </button>
           )}
           
           <button
-            type="button"
             data-testid="filtres-reinitialiser"
-            onClick={reinitialiserFiltres}
-            className="text-xs text-[var(--vs-principal)] underline hover:no-underline"
+            className={TOUT_EFFACER}
+            onClick={toutEffacer}
           >
             Tout effacer
           </button>
         </div>
       )}
-      
+
       {/* Barre mobile */}
-      <div 
-        data-testid="barre-mobile" 
-        className="flex items-center gap-3 lg:hidden"
-      >
+      <div data-testid="barre-mobile" className="flex items-center gap-3 lg:hidden">
         <button
           type="button"
           data-testid="ouvrir-filtres"
-          onClick={toggleTiroir}
-          className="flex items-center gap-1 rounded-md bg-[var(--vs-blanc)] px-3 py-2 text-sm font-medium text-[var(--vs-noir)] shadow-sm hover:bg-[var(--vs-fond)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]"
+          className={MOBILE_FILTRER}
+          onClick={() => ouvrirVue('filtres')}
         >
           <SlidersHorizontal aria-hidden size={17} />
-          <span>Filtrer{nombreFiltresActifs > 0 ? ` (${nombreFiltresActifs})` : ''}</span>
+          <span>
+            {nombreFiltresActifs > 0 
+              ? `Filtrer (${nombreFiltresActifs})` 
+              : 'Filtrer'}
+          </span>
         </button>
         
         <button
           type="button"
           data-testid="ouvrir-tri"
-          onClick={toggleTri}
-          className="rounded-md bg-[var(--vs-blanc)] px-3 py-2 text-sm font-medium text-[var(--vs-noir)] shadow-sm hover:bg-[var(--vs-fond)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]"
+          className={MOBILE_TRIER}
+          onClick={() => ouvrirVue('tri')}
         >
           Trier
         </button>
       </div>
-      
-      {/* Tiroir des filtres */}
-      {ouvert === 'tiroir' && (
-        <div 
-          data-testid="tiroir-filtres" 
-          role="dialog" 
-          aria-label="Filtrer"
-          className="fixed inset-0 z-50 flex flex-col bg-[var(--vs-blanc)] lg:hidden"
-        >
-          <div className="flex items-center justify-between border-b border-[var(--vs-ligne)] p-4">
-            <button
-              type="button"
-              aria-label="Fermer"
-              onClick={fermerPanneaux}
-              className="rounded-md p-2 text-[var(--vs-noir)] hover:bg-[var(--vs-fond)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]"
-            >
-              <X aria-hidden size={20} />
-            </button>
-            <h3 className="text-lg font-bold text-[var(--vs-noir)]">Filtrer</h3>
-            <div className="w-8"></div> {/* Pour l'alignement */}
-          </div>
-          
-          <div className="flex-1 overflow-y-auto p-4">
-            <div className="mb-6">
-              <h4 className="mb-2 text-sm font-medium text-[var(--vs-noir)]">Marques</h4>
-              <div className="space-y-1">
-                {marques.map((marque) => (
-                  <button
-                    key={marque.slug}
-                    type="button"
-                    data-testid={`filtre-marque-${marque.slug}`}
-                    aria-pressed={marquesSelectionnees.includes(marque.slug)}
-                    onClick={() => ajouterFiltre('marques', marque.slug)}
-                    className={`block w-full text-left px-3 py-2 rounded-md ${
-                      marquesSelectionnees.includes(marque.slug)
-                        ? 'bg-[var(--vs-principal)] text-[var(--vs-blanc)]'
-                        : 'text-[var(--vs-noir)] hover:bg-[var(--vs-fond)]'
-                    }`}
-                  >
-                    {marque.nom}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            <div className="mb-6">
-              <h4 className="mb-2 text-sm font-medium text-[var(--vs-noir)]">Tailles</h4>
-              <div className="space-y-1">
-                {tailles.map((taille) => (
-                  <button
-                    key={taille}
-                    type="button"
-                    data-testid={`filtre-taille-${taille}`}
-                    onClick={() => ajouterFiltre('tailles', taille)}
-                    className={`block w-full text-left px-3 py-2 rounded-md ${
-                      taillesSelectionnees.includes(taille)
-                        ? 'bg-[var(--vs-principal)] text-[var(--vs-blanc)]'
-                        : 'text-[var(--vs-noir)] hover:bg-[var(--vs-fond)]'
-                    }`}
-                  >
-                    {taille}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            <div className="mb-6">
-              <h4 className="mb-2 text-sm font-medium text-[var(--vs-noir)]">Filtres</h4>
-              <div className="space-y-2">
-                <button
-                  type="button"
-                  data-testid="filtre-promo"
-                  aria-pressed={!!criteres.promotionSeulement}
-                  onClick={() => ajouterFiltre('promotionSeulement', !criteres.promotionSeulement)}
-                  className={`flex w-full items-center justify-between rounded-md px-3 py-2 ${
-                    criteres.promotionSeulement
-                      ? 'bg-[var(--vs-principal)] text-[var(--vs-blanc)]'
-                      : 'text-[var(--vs-noir)] hover:bg-[var(--vs-fond)]'
-                  }`}
-                >
-                  <span>Promotions</span>
-                  <div className={`h-5 w-9 rounded-full ${criteres.promotionSeulement ? 'bg-[var(--vs-blanc)]' : 'bg-[var(--vs-ligne)]'}`}>
-                    <div className={`h-4 w-4 rounded-full transition-transform ${criteres.promotionSeulement ? 'translate-x-4 bg-[var(--vs-principal)]' : 'translate-x-0.5 bg-[var(--vs-blanc)]'}`}></div>
-                  </div>
-                </button>
-                
-                <button
-                  type="button"
-                  data-testid="filtre-stock"
-                  aria-pressed={!!criteres.enStockSeulement}
-                  onClick={() => ajouterFiltre('enStockSeulement', !criteres.enStockSeulement)}
-                  className={`flex w-full items-center justify-between rounded-md px-3 py-2 ${
-                    criteres.enStockSeulement
-                      ? 'bg-[var(--vs-principal)] text-[var(--vs-blanc)]'
-                      : 'text-[var(--vs-noir)] hover:bg-[var(--vs-fond)]'
-                  }`}
-                >
-                  <span>En stock</span>
-                  <div className={`h-5 w-9 rounded-full ${criteres.enStockSeulement ? 'bg-[var(--vs-blanc)]' : 'bg-[var(--vs-ligne)]'}`}>
-                    <div className={`h-4 w-4 rounded-full transition-transform ${criteres.enStockSeulement ? 'translate-x-4 bg-[var(--vs-principal)]' : 'translate-x-0.5 bg-[var(--vs-blanc)]'}`}></div>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t border-[var(--vs-ligne)] p-4">
-            <button
-              type="button"
-              onClick={fermerPanneaux}
-              className="w-full rounded-md bg-[var(--vs-principal)] px-4 py-3 text-center font-medium text-[var(--vs-blanc)] hover:bg-[var(--vs-principal-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]"
-            >
-              Appliquer les filtres
-            </button>
-          </div>
-        </div>
-      )}
-      
-      {/* Tiroir du tri */}
-      {ouvert === 'tri' && (
-        <div 
-          data-testid="tiroir-tri" 
-          role="dialog" 
-          aria-label="Trier"
-          className="fixed inset-0 z-50 flex flex-col bg-[var(--vs-blanc)] lg:hidden"
-        >
-          <div className="flex items-center justify-between border-b border-[var(--vs-ligne)] p-4">
-            <button
-              type="button"
-              aria-label="Fermer"
-              onClick={fermerPanneaux}
-              className="rounded-md p-2 text-[var(--vs-noir)] hover:bg-[var(--vs-fond)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-principal)]"
-            >
-              <X aria-hidden size={20} />
-            </button>
-            <h3 className="text-lg font-bold text-[var(--vs-noir)]">Trier par</h3>
-            <div className="w-8"></div> {/* Pour l'alignement */}
-          </div>
-          
-          <div className="flex-1 overflow-y-auto p-4">
-            <div className="space-y-2">
-              {[
-                { value: 'nouveautes', label: 'Nouveautés' },
-                { value: 'prix-croissant', label: 'Prix croissant' },
-                { value: 'prix-decroissant', label: 'Prix décroissant' },
-                { value: 'remise', label: 'Meilleures remises' }
-              ].map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => {
-                    onTriChange(option.value as Tri);
-                    fermerPanneaux();
-                  }}
-                  className={`block w-full text-left px-3 py-2 rounded-md ${
-                    tri === option.value
-                      ? 'bg-[var(--vs-principal)] text-[var(--vs-blanc)]'
-                      : 'text-[var(--vs-noir)] hover:bg-[var(--vs-fond)]'
-                  }`}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+
+      {/* Tiroirs */}
+      <TiroirsFiltres
+        vue={ouvert === 'filtres' || ouvert === 'tri' ? ouvert : null}
+        marques={marques}
+        tailles={tailles}
+        criteres={criteres}
+        tri={tri}
+        onMarque={basculerMarque}
+        onTaille={basculerTaille}
+        onPromo={basculerPromo}
+        onStock={basculerStock}
+        onTri={onTriChange}
+        onFermer={fermerVue}
+      />
     </div>
   );
 }
