@@ -11,7 +11,8 @@ import { TiroirsFiltres as _dependance } from '../src/components/catalogue/Tiroi
 import type { Marque } from '../src/lib/catalogue';
 import type { Criteres } from '../src/lib/filtres';
 
-const classes = (el: Element) => el.className.split(/\s+/).filter(Boolean);
+// getAttribute('class') et non className : sur un SVG, className n'est pas une chaîne.
+const classes = (el: Element) => (el.getAttribute('class') ?? '').split(/\s+/).filter(Boolean);
 const nom = (el: Element) =>
   el.getAttribute('data-testid') ?? el.getAttribute('aria-label') ?? el.textContent ?? el.tagName;
 function porte(el: Element, ...attendues: string[]) {
