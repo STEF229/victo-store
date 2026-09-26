@@ -78,6 +78,11 @@ else:
     print(f'  (jetons non vérifiés : {chemin_jetons} introuvable)')
 
 for f, s in specs.items():
+    # piège : noUncheckedIndexedAccess cité sans dire comment accéder aux tableaux (ticket 098a)
+    if 'noUncheckedIndexedAccess' in s and 'accès par index' not in s:
+        alerte(f, 'accès par index', "dire comment lire un tableau : .find, .map, .filter, jamais t[i]")
+
+for f, s in specs.items():
     # piège : code à trous « … » laissé au modèle (ticket 083)
     for bloc in re.findall(r"```[a-z]*\n(.*?)```", s, re.S):
         if '…' in bloc:

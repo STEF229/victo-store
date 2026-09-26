@@ -4,7 +4,8 @@ Modifie `src/components/ui/SiteHeader.tsx`. Le fichier actuel est correct et
 testé : tu ne changes que ce qui est décrit ici.
 
 ## Règles absolues
-- TypeScript strict, `noUncheckedIndexedAccess` actif.
+- TypeScript strict, `noUncheckedIndexedAccess` actif : aucun accès par index
+  (`tableau[i]`) ; utilise `.find`, `.map`, `.filter`.
 - **Ne modifie aucun test.** Ne modifie aucun autre fichier.
 - Ne change aucune classe, aucun texte, aucun `data-testid`, aucun `aria-*`, aucun
   autre import, aucune autre prop.

@@ -4,7 +4,8 @@ Crée `src/components/panier/PanierProvider.tsx`, avec deux exports nommés :
 `PanierProvider` (le fournisseur) et `usePanier` (le crochet de lecture).
 
 ## Règles absolues
-- TypeScript strict, `noUncheckedIndexedAccess` actif. Première ligne : `'use client';`.
+- TypeScript strict, `noUncheckedIndexedAccess` actif : aucun accès par index
+  (`tableau[i]`) ; utilise `.find`, `.map`, `.filter`. Première ligne : `'use client';`.
 - **Ne modifie aucun test.** Ne crée ni ne modifie aucun autre fichier.
 - Tout le calcul passe par les fonctions de `@/lib/panier` (leurs déclarations te
   sont fournies en lecture seule) : ce fichier ne recalcule rien lui-même.

@@ -34,6 +34,35 @@ export function lirePanier(texte: string | null): Panier;
 export function ecrirePanier(panier: Panier): string;
 ```
 
+## Accès aux tableaux — formes imposées
+`noUncheckedIndexedAccess` rend `panier[i]` « peut-être `undefined` ». Donc
+**aucun accès par index** (`panier[i]`), **aucun `findIndex`**, et jamais de
+`{ ...x }` sur une valeur qui peut être `undefined`. Utilise exactement ces formes :
+
+```ts
+// chercher une ligne
+const existante = panier.find((l) => l.sku === sku);
+if (existante) {
+  // existante.quantite est un number
+}
+
+// remplacer une ligne, en gardant l'ordre et les autres lignes intactes
+panier.map((l) => (l.sku === sku ? { slug: l.slug, sku: l.sku, quantite: nouvelle } : l));
+
+// valider un élément lu dans localStorage
+function estLigne(x: unknown): x is LignePanier {
+  return (
+    typeof x === 'object' && x !== null &&
+    'slug' in x && typeof x.slug === 'string' && x.slug !== '' &&
+    'sku' in x && typeof x.sku === 'string' && x.sku !== '' &&
+    'quantite' in x && typeof x.quantite === 'number' && Number.isInteger(x.quantite) && x.quantite > 0
+  );
+}
+// puis, si le JSON lu est un tableau :
+donnees.filter(estLigne).map((l) => ({ slug: l.slug, sku: l.sku, quantite: l.quantite }));
+```
+`estLigne` n'est pas exportée.
+
 ## Règles de calcul
 Une ligne est identifiée par son `sku`. Toute quantité reçue est d'abord
 arrondie vers le bas avec `Math.floor`.
