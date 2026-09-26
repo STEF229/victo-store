@@ -9,7 +9,7 @@ export const TEXTE_LIVRAISON =
   "Expédiée du Québec sous 48 heures, livraison offerte partout au Canada. Retours gratuits pendant 30 jours, article non porté dans sa boîte d'origine.";
 
 export function filAriane(produit: Produit): ElementFil[] {
-  const fil = [
+  const fil: ElementFil[] = [
     { label: 'Accueil', href: '/' },
   ];
 
