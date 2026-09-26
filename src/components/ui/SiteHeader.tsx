@@ -1,4 +1,7 @@
+'use client';
+
 import { Menu, Search, ShoppingBag, User } from 'lucide-react';
+import { usePanier } from '@/components/panier/PanierProvider';
 
 export interface NavItem {
   label: string;
@@ -14,12 +17,15 @@ interface SiteHeaderProps {
 
 export function SiteHeader({ 
   navItems, 
-  cartCount = 0, 
+  cartCount, 
   className = '' 
 }: SiteHeaderProps) {
-  const libellePanier = cartCount <= 1 
-    ? `Panier, ${cartCount} article` 
-    : `Panier, ${cartCount} articles`;
+  const { nombre } = usePanier();
+  const compte = cartCount ?? nombre;
+
+  const libellePanier = compte <= 1 
+    ? `Panier, ${compte} article` 
+    : `Panier, ${compte} articles`;
 
   return (
     <>
@@ -96,17 +102,17 @@ export function SiteHeader({
             <a 
               href="/panier" 
               data-testid="entete-panier" 
-              data-cart-count={cartCount} 
+              data-cart-count={compte} 
               aria-label={libellePanier}
               className="relative flex h-11 w-11 items-center justify-center"
             >
               <ShoppingBag aria-hidden size={21} />
-              {cartCount > 0 && (
+              {compte > 0 && (
                 <span 
                   data-testid="entete-panier-compte"
                   className="absolute right-0 top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--vs-accent)] px-1 text-[11px] font-extrabold"
                 >
-                  {cartCount}
+                  {compte}
                 </span>
               )}
             </a>
