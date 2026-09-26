@@ -41,7 +41,7 @@ export function AccueilPage() {
 
   return (
     <>
-      <SiteHeader navItems={NAV} cartCount={0} />
+      <SiteHeader navItems={NAV} />
       <main>
         <Carrousel />
         <BandeMarques marques={listerMarques()} />
