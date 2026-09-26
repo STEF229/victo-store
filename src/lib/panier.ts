@@ -31,7 +31,7 @@ export function ajouterAuPanier(
     
     // Crée un nouveau tableau avec la ligne mise à jour
     const nouveauPanier = [...panier];
-    nouveauPanier[index] = { ...panier[index], quantite: nouvelleQuantite };
+    nouveauPanier[index] = { ...nouveauPanier[index], quantite: nouvelleQuantite };
     return nouveauPanier;
   } else {
     // Ajoute une nouvelle ligne
@@ -57,7 +57,7 @@ export function changerQuantite(panier: Panier, sku: string, quantite: number, s
   } else {
     // Met à jour la quantité
     const nouveauPanier = [...panier];
-    nouveauPanier[index] = { ...panier[index], quantite: nouvelleQuantite };
+    nouveauPanier[index] = { ...nouveauPanier[index], quantite: nouvelleQuantite };
     return nouveauPanier;
   }
 }
