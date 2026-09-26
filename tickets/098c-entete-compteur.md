@@ -17,9 +17,13 @@ testé : tu ne changes que ce qui est décrit ici.
    ```tsx
    import { usePanier } from '@/components/panier/PanierProvider';
    ```
-3. **Signature** : la prop `cartCount` reste dans les props, mais **sans valeur par
-   défaut**. Si la signature contient `cartCount = 0` (ou toute autre valeur par
-   défaut), remplace-la par `cartCount` seul.
+3. **Type des props : ne le touche pas.** La ligne `cartCount?: number;` reste
+   **exactement** ainsi, point d'interrogation compris : la prop reste
+   **facultative**. Beaucoup de pages et de tests affichent l'en-tête sans elle ;
+   la rendre obligatoire casserait tout le projet.
+   **Paramètres de la fonction** : si la déstructuration donne une valeur par
+   défaut à `cartCount` (par exemple `cartCount = 0`), écris seulement `cartCount`,
+   sans `= 0`. Rien d'autre ne change dans la signature.
 4. **Au début du corps** de `SiteHeader`, avant tout autre code, ajoute exactement :
    ```tsx
    const { nombre } = usePanier();

@@ -173,10 +173,23 @@ erreurs_utiles() {
   tail -n 60 "$log"
 }
 
+# TEST_SUSPECT seulement si tsc n'accuse QUE le test propre au ticket. Si des tests
+# déjà verts sur main ne compilent plus, c'est la cible qui les a cassés (098c :
+# une prop devenue obligatoire) : c'est au modèle de corriger, on relance.
 gate_accuse_les_tests() {
-  local log="$1" cible="$2"
+  local log="$1" cible="$2" propre="$3"
   grep -qE '^tests/[^ ]+\([0-9]+,[0-9]+\): error' "$log" || return 1
   grep -q "$cible" "$log" && return 1
+  grep -oE '^tests/[^(]+' "$log" | sort -u | grep -vxF "$propre" | grep -q . && return 1
+  return 0
+}
+
+# Vrai si tsc n'accuse que des fichiers de tests : la cible compile, mais casse
+# des tests existants. Le message de relance doit alors le dire au modèle.
+erreurs_dans_tests_seulement() {
+  local log="$1"
+  grep -qE '^tests/[^ ]+\([0-9]+,[0-9]+\): error' "$log" || return 1
+  grep -E 'error TS[0-9]+' "$log" | grep -qvE '^tests/' && return 1
   return 0
 }
 
@@ -410,7 +423,7 @@ Réécris $TARGET en entier."
       STATUS="VERT"; break
     fi
 
-    if gate_accuse_les_tests "$GATELOG" "$TARGET"; then
+    if gate_accuse_les_tests "$GATELOG" "$TARGET" "$TESTFILE"; then
       log "  TEST_SUSPECT : tsc n'accuse que des fichiers de tests, le modèle ne peut rien corriger"
       STATUS="TEST_SUSPECT"; break
     fi
@@ -427,6 +440,14 @@ Réécris $TARGET en entier."
     EMPREINTE_PREC="$EMPREINTE"
 
     [ "$attempt" -lt "$MAX_ATTEMPTS" ] && log "  porte ROUGE — relance avec la spec et les seuls échecs"
+    CAUSE=""
+    if erreurs_dans_tests_seulement "$GATELOG"; then
+      CAUSE="Ces erreurs sont dans des tests que tu n'as PAS le droit de modifier. Ils
+compilaient avant ta modification : c'est ta version de $TARGET qui les casse
+(une prop, un type ou un export a changé). Corrige $TARGET, pas les tests.
+"
+      log "  erreurs dans des tests existants : la cible les casse, relance"
+    fi
     MSG="$(cat "$SPEC")
 
 ════════════════════════════════════════════════════════════
@@ -434,7 +455,7 @@ TENTATIVE PRÉCÉDENTE : ROUGE
 $TARGET contient ta dernière version. Garde tout ce qui fonctionne et corrige
 UNIQUEMENT les échecs ci-dessous. Respecte à la lettre les imports et les exports
 imposés par la spécification ci-dessus. Ne modifie aucun test.
-
+${CAUSE}
 Échecs :
 $(erreurs_utiles "$GATELOG")"
     attempt=$((attempt + 1))

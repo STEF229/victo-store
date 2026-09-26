@@ -43,7 +43,8 @@ describe('en-tête — source', () => {
     expect(source).toContain('const compte = cartCount ?? nombre;');
   });
 
-  it('ne donne plus de valeur par défaut à cartCount', () => {
+  it('garde cartCount facultatif, sans valeur par défaut', () => {
+    expect(source).toMatch(/cartCount\?:\s*number/);
     expect(source).not.toMatch(/cartCount\s*=\s*[^=]/);
   });
 });

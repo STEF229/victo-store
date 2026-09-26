@@ -1,7 +1,4 @@
-098a	src/lib/panier.ts	tests/panier.test.ts	tickets/098a-panier.md			
-098b	src/components/panier/PanierProvider.tsx	tests/PanierProvider.test.tsx	tickets/098b-panier-provider.md	src/lib/panier.ts	098a	
 098c	src/components/ui/SiteHeader.tsx	tests/entete-compteur.test.tsx	tickets/098c-entete-compteur.md	src/components/panier/PanierProvider.tsx	098b	
-098d	src/app/layout.tsx	tests/layout-panier.test.ts	tickets/098d-layout-panier.md		098b	
 098e1	src/app/boutique/page.tsx	tests/sans-cartcount-1.test.ts	tickets/098e1-sans-cartcount.md		098c	
 098e3	src/app/page.tsx	tests/sans-cartcount-3.test.ts	tickets/098e3-sans-cartcount.md		098c	
 098e4	src/components/catalogue/VueCatalogue.tsx	tests/sans-cartcount-4.test.ts	tickets/098e4-sans-cartcount.md		098c	
