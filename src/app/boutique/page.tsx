@@ -56,7 +56,6 @@ export function BoutiquePage() {
           { label: 'Homme', href: '/homme' },
           { label: 'Soldes', href: '/soldes' }
         ]}
-        cartCount={0}
       />
       
       <main className="flex-grow">
