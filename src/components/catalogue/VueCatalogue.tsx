@@ -48,7 +48,7 @@ export function VueCatalogue({ titre, description, produits }: VueCatalogueProps
   
   return (
     <>
-      <SiteHeader navItems={NAV} cartCount={0} />
+      <SiteHeader navItems={NAV} />
       <main className="mx-auto max-w-[1440px] px-5 py-12 lg:px-12">
         <div className="flex items-end justify-between gap-8">
           <div>
