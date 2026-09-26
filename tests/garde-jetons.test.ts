@@ -10,9 +10,8 @@ const JETONS = new Set(
   Array.from(readFileSync('src/styles/tokens.css', 'utf8').matchAll(/(--vs-[a-z0-9-]+)\s*:/g), (m) => m[1] ?? ''),
 );
 
-// Fichiers couverts par leur propre test en attendant leur ticket.
-// FiltresBarre.tsx : tickets/tests/FiltresBarre-v2.test.tsx (ticket 095).
-const EN_ATTENTE = new Set(['src/components/catalogue/FiltresBarre.tsx']);
+// Fichiers couverts par leur propre test en attendant leur ticket (aucun aujourd'hui).
+const EN_ATTENTE = new Set<string>();
 
 function sources(dossier: string): string[] {
   return readdirSync(dossier).flatMap((nom) => {

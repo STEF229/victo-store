@@ -1,0 +1,7 @@
+099a	src/lib/fiche-produit.ts	tests/fiche-produit.test.ts	tickets/099a-fiche-produit.md	src/lib/catalogue.ts		
+099b	src/components/produit/FilAriane.tsx	tests/FilAriane.test.tsx	tickets/099b-fil-ariane.md	src/lib/fiche-produit.ts	099a	
+099c	src/components/produit/GalerieProduit.tsx	tests/GalerieProduit.test.tsx	tickets/099c-galerie-produit.md			
+099d	src/components/produit/SelecteurPointure.tsx	tests/SelecteurPointure.test.tsx	tickets/099d-selecteur-pointure.md	src/lib/catalogue.ts		
+099e	src/components/produit/BlocAchat.tsx	tests/BlocAchat.test.tsx	tickets/099e-bloc-achat.md	src/components/panier/PanierProvider.tsx,src/components/produit/SelecteurPointure.tsx,src/lib/fiche-produit.ts,src/lib/catalogue.ts,src/lib/formatPrice.ts	099a,099d	
+099f	src/components/produit/InfosProduit.tsx	tests/InfosProduit.test.tsx	tickets/099f-infos-produit.md	src/lib/fiche-produit.ts	099a	
+099g	src/app/produits/[slug]/page.tsx	tests/page-produit.test.tsx	tickets/099g-page-produit.md	src/components/produit/BlocAchat.tsx,src/components/produit/FilAriane.tsx,src/components/produit/GalerieProduit.tsx,src/components/produit/InfosProduit.tsx,src/lib/fiche-produit.ts,src/lib/catalogue.ts,src/lib/donnees.ts	099a,099b,099c,099e,099f	
