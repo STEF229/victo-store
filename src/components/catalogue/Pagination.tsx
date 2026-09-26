@@ -1,5 +1,7 @@
 'use client';
 
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 interface PaginationProps {
   page: number;
   pages: number;
@@ -24,38 +26,61 @@ export function Pagination({ page, pages, onChange, className = '' }: Pagination
     }
   };
 
+  const handlePageChange = (newPage: number) => {
+    if (newPage !== page) {
+      onChange(newPage);
+    }
+  };
+
   return (
-    <nav 
-      aria-label="Pagination" 
+    <nav
+      aria-label="Pagination"
       data-testid="pagination"
-      className={className}
+      className={`mt-12 flex flex-col items-center gap-3.5 ${className}`}
     >
-      <button
-        type="button"
-        aria-label="Page précédente"
-        disabled={page <= 1}
-        onClick={handlePrevious}
-        className="px-3 py-2 text-sm font-medium rounded-md border border-[var(--vs-ligne)] bg-[var(--vs-surface)] hover:bg-[var(--vs-accent)] hover:text-white focus:outline-none focus:ring-2 focus:ring-[var(--vs-accent)] disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Page précédente
-      </button>
-      
-      <span 
-        data-testid="pagination-etat" 
-        className="mx-2 px-3 py-2 text-sm font-medium"
-      >
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          aria-label="Page précédente"
+          disabled={page <= 1}
+          className={page <= 1
+            ? 'flex h-[46px] w-[46px] items-center justify-center rounded-full border-[1.5px] cursor-not-allowed border-[var(--vs-ligne)] text-[#B5B5BA]'
+            : 'flex h-[46px] w-[46px] items-center justify-center rounded-full border-[1.5px] border-[var(--vs-noir)] text-[var(--vs-noir)]'}
+          onClick={handlePrevious}
+        >
+          <ChevronLeft aria-hidden size={18} />
+        </button>
+
+        {pages <= 7 && Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
+          <button
+            key={n}
+            type="button"
+            aria-label={`Page ${n}`}
+            aria-current={n === page ? 'page' : undefined}
+            className={n === page
+              ? 'flex h-[46px] min-w-[46px] items-center justify-center rounded-full border-[1.5px] px-3 text-[15px] font-semibold border-[var(--vs-noir)] bg-[var(--vs-noir)] text-[var(--vs-blanc)]'
+              : 'flex h-[46px] min-w-[46px] items-center justify-center rounded-full border-[1.5px] px-3 text-[15px] font-semibold border-[var(--vs-ligne)] bg-[var(--vs-blanc)] text-[var(--vs-noir)]'}
+            onClick={() => handlePageChange(n)}
+          >
+            {n}
+          </button>
+        ))}
+
+        <button
+          type="button"
+          aria-label="Page suivante"
+          disabled={page >= pages}
+          className={page >= pages
+            ? 'flex h-[46px] w-[46px] items-center justify-center rounded-full border-[1.5px] cursor-not-allowed border-[var(--vs-ligne)] text-[#B5B5BA]'
+            : 'flex h-[46px] w-[46px] items-center justify-center rounded-full border-[1.5px] border-[var(--vs-noir)] text-[var(--vs-noir)]'}
+          onClick={handleNext}
+        >
+          <ChevronRight aria-hidden size={18} />
+        </button>
+      </div>
+      <span data-testid="pagination-etat" className="text-sm text-[var(--vs-gris)]">
         Page {page} sur {pages}
       </span>
-      
-      <button
-        type="button"
-        aria-label="Page suivante"
-        disabled={page >= pages}
-        onClick={handleNext}
-        className="px-3 py-2 text-sm font-medium rounded-md border border-[var(--vs-ligne)] bg-[var(--vs-surface)] hover:bg-[var(--vs-accent)] hover:text-white focus:outline-none focus:ring-2 focus:ring-[var(--vs-accent)] disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Page suivante
-      </button>
     </nav>
   );
 }
