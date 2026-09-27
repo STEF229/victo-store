@@ -17,6 +17,7 @@ interface FiltresBarreProps {
   onChange: (criteres: Criteres) => void;
   tri: Tri;
   onTriChange: (tri: Tri) => void;
+  nombreResultats?: number | undefined;
 }
 
 export function FiltresBarre({ 
@@ -25,7 +26,8 @@ export function FiltresBarre({
   criteres, 
   onChange,
   tri,
-  onTriChange
+  onTriChange,
+  nombreResultats
 }: FiltresBarreProps) {
   const [ouvert, setOuvert] = useState<null | 'marques' | 'tailles' | 'filtres' | 'tri'>(null);
 
@@ -305,6 +307,7 @@ export function FiltresBarre({
         onStock={basculerStock}
         onTri={onTriChange}
         onFermer={fermerVue}
+        nombreResultats={nombreResultats}
       />
     </div>
   );
