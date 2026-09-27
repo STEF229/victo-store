@@ -1,0 +1,9 @@
+100a	src/components/panier/PanierProvider.tsx	tests/panier-pret.test.tsx	tickets/100a-panier-pret.md			
+100b	src/lib/panier-detail.ts	tests/panier-detail.test.ts	tickets/100b-panier-detail.md	src/lib/catalogue.ts,src/lib/panier.ts		
+100c	src/components/panier/LignePanier.tsx	tests/LignePanier.test.tsx	tickets/100c-ligne-panier.md	src/lib/panier-detail.ts,src/lib/catalogue.ts,src/lib/fiche-produit.ts,src/lib/formatPrice.ts	100b	
+100d	src/components/panier/RecapPanier.tsx	tests/RecapPanier.test.tsx	tickets/100d-recap-panier.md	src/lib/panier-detail.ts,src/lib/formatPrice.ts	100b	
+100e	src/components/panier/VuePanier.tsx	tests/VuePanier.test.tsx	tickets/100e-vue-panier.md	src/components/panier/PanierProvider.tsx,src/components/panier/LignePanier.tsx,src/components/panier/RecapPanier.tsx,src/lib/panier-detail.ts,src/lib/donnees.ts	100a,100b,100c,100d	
+100f	src/app/panier/page.tsx	tests/page-panier.test.tsx	tickets/100f-page-panier.md	src/components/panier/VuePanier.tsx,src/components/produit/FilAriane.tsx,src/lib/navigation.ts	100e	
+100g	src/lib/marques.ts	tests/marques.test.ts	tickets/100g-marques.md	src/lib/catalogue.ts		
+100h	src/components/marques/TuileMarque.tsx	tests/TuileMarque.test.tsx	tickets/100h-tuile-marque.md	src/lib/marques.ts,src/lib/catalogue.ts	100g	
+100i	src/app/marques/page.tsx	tests/page-marques.test.tsx	tickets/100i-page-marques.md	src/components/marques/TuileMarque.tsx,src/components/produit/FilAriane.tsx,src/lib/marques.ts,src/lib/donnees.ts,src/lib/navigation.ts	100g,100h	
