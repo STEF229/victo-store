@@ -67,6 +67,7 @@ export function VueCatalogue({ titre, description, produits }: VueCatalogueProps
             onChange={changerCriteres}
             tri={tri}
             onTriChange={changerTri}
+            nombreResultats={n}
           />
         </div>
         <div className="mt-8">
