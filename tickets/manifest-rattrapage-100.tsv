@@ -1,0 +1,2 @@
+100e	src/components/panier/VuePanier.tsx	tests/VuePanier.test.tsx	tickets/100e-vue-panier.md	src/components/panier/PanierProvider.tsx,src/components/panier/LignePanier.tsx,src/components/panier/RecapPanier.tsx,src/lib/panier-detail.ts,src/lib/donnees.ts	100a,100b,100c,100d	
+100f	src/app/panier/page.tsx	tests/page-panier.test.tsx	tickets/100f-page-panier.md	src/components/panier/VuePanier.tsx,src/components/produit/FilAriane.tsx,src/lib/navigation.ts	100e	
