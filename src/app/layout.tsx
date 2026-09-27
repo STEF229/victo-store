@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { PanierProvider } from '@/components/panier/PanierProvider';
+import { SessionProvider } from '@/components/compte/SessionProvider';
 import './globals.css';
 
 export const metadata = {
@@ -17,7 +18,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body><PanierProvider>{children}</PanierProvider></body>
+      <body>
+        <PanierProvider>
+          <SessionProvider>{children}</SessionProvider>
+        </PanierProvider>
+      </body>
     </html>
   );
 }
