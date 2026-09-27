@@ -1,0 +1,4 @@
+101a	src/components/catalogue/TiroirsFiltres.tsx	tests/TiroirsFiltres-nombre.test.tsx	tickets/101a-tiroir-voir-n.md			
+101b	src/components/catalogue/FiltresBarre.tsx	tests/FiltresBarre-nombre.test.tsx	tickets/101b-barre-voir-n.md	src/components/catalogue/TiroirsFiltres.tsx	101a	
+101c	src/components/catalogue/VueCatalogue.tsx	tests/VueCatalogue-nombre.test.tsx	tickets/101c-vue-voir-n.md	src/components/catalogue/FiltresBarre.tsx	101b	
+101d	src/app/boutique/page.tsx	tests/page-boutique.test.tsx	tickets/101d-page-boutique.md	src/components/catalogue/VueCatalogue.tsx		neuf
