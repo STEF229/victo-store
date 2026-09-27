@@ -20,6 +20,7 @@ interface TiroirsFiltresProps {
   onStock: () => void;
   onTri: (tri: Tri) => void;
   onFermer: () => void;
+  nombreResultats?: number | undefined;
 }
 
 export function TiroirsFiltres({
@@ -34,6 +35,7 @@ export function TiroirsFiltres({
   onStock,
   onTri,
   onFermer,
+  nombreResultats,
 }: TiroirsFiltresProps) {
   if (vue === null) {
     return null;
@@ -56,6 +58,11 @@ export function TiroirsFiltres({
       </button>
     </div>
   );
+
+  const libelleValider =
+    nombreResultats === undefined
+      ? 'Appliquer les filtres'
+      : `Voir ${nombreResultats} ${nombreResultats > 1 ? 'produits' : 'produit'}`;
 
   if (vue === 'filtres') {
     return (
@@ -132,7 +139,7 @@ export function TiroirsFiltres({
             className={VALIDER} 
             onClick={handleFermer}
           >
-            Appliquer les filtres
+            {libelleValider}
           </button>
         </div>
       </>
