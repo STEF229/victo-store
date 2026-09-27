@@ -366,6 +366,7 @@ while IFS= read -r LIGNE || [ -n "${LIGNE:-}" ]; do
       fi
     fi
     log "  tentative $attempt/$MAX_ATTEMPTS — appel du modèle…"
+    AVANT_APPEL="$(git rev-parse HEAD)"
     timeout --signal=TERM --kill-after=60 "$AIDER_TIMEOUT" \
       aider \
         --model "$MODEL" \
@@ -386,6 +387,37 @@ while IFS= read -r LIGNE || [ -n "${LIGNE:-}" ]; do
     if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
       log "  TIMEOUT après ${AIDER_TIMEOUT}s"
       STATUS="TIMEOUT"; break
+    fi
+
+    # La cible a-t-elle vraiment été écrite ? (099c : le modèle a écrit
+    # « GalerieProduit.tsx » à la racine ; la cible est restée vide, deux fois.)
+    # Aider enregistre lui-même ce qu'il écrit ; la cible vide qu'il crée ne l'est pas.
+    # Une réécriture à l'identique ne crée pas de commit : la cible n'est « non
+    # écrite » que si un AUTRE fichier a été écrit, ou si elle est restée vide.
+    ECRITS="$(git diff --name-only "$AVANT_APPEL" HEAD)"
+    EGARES="$(printf '%s\n' "$ECRITS" | grep -vxF -e "$TARGET" -e "$TESTFILE" -e '' || true)"
+    if ! printf '%s\n' "$ECRITS" | grep -qxF "$TARGET" && { [ -n "$EGARES" ] || [ ! -s "$TARGET" ]; }; then
+      MEME_NOM="$(printf '%s\n' "$EGARES" | awk -v b="$(basename "$TARGET")" -F/ '$NF == b' || true)"
+      if [ -n "$MEME_NOM" ] && [ "$(printf '%s\n' "$MEME_NOM" | wc -l)" -eq 1 ]; then
+        mkdir -p "$(dirname "$TARGET")"
+        git mv -f "$MEME_NOM" "$TARGET"
+        git commit -q -m "chore($ID): fichier du modèle replacé de $MEME_NOM vers $TARGET"
+        log "  CIBLE RELOCALISÉE : le modèle a écrit $MEME_NOM, replacé vers $TARGET"
+      else
+        [ -n "$EGARES" ] && { printf '%s\n' "$EGARES" | xargs git rm -q -f --ignore-unmatch --; git commit -q -m "chore($ID): fichiers égarés retirés" || true; }
+        log "  CIBLE NON ÉCRITE : $TARGET n'a pas été modifié${EGARES:+ (écrit à la place : $(echo $EGARES))}"
+        MSG="$(cat "$SPEC")
+
+════════════════════════════════════════════════════════════
+TENTATIVE PRÉCÉDENTE : FICHIER MAL PLACÉ
+Tu n'as pas écrit $TARGET.${EGARES:+ Tu as écrit à la place : $(echo $EGARES) — ces fichiers ont été supprimés.}
+Écris le fichier COMPLET sous son chemin EXACT, avec ce chemin seul sur la ligne
+qui précède le bloc de code :
+
+$TARGET"
+        attempt=$((attempt + 1))
+        continue
+      fi
     fi
 
     # Garde-fou anti-triche : les tests sont passés en --read. On compare au
@@ -477,6 +509,10 @@ $(erreurs_utiles "$GATELOG")"
     fi
   else
     git checkout -q --force main
+    # Aider crée la cible vide avant d'appeler le modèle : ne pas la laisser sur main.
+    if ! git cat-file -e "main:$TARGET" 2>/dev/null && [ -f "$TARGET" ] && ! git ls-files --error-unmatch "$TARGET" >/dev/null 2>&1; then
+      rm -f "$TARGET"
+    fi
     log "  laissé isolé sur $BRANCH — main est intact"
     # On pousse quand même la branche calée : elle est relisible depuis le laptop.
     if [ -n "$GIT_REMOTE" ]; then
