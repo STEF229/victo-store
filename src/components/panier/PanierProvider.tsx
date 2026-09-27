@@ -9,6 +9,7 @@ import {
 export interface ContextePanier {
   lignes: Panier;
   nombre: number;
+  pret: boolean;
   ajouter: (article: { slug: string; sku: string }, quantite: number, stock: number) => void;
   changerQuantite: (sku: string, quantite: number, stock: number) => void;
   retirer: (sku: string) => void;
@@ -18,6 +19,7 @@ export interface ContextePanier {
 const Contexte = createContext<ContextePanier>({
   lignes: [],
   nombre: 0,
+  pret: true,
   ajouter: () => {},
   changerQuantite: () => {},
   retirer: () => {},
@@ -60,6 +62,7 @@ export function PanierProvider({ children }: { children: ReactNode }) {
     <Contexte.Provider value={{
       lignes,
       nombre,
+      pret,
       ajouter: (article, quantite, stock) => {
         setLignes((precedent) => ajouterAuPanier(precedent, article, quantite, stock));
       },
