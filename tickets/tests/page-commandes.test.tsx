@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import PageCommandes from '../src/app/compte/commandes/page';
 import { PILULE_ON } from '../src/components/catalogue/filtres-affichage';
@@ -9,7 +9,9 @@ const classes = (el: Element) => (el.getAttribute('class') ?? '').split(/\s+/).f
 const connecter = (client: object) => window.localStorage.setItem(CLE_SESSION, JSON.stringify(client));
 const poser = () => render(<SessionProvider><PageCommandes /></SessionProvider>);
 const filtre = (nom: string) => screen.getByRole('button', { name: nom });
-const numeros = () => screen.queryAllByRole('heading', { level: 3 }).map((h: HTMLElement) => h.textContent);
+// Titres lus DANS chaque carte : le pied de page a aussi des titres de niveau 3.
+const numeros = () =>
+  screen.queryAllByTestId('carte-commande').map((c: HTMLElement) => within(c).getByRole('heading', { level: 3 }).textContent);
 
 beforeEach(() => window.localStorage.clear());
 
