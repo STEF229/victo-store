@@ -31,7 +31,8 @@ grep -q "interface FiltresBarreProps" $C/FiltresBarre.tsx && grep -q "<TiroirsFi
 grep -q "const n = resultats.length;" $C/VueCatalogue.tsx && grep -q "onTriChange={changerTri}" $C/VueCatalogue.tsx || mort "VueCatalogue ne ressemble pas à la version attendue (const n = resultats.length, onTriChange={changerTri})"
 grep -q "nombreResultats" $C/TiroirsFiltres.tsx $C/FiltresBarre.tsx $C/VueCatalogue.tsx && mort "nombreResultats existe déjà : lot déjà passé ?"
 [ -f src/app/boutique/page.tsx ] || mort "src/app/boutique/page.tsx absent"
-autres="$(grep -rlE "app/boutique/page" src tests | grep -vx tests/boutique-page.test.tsx || true)"
+# Seules les vraies importations comptent : un test qui lit le fichier (readFileSync) n'en dépend pas.
+autres="$(grep -rlE "from ['\"][^'\"]*app/boutique/page['\"]" src tests | grep -vx tests/boutique-page.test.tsx || true)"
 [ -z "$autres" ] || mort "l'ancienne page boutique est importée ailleurs : $(echo $autres)"
 grep -qE "export function listerProduits" src/lib/donnees.ts || mort "listerProduits absent de donnees.ts"
 ok "tiroir, barre, vue catalogue et page boutique conformes aux specs"
