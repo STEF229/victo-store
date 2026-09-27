@@ -1,0 +1,13 @@
+102a	src/lib/compte.ts	tests/compte.test.ts	tickets/102a-compte.md			
+102b	src/components/compte/compte-affichage.ts	tests/compte-affichage.test.ts	tickets/102b-compte-affichage.md	src/lib/compte.ts	102a	
+102c	src/components/compte/SessionProvider.tsx	tests/SessionProvider.test.tsx	tickets/102c-session.md	src/lib/compte.ts	102a	
+102d	src/app/layout.tsx	tests/layout-session.test.ts	tickets/102d-layout-session.md		102c	
+102e	src/components/compte/MenuCompte.tsx	tests/MenuCompte.test.tsx	tickets/102e-menu-compte.md	src/components/compte/compte-affichage.ts,src/components/compte/SessionProvider.tsx	102b,102c	
+102f	src/components/compte/EspaceClient.tsx	tests/EspaceClient.test.tsx	tickets/102f-espace-client.md	src/components/compte/compte-affichage.ts,src/components/compte/MenuCompte.tsx,src/components/compte/SessionProvider.tsx	102b,102c,102e	
+102g	src/components/compte/CarteCommande.tsx	tests/CarteCommande.test.tsx	tickets/102g-carte-commande.md	src/components/compte/compte-affichage.ts,src/lib/compte.ts,src/lib/panier-detail.ts,src/lib/formatPrice.ts	102a,102b	
+102h	src/app/connexion/page.tsx	tests/page-connexion.test.tsx	tickets/102h-page-connexion.md	src/components/compte/compte-affichage.ts,src/components/compte/SessionProvider.tsx,src/lib/compte.ts,src/components/produit/FilAriane.tsx,src/lib/navigation.ts	102a,102b,102c	
+102i	src/app/inscription/page.tsx	tests/page-inscription.test.tsx	tickets/102i-page-inscription.md	src/components/compte/compte-affichage.ts,src/components/compte/SessionProvider.tsx,src/lib/compte.ts,src/components/produit/FilAriane.tsx,src/lib/navigation.ts	102a,102b,102c	
+102j	src/app/mot-de-passe-oublie/page.tsx	tests/page-mot-de-passe.test.tsx	tickets/102j-page-mot-de-passe.md	src/components/compte/compte-affichage.ts,src/lib/compte.ts,src/components/produit/FilAriane.tsx,src/lib/navigation.ts	102a,102b	
+102k	src/app/compte/page.tsx	tests/page-compte.test.tsx	tickets/102k-page-compte.md	src/components/compte/CarteCommande.tsx,src/components/compte/compte-affichage.ts,src/components/compte/EspaceClient.tsx,src/components/compte/SessionProvider.tsx,src/lib/compte.ts	102a,102b,102c,102f,102g	
+102l	src/app/compte/commandes/page.tsx	tests/page-commandes.test.tsx	tickets/102l-page-commandes.md	src/components/catalogue/filtres-affichage.ts,src/components/compte/CarteCommande.tsx,src/components/compte/compte-affichage.ts,src/components/compte/EspaceClient.tsx,src/components/compte/SessionProvider.tsx,src/lib/compte.ts	102a,102b,102c,102f,102g	
+102m	src/components/ui/SiteHeader.tsx	tests/entete-compte.test.tsx	tickets/102m-entete-compte.md			

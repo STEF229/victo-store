@@ -60,7 +60,7 @@ describe('en-tête — recherche et actions', () => {
 
   it('rend le compte et le panier avec leurs icônes lucide', () => {
     render(<SiteHeader navItems={NAV} cartCount={2} />);
-    expect(screen.getByRole('button', { name: 'Mon compte' }).querySelector('svg.lucide-user')).not.toBeNull();
+    expect(screen.getByLabelText('Mon compte').querySelector('svg.lucide-user')).not.toBeNull();
     const panier = screen.getByTestId('entete-panier');
     expect(panier.querySelector('svg.lucide-shopping-bag')).not.toBeNull();
     expect(classes(screen.getByTestId('entete-panier-compte'))).toContain('bg-[var(--vs-accent)]');

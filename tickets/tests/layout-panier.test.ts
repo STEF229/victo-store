@@ -6,7 +6,7 @@ describe('layout — fournisseur du panier', () => {
 
   it('enveloppe tout le site dans PanierProvider', () => {
     expect(source).toContain("import { PanierProvider } from '@/components/panier/PanierProvider';");
-    expect(source).toContain('<PanierProvider>{children}</PanierProvider>');
+    expect(source).toMatch(/<PanierProvider>[\s\S]*\{children\}[\s\S]*<\/PanierProvider>/);
   });
 
   it('reste un composant serveur, avec ses métadonnées', () => {
