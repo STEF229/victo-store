@@ -28,6 +28,9 @@ function poser(l: LigneDetaillee) {
   return { onQuantite, onRetirer };
 }
 const bouton = (nom: string) => screen.getByRole('button', { name: nom });
+// Le prix barré est lu par textContent : formatPrice met une espace insécable, que
+// getByText normalise dans la page mais pas dans le motif cherché.
+const prixBarre = () => screen.getByTestId('ligne-panier').querySelector('s');
 
 describe('LignePanier — contenu', () => {
   it('affiche marque, nom, pointure, prix remisé, prix barré et total', () => {
@@ -36,7 +39,7 @@ describe('LignePanier — contenu', () => {
     expect(screen.getByTestId('ligne-pointure').textContent).toBe('Pointure 42');
     expect(screen.getByTestId('ligne-prix').textContent).toBe(formatPrice(12600));
     porte(screen.getByTestId('ligne-prix'), 'text-[var(--vs-promo)]');
-    expect(screen.getByText(formatPrice(18000)).tagName).toBe('S');
+    expect(prixBarre()?.textContent).toBe(formatPrice(18000));
     expect(screen.getByTestId('ligne-total').textContent).toBe(formatPrice(25200));
     expect(screen.getByTestId('ligne-quantite').textContent).toBe('2');
   });
@@ -44,7 +47,7 @@ describe('LignePanier — contenu', () => {
   it('affiche un prix simple hors promotion', () => {
     poser(ligne(SIMPLE, 1));
     porte(screen.getByTestId('ligne-prix'), 'text-[var(--vs-noir)]');
-    expect(screen.queryByText(formatPrice(18000))).toBeNull();
+    expect(prixBarre()).toBeNull();
   });
 
   it('relie l’image et le nom à la fiche produit', () => {

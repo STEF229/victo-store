@@ -27,6 +27,10 @@ for f, s in tests.items():
         # piège : className lu dans un test — sur un SVG ce n'est pas une chaîne (ticket 095c)
         if '.className' in l:
             alerte(f, 'className', f"ligne {n} : lire getAttribute('class'), className d'un SVG n'est pas une chaîne")
+        # piège : prix cherché par texte — formatPrice met une espace insécable que
+        # getByText normalise dans la page mais pas dans le motif (ticket 100c)
+        if 'ByText(' in l and 'formatPrice' in l:
+            alerte(f, 'insécable', f'ligne {n} : prix cherché par ByText ; lire .textContent et comparer à formatPrice')
         # piège : apostrophe courbe dans un texte comparé exactement
         if '’' in l and ('.toBe(' in l or 'name:' in l):
             alerte(f, 'apostrophe', f'ligne {n} : apostrophe courbe dans une comparaison exacte')
