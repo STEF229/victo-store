@@ -1,11 +1,12 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { Client, DonneesInscription } from '@/lib/compte';
+import type { Adresse, Client, DonneesInscription } from '@/lib/compte';
 import {
   CLE_COMPTES, authentifier, changerMotDePasse as changerMotDePasseRegistre, comptesInitiaux, ecrireComptes,
   enregistrer, lireComptes, modifierProfil as modifierProfilRegistre,
   type Comptes, type ErreursMotDePasse, type ErreursProfil, type Profil,
+  cleCourriel,
 } from '@/lib/comptes-locaux';
 
 export const CLE_SESSION = 'victo-session';
@@ -18,6 +19,7 @@ export interface ContexteSession {
   deconnecter: () => void;
   modifierProfil: (profil: Profil) => ErreursProfil;
   changerMotDePasse: (actuel: string, nouveau: string) => ErreursMotDePasse;
+  mettreAJourAdresses: (adresses: Adresse[]) => void;
 }
 
 function nouveauClient(d: DonneesInscription): Client {
@@ -49,6 +51,7 @@ const contexteSession = createContext<ContexteSession>({
   deconnecter: () => {},
   modifierProfil: () => ({}),
   changerMotDePasse: () => ({}),
+  mettreAJourAdresses: () => {},
 });
 
 export function useSession(): ContexteSession {
@@ -157,6 +160,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     return {};
   };
 
+  function mettreAJourAdresses(adresses: Adresse[]) {
+    if (client === null) return;
+    const suivant: Client = { ...client, adresses };
+    const cle = cleCourriel(client.courriel);
+    const compte = comptes[cle];
+    setClient(suivant);
+    if (compte) setComptes({ ...comptes, [cle]: { client: suivant, motDePasse: compte.motDePasse } });
+  }
+
   return (
     <contexteSession.Provider value={{
       client,
@@ -166,6 +178,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       deconnecter,
       modifierProfil,
       changerMotDePasse,
+      mettreAJourAdresses,
     }}>
       {children}
     </contexteSession.Provider>
