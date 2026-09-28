@@ -90,12 +90,20 @@ export function changerMotDePasse(comptes: Comptes, courriel: string, actuel: st
      puis `const suivants: Comptes = { ...comptes }; delete suivants[ancienne];
      suivants[nouvelle] = { client, motDePasse: compte.motDePasse };` et renvoie
      `{ comptes: suivants, client }`.
-- **`changerMotDePasse`** : `const cle = cleCourriel(courriel); const compte = comptes[cle];`
-  puis, objet d'erreurs vide : si `!compte || compte.motDePasse !== actuel` →
-  `actuel: 'Mot de passe actuel incorrect.'` ; si `nouveau.length < 8 || !/\d/.test(nouveau)` →
-  `nouveau: 'Au moins 8 caractères, dont un chiffre.'`. S'il y a au moins une erreur
-  (ou pas de compte), renvoie `{ erreurs }` ; sinon
-  `{ comptes: { ...comptes, [cle]: { client: compte.client, motDePasse: nouveau } } }`.
+- **`changerMotDePasse`** — recopie exactement ce code : la garde finale nomme `compte`,
+  sans quoi TypeScript ne sait pas qu'il existe sur la dernière ligne.
+  ```ts
+  export function changerMotDePasse(comptes: Comptes, courriel: string, actuel: string, nouveau: string):
+    { comptes: Comptes } | { erreurs: ErreursMotDePasse } {
+    const cle = cleCourriel(courriel);
+    const compte = comptes[cle];
+    const erreurs: ErreursMotDePasse = {};
+    if (!compte || compte.motDePasse !== actuel) erreurs.actuel = 'Mot de passe actuel incorrect.';
+    if (nouveau.length < 8 || !/\d/.test(nouveau)) erreurs.nouveau = 'Au moins 8 caractères, dont un chiffre.';
+    if (!compte || Object.keys(erreurs).length > 0) return { erreurs };
+    return { comptes: { ...comptes, [cle]: { client: compte.client, motDePasse: nouveau } } };
+  }
+  ```
 
 ## Critère de fin
 `npm run typecheck`, `npm test` et `npm run build` passent.
