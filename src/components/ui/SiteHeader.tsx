@@ -2,6 +2,7 @@
 
 import { Menu, Search, ShoppingBag, User } from 'lucide-react';
 import { usePanier } from '@/components/panier/PanierProvider';
+import Link from 'next/link';
 
 export interface NavItem {
   label: string;
@@ -92,13 +93,13 @@ export function SiteHeader({
                 className="h-10 min-w-0 flex-1 border-none bg-transparent text-sm text-[var(--vs-blanc)] outline-none"
               />
             </div>
-            <button 
-              type="button" 
+            <Link 
+              href="/compte" 
               aria-label="Mon compte" 
               className="hidden h-11 w-11 items-center justify-center lg:flex"
             >
               <User aria-hidden size={21} />
-            </button>
+            </Link>
             <a 
               href="/panier" 
               data-testid="entete-panier" 
