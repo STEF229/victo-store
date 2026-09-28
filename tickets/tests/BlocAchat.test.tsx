@@ -98,15 +98,11 @@ describe('BlocAchat — ajout au panier', () => {
 });
 
 describe('BlocAchat — boutons', () => {
-  it('habille le bouton d’ajout et bascule le favori', () => {
+  it('habille le bouton d’ajout et montre le cœur', () => {
     render(<BlocAchat produit={PROMO} />);
     porte(bouton('Ajouter au panier'), 'h-[58px] rounded-full bg-[var(--vs-accent)] text-[var(--vs-blanc)] sm:flex-1');
-    const favori = bouton('Ajouter aux favoris');
-    expect(favori).toHaveAttribute('aria-pressed', 'false');
-    fireEvent.click(favori);
-    expect(favori).toHaveAttribute('aria-pressed', 'true');
-    const coeur = favori.querySelector('svg.lucide-heart');
-    expect(coeur).not.toBeNull();
-    porte(coeur as Element, 'fill-[var(--vs-promo)] text-[var(--vs-promo)]');
+    // Depuis le lot 104, le favori est gardé par FavorisProvider : son comportement est
+    // vérifié par tests/favoris-bloc-achat.test.tsx.
+    expect(bouton('Ajouter aux favoris').querySelector('svg.lucide-heart')).not.toBeNull();
   });
 });

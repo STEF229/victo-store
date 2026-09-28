@@ -1,0 +1,8 @@
+104a	src/lib/adresses.ts	tests/adresses.test.ts	tickets/104a-adresses.md	src/lib/compte.ts		
+104b	src/components/compte/SessionProvider.tsx	tests/session-adresses.test.tsx	tickets/104b-session-adresses.md	src/lib/comptes-locaux.ts,src/lib/compte.ts	104a	
+104c	src/components/compte/FormulaireAdresse.tsx	tests/FormulaireAdresse.test.tsx	tickets/104c-formulaire-adresse.md	src/components/compte/compte-affichage.ts,src/lib/adresses.ts	104a	
+104d	src/app/compte/adresses/page.tsx	tests/page-adresses.test.tsx	tickets/104d-page-adresses.md	src/components/compte/compte-affichage.ts,src/components/compte/EspaceClient.tsx,src/components/compte/FormulaireAdresse.tsx,src/components/compte/SessionProvider.tsx,src/lib/adresses.ts	104a,104b,104c	
+104e	src/components/favoris/FavorisProvider.tsx	tests/FavorisProvider.test.tsx	tickets/104e-favoris.md			
+104f	src/app/layout.tsx	tests/layout-favoris.test.ts	tickets/104f-layout-favoris.md		104e	
+104g	src/components/produit/BlocAchat.tsx	tests/favoris-bloc-achat.test.tsx	tickets/104g-bloc-achat-favoris.md	src/components/favoris/FavorisProvider.tsx	104e	
+104h	src/app/compte/favoris/page.tsx	tests/page-favoris.test.tsx	tickets/104h-page-favoris.md	src/components/compte/compte-affichage.ts,src/components/compte/EspaceClient.tsx,src/components/compte/SessionProvider.tsx,src/components/favoris/FavorisProvider.tsx	104e	
