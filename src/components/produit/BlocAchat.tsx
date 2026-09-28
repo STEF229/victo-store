@@ -2,6 +2,7 @@
 
 import { Check, Heart } from 'lucide-react';
 import { useState } from 'react';
+import { useFavoris } from '@/components/favoris/FavorisProvider';
 import { usePanier } from '@/components/panier/PanierProvider';
 import { SelecteurPointure } from '@/components/produit/SelecteurPointure';
 import { economieCents, estEnPromotion, type Produit } from '@/lib/catalogue';
@@ -12,9 +13,10 @@ export function BlocAchat({ produit }: { produit: Produit }) {
   const panier = usePanier();
   const [taille, setTaille] = useState<string | null>(null);
   const [quantite, setQuantite] = useState(1);
-  const [favori, setFavori] = useState(false);
   const [erreur, setErreur] = useState(false);
   const [confirme, setConfirme] = useState(false);
+  const favoris = useFavoris();
+  const favori = favoris.estFavori(produit.slug);
   const promo = estEnPromotion(produit);
   const choisie = produit.variantes.find((v) => v.taille === taille);
   const plafond = choisie ? choisie.stock : 9;
@@ -150,7 +152,7 @@ export function BlocAchat({ produit }: { produit: Produit }) {
           type="button" 
           aria-label="Ajouter aux favoris" 
           aria-pressed={favori} 
-          onClick={() => setFavori(!favori)}
+          onClick={() => favoris.basculer(produit.slug)}
           className="flex h-[58px] w-[58px] items-center justify-center rounded-full border-[1.5px] border-[var(--vs-ligne)] bg-[var(--vs-blanc)]"
         >
           <Heart 
