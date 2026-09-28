@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+# VICTO STORE — rattrapage du lot 103 : registre des comptes (103a), puis session (103b)
+# et informations personnelles (103c).
+# Cause : la spec de changerMotDePasse décrivait sa garde en prose (« ou pas de compte ») ;
+# le modèle l'a écrite par le nombre d'erreurs, que TypeScript ne relie pas à « compte »
+# (TS18048). La spec impose maintenant le code exact. Le code du modèle ne compilant pas,
+# il n'est pas repris : sa branche est supprimée et les trois tickets repartent.
+# Usage :  cd ~/victo-store && bash rattrapage-103.sh
+set -euo pipefail
+cd "${REPO:-$HOME/victo-store}"
+ok()  { printf '  \033[32m✓\033[0m %s\n' "$*"; }
+info(){ printf '  \033[33m!\033[0m %s\n' "$*"; }
+mort(){ printf '  \033[31m✗\033[0m %s\n' "$*" >&2; exit 1; }
+annuler(){ git reset -q --hard "$DEPART"; git clean -fdq -- tickets; mort "$*  — rien n'a été modifié"; }
+CIBLE=src/lib/comptes-locaux.ts; SPEC=tickets/103a-comptes-locaux.md
+
+pgrep -f '(^|[ /])run\.sh( |$)' >/dev/null 2>&1 && mort "le harnais tourne encore"
+modifies="$(git ls-files -m -- '*.tsbuildinfo')"
+[ -z "$modifies" ] || git checkout -q -- $modifies
+if [ -f "$CIBLE" ] && ! git ls-files --error-unmatch "$CIBLE" >/dev/null 2>&1; then
+  [ -s "$CIBLE" ] && mort "$CIBLE existe hors suivi git et n'est pas vide : je n'y touche pas"
+  rm -f "$CIBLE"; ok "cible vide laissée par le run retirée du disque"
+fi
+[ -z "$(git status --porcelain)" ] || mort "arbre sale : commit ou stash d'abord (git status)"
+git checkout -q main
+git pull -q --rebase=merges || mort "git pull a échoué : main diverge de GitHub, à régler avant le lot"
+DEPART="$(git rev-parse HEAD)"
+ok "main à jour ($(git rev-parse --short HEAD))"
+
+fusionne(){ git log main -1 --format=%h --fixed-strings --grep="feat($1): fusionné" | grep -q .; }
+fusionne 103a && { ok "103a est déjà fusionné : rien à rattraper"; exit 0; }
+[ -f tickets/manifest-103.tsv ] && [ -f "$SPEC" ] || mort "lot 103 non installé (manifeste ou spec 103a absents)"
+for d in 103d 103e; do fusionne "$d" || info "$d n'est pas fusionné (sans effet sur ce rattrapage)"; done
+trap 'annuler "erreur inattendue à la ligne $LINENO du script"' ERR
+cat > tickets/103a-comptes-locaux.md <<'__VICTO_FIN_0__'
+TICKET 103a — registre des comptes, gardé dans le navigateur
+
+Crée `src/lib/comptes-locaux.ts`. Fonctions **pures** : aucune ne modifie ses
+arguments. Démonstration en attendant Medusa : les mots de passe sont gardés en
+clair, uniquement dans le navigateur de l'utilisateur.
+
+## Règles absolues
+- TypeScript strict, `noUncheckedIndexedAccess` actif : aucun accès par index sur un
+  tableau. Un compte se lit par sa clé, `const compte = comptes[cle];`, puis
+  `if (compte)` : c'est permis ici, car `Comptes` est un `Partial<Record<…>>` et la
+  valeur est déjà typée `CompteLocal | undefined`.
+- **Ne modifie aucun test.** Ne crée ni ne modifie aucun autre fichier.
+- Chaque changement renvoie un **nouvel** objet `Comptes` (copie par `{ ...comptes }`).
+
+## Bloc d'imports exact
+```ts
+import { CLIENT_DEMO, COURRIEL_DEMO, MOT_DE_PASSE_DEMO, courrielValide, type Client } from '@/lib/compte';
+```
+
+## Types et constante
+Taille attendue : ~110 lignes.
+```ts
+export interface CompteLocal {
+  client: Client;
+  motDePasse: string;
+}
+export type Comptes = Partial<Record<string, CompteLocal>>;
+export interface Profil {
+  prenom: string;
+  nom: string;
+  courriel: string;
+}
+export type ErreursProfil = Partial<Record<keyof Profil, string>>;
+export type ErreursMotDePasse = Partial<Record<'actuel' | 'nouveau', string>>;
+export const CLE_COMPTES = 'victo-comptes';
+```
+
+## Fonctions
+```ts
+export function cleCourriel(courriel: string): string;
+export function comptesInitiaux(): Comptes;
+export function lireComptes(texte: string | null): Comptes;
+export function ecrireComptes(comptes: Comptes): string;
+export function authentifier(comptes: Comptes, courriel: string, motDePasse: string): Client | null;
+export function enregistrer(comptes: Comptes, client: Client, motDePasse: string): Comptes;
+export function validerProfil(profil: Profil): ErreursProfil;
+export function modifierProfil(comptes: Comptes, courrielActuel: string, profil: Profil):
+  { comptes: Comptes; client: Client } | { erreurs: ErreursProfil };
+export function changerMotDePasse(comptes: Comptes, courriel: string, actuel: string, nouveau: string):
+  { comptes: Comptes } | { erreurs: ErreursMotDePasse };
+```
+- **`cleCourriel`** : `courriel.trim().toLowerCase()`.
+- **`comptesInitiaux`** : `{ [COURRIEL_DEMO]: { client: CLIENT_DEMO, motDePasse: MOT_DE_PASSE_DEMO } }`.
+- **`lireComptes`** : part de `comptesInitiaux()`. Si `texte` n'est pas `null`, dans un
+  `try` : `JSON.parse(texte)` ; si le résultat est un objet non nul qui n'est pas un
+  tableau, pour chaque `[cle, valeur]` de `Object.entries(resultat as Record<string, unknown>)`,
+  si `estCompte(valeur)`, ajoute `{ client: valeur.client, motDePasse: valeur.motDePasse }`
+  sous `cle` (un compte lu remplace donc le compte de démonstration de même clé). En
+  cas d'erreur, renvoie `comptesInitiaux()`. Garde de type locale, non exportée,
+  recopiée telle quelle :
+  ```ts
+  function estCompte(x: unknown): x is CompteLocal {
+    return (
+      typeof x === 'object' && x !== null &&
+      'motDePasse' in x && typeof x.motDePasse === 'string' &&
+      'client' in x && typeof x.client === 'object' && x.client !== null &&
+      'prenom' in x.client && typeof x.client.prenom === 'string' &&
+      'nom' in x.client && typeof x.client.nom === 'string' &&
+      'courriel' in x.client && typeof x.client.courriel === 'string' &&
+      'membreDepuis' in x.client && typeof x.client.membreDepuis === 'string' &&
+      'adresses' in x.client && Array.isArray(x.client.adresses)
+    );
+  }
+  ```
+- **`ecrireComptes`** : `JSON.stringify(comptes)`.
+- **`authentifier`** : `const compte = comptes[cleCourriel(courriel)];` → renvoie
+  `compte.client` si `compte` existe et `compte.motDePasse === motDePasse`, sinon `null`.
+- **`enregistrer`** : `{ ...comptes, [cleCourriel(client.courriel)]: { client, motDePasse } }`.
+- **`validerProfil`** : objet vide, puis, dans cet ordre et seulement si fautif :
+  `prenom` vide après `.trim()` → `'Indiquez votre prénom.'` ; `nom` vide après
+  `.trim()` → `'Indiquez votre nom.'` ; `!courrielValide(courriel)` →
+  `'Indiquez un courriel valide.'`.
+- **`modifierProfil`** :
+  1. `const erreurs = validerProfil(profil);` — s'il y en a, renvoie `{ erreurs }` ;
+  2. `const ancienne = cleCourriel(courrielActuel); const compte = comptes[ancienne];` —
+     s'il n'existe pas, renvoie `{ erreurs: { courriel: 'Compte introuvable.' } }` ;
+  3. `const nouvelle = cleCourriel(profil.courriel);` — si `nouvelle !== ancienne` et
+     `comptes[nouvelle]` existe, renvoie `{ erreurs: { courriel: 'Ce courriel est déjà utilisé.' } }` ;
+  4. `const client: Client = { ...compte.client, prenom: profil.prenom.trim(), nom: profil.nom.trim(), courriel: nouvelle };`
+     puis `const suivants: Comptes = { ...comptes }; delete suivants[ancienne];
+     suivants[nouvelle] = { client, motDePasse: compte.motDePasse };` et renvoie
+     `{ comptes: suivants, client }`.
+- **`changerMotDePasse`** — recopie exactement ce code : la garde finale nomme `compte`,
+  sans quoi TypeScript ne sait pas qu'il existe sur la dernière ligne.
+  ```ts
+  export function changerMotDePasse(comptes: Comptes, courriel: string, actuel: string, nouveau: string):
+    { comptes: Comptes } | { erreurs: ErreursMotDePasse } {
+    const cle = cleCourriel(courriel);
+    const compte = comptes[cle];
+    const erreurs: ErreursMotDePasse = {};
+    if (!compte || compte.motDePasse !== actuel) erreurs.actuel = 'Mot de passe actuel incorrect.';
+    if (nouveau.length < 8 || !/\d/.test(nouveau)) erreurs.nouveau = 'Au moins 8 caractères, dont un chiffre.';
+    if (!compte || Object.keys(erreurs).length > 0) return { erreurs };
+    return { comptes: { ...comptes, [cle]: { client: compte.client, motDePasse: nouveau } } };
+  }
+  ```
+
+## Critère de fin
+`npm run typecheck`, `npm test` et `npm run build` passent.
+__VICTO_FIN_0__
+grep -q "if (!compte || Object.keys(erreurs).length > 0) return { erreurs };" "$SPEC" || annuler "la spec corrigée n'a pas été écrite"
+ok "spec 103a : code exact de changerMotDePasse imposé (garde qui nomme compte)"
+
+CTL="$(mktemp -d)"; mkdir -p "$CTL/tests"; cp "$SPEC" "$CTL/"; cp tickets/tests/comptes-locaux.test.ts "$CTL/tests/"
+python3 outils/controle-lot.py "$CTL" src/styles/tokens.css || annuler "le contrôle a levé une alerte"
+rm -rf "$CTL"
+
+: > tickets/manifest-rattrapage-103.tsv
+for id in 103a 103b 103c; do grep -P "^$id\t" tickets/manifest-103.tsv >> tickets/manifest-rattrapage-103.tsv; done
+[ "$(wc -l < tickets/manifest-rattrapage-103.tsv)" = 3 ] || annuler "manifeste de relance incomplet"
+ok "manifeste de relance : 103a → 103b → 103c"
+
+npm run --silent typecheck >/tmp/victo-tsc.log 2>&1 || { grep -E "error TS" /tmp/victo-tsc.log | head; annuler "tsc rouge sur main"; }
+npm run --silent test >/tmp/victo-test.log 2>&1 || { grep -E "FAIL|×|→" /tmp/victo-test.log | head; annuler "tests rouges sur main"; }
+git add -A -- tickets
+git diff --cached --quiet && ok "rien de nouveau à commiter" || {
+  git commit -q -m "fix(tickets): 103a — code exact de changerMotDePasse ; relance 103a à 103c"; ok "commit $(git rev-parse --short HEAD), base verte"; }
+trap - ERR
+
+# La branche calée ne compile pas : elle ne sert plus, le harnais repartira d'une branche neuve.
+if git rev-parse -q --verify auto/103a >/dev/null; then git branch -q -D auto/103a; ok "branche locale auto/103a supprimée"; fi
+GIT_TERMINAL_PROMPT=0 git push -q origin --delete auto/103a 2>/dev/null && ok "branche distante auto/103a supprimée" || true
+[ -z "$(git status --porcelain)" ] || mort "arbre sale en fin de script : $(git status --porcelain | head -3)"
+if GIT_TERMINAL_PROMPT=0 git push -q origin main 2>/tmp/victo-push.log; then ok "poussé sur GitHub"
+else info "push refusé (voir /tmp/victo-push.log) : le harnais poussera au premier vert"; fi
+
+printf '\nPrêt :\n\n    MANIFEST=tickets/manifest-rattrapage-103.tsv ./run.sh\n\nTrois tickets enchaînés. Compte environ une heure.\n'
