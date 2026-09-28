@@ -1,0 +1,5 @@
+103a	src/lib/comptes-locaux.ts	tests/comptes-locaux.test.ts	tickets/103a-comptes-locaux.md	src/lib/compte.ts		
+103b	src/components/compte/SessionProvider.tsx	tests/session-comptes.test.tsx	tickets/103b-session-comptes.md	src/lib/comptes-locaux.ts,src/lib/compte.ts	103a	neuf
+103c	src/app/compte/informations/page.tsx	tests/page-informations.test.tsx	tickets/103c-page-informations.md	src/components/compte/compte-affichage.ts,src/components/compte/EspaceClient.tsx,src/components/compte/SessionProvider.tsx,src/lib/comptes-locaux.ts	103b	
+103d	src/components/compte/CarteCommande.tsx	tests/carte-commande-lien.test.tsx	tickets/103d-carte-commande-lien.md			
+103e	src/app/compte/commandes/[numero]/page.tsx	tests/page-detail-commande.test.tsx	tickets/103e-page-detail-commande.md	src/components/compte/compte-affichage.ts,src/components/compte/EspaceClient.tsx,src/components/compte/SessionProvider.tsx,src/lib/compte.ts,src/lib/panier-detail.ts		
