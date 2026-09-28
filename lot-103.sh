@@ -23,7 +23,16 @@ ok "main à jour ($(git rev-parse --short HEAD))"
 
 # ------------------------------------------------------------ ce que les specs supposent
 fusionne(){ git log main -1 --format=%h --fixed-strings --grep="feat($1): fusionné" | grep -q .; }
-for d in 102a 102b 102c 102d 102e 102f 102g 102h 102i 102j 102k 102l 102m; do fusionne "$d" || mort "$d n'est pas fusionné"; done
+# Seulement ce que les specs du lot 103 utilisent : données, affichage, session, menu, espace protégé, carte.
+for d in 102a 102b 102c 102e 102f 102g; do fusionne "$d" || mort "$d n'est pas fusionné : le lot 103 s'appuie dessus"; done
+for d in 102l 102m; do
+  fusionne "$d" && continue
+  if [ -f tickets/manifest-rattrapage-102.tsv ] && grep -qP "^$d\t" tickets/manifest-rattrapage-102.tsv; then
+    info "$d n'est pas fusionné (sans effet sur le lot 103) : à relancer avec MANIFEST=tickets/manifest-rattrapage-102.tsv ./run.sh"
+  else
+    info "$d n'est pas fusionné (sans effet sur le lot 103)"
+  fi
+done
 SP=src/components/compte/SessionProvider.tsx; CC=src/components/compte/CarteCommande.tsx
 grep -q "export const CLE_SESSION" "$SP" && grep -q "verifierConnexion" "$SP" || mort "$SP ne ressemble pas à la version du lot 102"
 grep -q "comptes-locaux" "$SP" && mort "$SP utilise déjà le registre : lot déjà passé ?"
@@ -35,7 +44,7 @@ grep -q "export function libelleArticles" src/lib/panier-detail.ts || mort "libe
 for j in noir blanc surface ligne gris accent promo; do grep -qE -- "--vs-$j\s*:" src/styles/tokens.css || mort "jeton --vs-$j absent"; done
 manque="$(node -e "const l=require('lucide-react');console.log(['ArrowLeft','Check','Truck'].filter(n=>!l[n]).join(' '))" 2>/dev/null || echo lucide-react)"
 [ -z "$manque" ] || mort "icônes lucide absentes de ta version : $manque"
-ok "lot 102 fusionné, session et carte de commande conformes, icônes présentes"
+ok "socle du compte fusionné, session et carte de commande conformes, icônes présentes"
 
 cat > tests/zz-prevol-env.test.ts <<'__ENV__'
 import { expect, it, vi } from 'vitest';
