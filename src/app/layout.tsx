@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { FavorisProvider } from '@/components/favoris/FavorisProvider';
 import { PanierProvider } from '@/components/panier/PanierProvider';
 import { SessionProvider } from '@/components/compte/SessionProvider';
 import './globals.css';
@@ -19,9 +20,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
-        <PanierProvider>
-          <SessionProvider>{children}</SessionProvider>
-        </PanierProvider>
+        <FavorisProvider>
+          <PanierProvider>
+            <SessionProvider>{children}</SessionProvider>
+          </PanierProvider>
+        </FavorisProvider>
       </body>
     </html>
   );
