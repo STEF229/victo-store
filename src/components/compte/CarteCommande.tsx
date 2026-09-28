@@ -2,6 +2,7 @@ import { CARTE, CLASSES_STATUT, LIBELLES_STATUT } from '@/components/compte/comp
 import { formaterDate, totauxCommande, type Commande } from '@/lib/compte';
 import { formatPrice } from '@/lib/formatPrice';
 import { libelleArticles } from '@/lib/panier-detail';
+import Link from 'next/link';
 
 export function CarteCommande({ commande }: { commande: Commande }) {
   const totaux = totauxCommande(commande);
@@ -26,6 +27,9 @@ export function CarteCommande({ commande }: { commande: Commande }) {
           </li>
         ))}
       </ul>
+      <Link href={`/compte/commandes/${commande.numero}`} className="self-start text-[15px] font-bold text-[var(--vs-noir)] underline">
+        Voir le détail
+      </Link>
     </article>
   );
 }
