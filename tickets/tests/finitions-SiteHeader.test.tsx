@@ -8,10 +8,15 @@ describe('SiteHeader — icônes lucide', () => {
   it.each([
     ['Ouvrir le menu', 'lucide-menu'],
     ['Rechercher', 'lucide-search'],
-    ['Mon compte', 'lucide-user'],
   ])('le bouton « %s » porte l’icône %s', (nom, classe) => {
     render(<SiteHeader navItems={NAV} />);
     expect(screen.getByRole('button', { name: nom }).querySelector(`svg.${classe}`)).not.toBeNull();
+  });
+
+  // « Mon compte » est cherché par son étiquette : bouton avant le 102m, lien vers /compte après.
+  it('« Mon compte » porte l’icône lucide-user', () => {
+    render(<SiteHeader navItems={NAV} />);
+    expect(screen.getByLabelText('Mon compte').querySelector('svg.lucide-user')).not.toBeNull();
   });
 
   it('le panier porte un sac', () => {
