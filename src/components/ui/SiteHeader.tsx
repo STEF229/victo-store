@@ -3,6 +3,7 @@
 import { Menu, Search, ShoppingBag, User } from 'lucide-react';
 import { usePanier } from '@/components/panier/PanierProvider';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export interface NavItem {
   label: string;
@@ -16,6 +17,13 @@ interface SiteHeaderProps {
   className?: string;
 }
 
+function classeLien(promo: boolean | undefined, actif: boolean): string | undefined {
+  if (promo && actif) return 'text-[#FF5A74] font-extrabold underline decoration-2 underline-offset-[10px]';
+  if (promo) return 'text-[#FF5A74]';
+  if (actif) return 'font-extrabold underline decoration-2 underline-offset-[10px]';
+  return undefined;
+}
+
 export function SiteHeader({ 
   navItems, 
   cartCount, 
@@ -23,6 +31,7 @@ export function SiteHeader({
 }: SiteHeaderProps) {
   const { nombre } = usePanier();
   const compte = cartCount ?? nombre;
+  const chemin: string | null = usePathname();
 
   const libellePanier = compte <= 1 
     ? `Panier, ${compte} article` 
@@ -60,15 +69,14 @@ export function SiteHeader({
             aria-label="Navigation principale" 
             className="hidden justify-self-center gap-8 text-[15px] font-semibold lg:flex"
           >
-            {navItems.map((item) => (
-              <a 
-                key={item.href} 
-                href={item.href} 
-                className={item.promo ? 'text-[#FF5A74]' : undefined}
-              >
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item) => {
+              const actif = chemin !== null && (chemin === item.href || chemin.startsWith(`${item.href}/`));
+              return (
+                <a key={item.href} href={item.href} aria-current={actif ? 'page' : undefined} className={classeLien(item.promo, actif)}>
+                  {item.label}
+                </a>
+              );
+            })}
           </nav>
 
           <div className="flex items-center justify-self-end gap-2">
