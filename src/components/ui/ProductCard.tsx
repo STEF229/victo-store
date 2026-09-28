@@ -21,7 +21,7 @@ export function ProductCard({ produit, className = '' }: ProductCardProps) {
       data-produit-id={produit.id}
       className={`rounded-lg overflow-hidden bg-[var(--vs-surface)] ${className}`}
     >
-      <div>
+      <div className="relative">
         <a href={hrefProduit(produit)}>
           <div data-testid="carte-visuel" className="relative overflow-hidden rounded-[20px] bg-[var(--vs-surface)]">
             <img 
