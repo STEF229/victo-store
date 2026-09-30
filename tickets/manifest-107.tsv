@@ -1,0 +1,4 @@
+107a	src/lib/recherche.ts	tests/recherche.test.ts	tickets/107a-recherche.md			
+107b	src/app/recherche/page.tsx	tests/page-recherche.test.tsx	tickets/107b-page-recherche.md	src/lib/recherche.ts,src/components/catalogue/VueCatalogue.tsx,src/components/produit/FilAriane.tsx	107a	
+107c	src/components/recherche/ChampRecherche.tsx	tests/ChampRecherche.test.tsx	tickets/107c-champ-recherche.md	src/lib/recherche.ts,src/lib/catalogue.ts	107a	
+107d	src/components/ui/SiteHeader.tsx	tests/entete-recherche.test.tsx	tickets/107d-entete-recherche.md	src/components/recherche/ChampRecherche.tsx	107c	
