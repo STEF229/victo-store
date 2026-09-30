@@ -4,6 +4,7 @@ import { Menu, Search, ShoppingBag, User } from 'lucide-react';
 import { usePanier } from '@/components/panier/PanierProvider';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ChampRecherche } from '@/components/recherche/ChampRecherche';
 
 export interface NavItem {
   label: string;
@@ -80,12 +81,9 @@ export function SiteHeader({
           </nav>
 
           <div className="flex items-center justify-self-end gap-2">
-            <label 
-              htmlFor="recherche-entete" 
-              className="sr-only"
-            >
-              Rechercher un produit
-            </label>
+            <div className="hidden lg:block">
+              <ChampRecherche />
+            </div>
             <button 
               type="button" 
               aria-label="Rechercher" 
@@ -93,14 +91,6 @@ export function SiteHeader({
             >
               <Search aria-hidden size={17} />
             </button>
-            <div className="hidden h-11 w-[250px] items-center gap-2 rounded-full border border-[#2A2A30] bg-[#1E1E26] px-4 lg:flex">
-              <input
-                id="recherche-entete"
-                type="search"
-                placeholder="Rechercher"
-                className="h-10 min-w-0 flex-1 border-none bg-transparent text-sm text-[var(--vs-blanc)] outline-none"
-              />
-            </div>
             <Link 
               href="/compte" 
               aria-label="Mon compte" 
