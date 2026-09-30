@@ -42,7 +42,7 @@ export default async function PageRecherche({ searchParams }: { searchParams: Pr
           <p className="text-[13px] font-extrabold uppercase tracking-[0.14em] text-[var(--vs-gris)]">Nos marques</p>
           <div className="flex max-w-[760px] flex-wrap justify-center gap-2.5">
             {listerMarques().map((m) => (
-              <Link key={m.slug} href={`/recherche?q=${encodeURIComponent(m.nom)}}
+              <Link key={m.slug} href={`/recherche?q=${encodeURIComponent(m.nom)}`} 
                 className="rounded-full bg-[var(--vs-blanc)] px-4 py-2 text-[15px] font-semibold text-[var(--vs-noir)]">
                 {m.nom}
               </Link>
