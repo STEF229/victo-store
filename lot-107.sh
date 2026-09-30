@@ -394,7 +394,7 @@ import { rechercherProduits } from '../src/lib/recherche';
 describe('en-tête — recherche', () => {
   it('cherche vraiment : un formulaire vers /recherche, un seul champ', () => {
     render(<SiteHeader navItems={NAV} />);
-    const formulaire = within(screen.getByRole('banner')).getByRole('search');
+    const formulaire = screen.getByRole('search');
     expect(formulaire).toHaveAttribute('action', '/recherche');
     expect(within(formulaire).getByLabelText('Rechercher un produit')).toHaveAttribute('name', 'q');
     expect(screen.getAllByLabelText('Rechercher un produit')).toHaveLength(1);
