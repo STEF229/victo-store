@@ -1,0 +1,8 @@
+106a	src/components/aide/GabaritAide.tsx	tests/GabaritAide.test.tsx	tickets/106a-gabarit-aide.md	src/components/compte/compte-affichage.ts,src/components/produit/FilAriane.tsx,src/lib/navigation.ts		
+106b	src/components/aide/blocs-aide.tsx	tests/blocs-aide.test.tsx	tickets/106b-blocs-aide.md			
+106c	src/app/livraison/page.tsx	tests/page-livraison.test.tsx	tickets/106c-page-livraison.md	src/components/aide/GabaritAide.tsx,src/components/aide/blocs-aide.tsx	106a,106b	
+106d	src/app/retours/page.tsx	tests/page-retours.test.tsx	tickets/106d-page-retours.md	src/components/aide/GabaritAide.tsx,src/components/aide/blocs-aide.tsx	106a,106b	
+106e	src/components/aide/FormulaireContact.tsx	tests/FormulaireContact.test.tsx	tickets/106e-formulaire-contact.md	src/components/compte/compte-affichage.ts,src/lib/compte.ts		
+106f	src/app/contact/page.tsx	tests/page-contact.test.tsx	tickets/106f-page-contact.md	src/components/aide/GabaritAide.tsx,src/components/aide/blocs-aide.tsx,src/components/aide/FormulaireContact.tsx	106a,106b,106e	
+106g	src/app/conditions-de-vente/page.tsx	tests/page-conditions.test.tsx	tickets/106g-page-conditions.md	src/components/aide/GabaritAide.tsx,src/components/aide/blocs-aide.tsx	106a,106b	
+106h	src/app/confidentialite/page.tsx	tests/page-confidentialite.test.tsx	tickets/106h-page-confidentialite.md	src/components/aide/GabaritAide.tsx,src/components/aide/blocs-aide.tsx	106a,106b	
