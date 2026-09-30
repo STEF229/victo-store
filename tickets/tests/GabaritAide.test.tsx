@@ -15,7 +15,8 @@ describe('GabaritAide', () => {
 
   it('assemble en-tête, fil, menu marqué, titre, contenu, date et pied', () => {
     render(<GabaritAide actif="retours" titre="Retours et échanges" intro="Pas la bonne pointure ?" miseAJour="27 septembre 2026"><p>contenu</p></GabaritAide>);
-    expect(screen.getByRole('banner')).toBeInTheDocument();
+    // L'en-tête du site se repère par sa navigation : le <header> du titre, dans l'article, compte aussi comme « banner ».
+    expect(screen.getByRole('navigation', { name: 'Navigation principale' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: 'Retours et échanges' })).toBeInTheDocument();
     expect(screen.getByText('Pas la bonne pointure ?')).toBeInTheDocument();
     const menu = screen.getByRole('navigation', { name: 'Aide' });

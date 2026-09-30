@@ -1,3 +1,4 @@
+import re
 #!/usr/bin/env python3
 """Usage : python3 outils/controle-lot.py <dossier_de_tickets> [src/styles/tokens.css]
 
@@ -27,6 +28,9 @@ for f, s in tests.items():
         # piège : className lu dans un test — sur un SVG ce n'est pas une chaîne (ticket 095c)
         if '.className' in l:
             alerte(f, 'className', f"ligne {n} : lire getAttribute('class'), className d'un SVG n'est pas une chaîne")
+        # piège : getByRole('banner') — un <header> dans un article compte aussi comme « banner » (lot 106a)
+        if re.search(r"getByRole\(\s*['\"]banner['\"]\s*\)", l):
+            alerte(f, 'banner', f"ligne {n} : getByRole('banner') peut trouver plusieurs en-têtes ; chercher la navigation nommée « Navigation principale »")
         # piège : prix cherché par texte — formatPrice met une espace insécable que
         # getByText normalise dans la page mais pas dans le motif (ticket 100c)
         if 'ByText(' in l and 'formatPrice' in l:
