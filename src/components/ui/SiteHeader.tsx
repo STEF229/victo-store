@@ -1,9 +1,10 @@
 'use client';
 
-import { Menu, Search, ShoppingBag, User } from 'lucide-react';
+import { Search, ShoppingBag, User } from 'lucide-react';
 import { usePanier } from '@/components/panier/PanierProvider';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { MenuMobile } from '@/components/navigation/MenuMobile';
+import { NavigationPrincipale } from '@/components/navigation/NavigationPrincipale';
 import { ChampRecherche } from '@/components/recherche/ChampRecherche';
 
 export interface NavItem {
@@ -18,13 +19,6 @@ interface SiteHeaderProps {
   className?: string;
 }
 
-function classeLien(promo: boolean | undefined, actif: boolean): string | undefined {
-  if (promo && actif) return 'text-[#FF5A74] font-extrabold underline decoration-2 underline-offset-[10px]';
-  if (promo) return 'text-[#FF5A74]';
-  if (actif) return 'font-extrabold underline decoration-2 underline-offset-[10px]';
-  return undefined;
-}
-
 export function SiteHeader({ 
   navItems, 
   cartCount, 
@@ -32,7 +26,6 @@ export function SiteHeader({
 }: SiteHeaderProps) {
   const { nombre } = usePanier();
   const compte = cartCount ?? nombre;
-  const chemin: string | null = usePathname();
 
   const libellePanier = compte <= 1 
     ? `Panier, ${compte} article` 
@@ -50,13 +43,7 @@ export function SiteHeader({
           className="grid h-20 grid-cols-[auto_1fr_auto] items-center gap-6 px-5 lg:px-12"
         >
           <div className="flex items-center gap-2">
-            <button 
-              type="button" 
-              aria-label="Ouvrir le menu" 
-              className="flex h-11 w-11 items-center justify-center lg:hidden"
-            >
-              <Menu aria-hidden size={22} />
-            </button>
+            <MenuMobile navItems={navItems} />
             <a 
               href="/" 
               data-testid="entete-marque" 
@@ -66,19 +53,7 @@ export function SiteHeader({
             </a>
           </div>
 
-          <nav 
-            aria-label="Navigation principale" 
-            className="hidden justify-self-center gap-8 text-[15px] font-semibold lg:flex"
-          >
-            {navItems.map((item) => {
-              const actif = chemin !== null && (chemin === item.href || chemin.startsWith(`${item.href}/`));
-              return (
-                <a key={item.href} href={item.href} aria-current={actif ? 'page' : undefined} className={classeLien(item.promo, actif)}>
-                  {item.label}
-                </a>
-              );
-            })}
-          </nav>
+          <NavigationPrincipale navItems={navItems} />
 
           <div className="flex items-center justify-self-end gap-2">
             <div className="hidden lg:block">
