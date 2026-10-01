@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import { FiltresBarre } from '@/components/catalogue/FiltresBarre';
 import { GrilleProduits } from '@/components/catalogue/GrilleProduits';
 import { Pagination } from '@/components/catalogue/Pagination';
@@ -15,9 +16,10 @@ interface VueCatalogueProps {
   titre: string;
   description?: string;
   produits: Produit[];
+  entete?: ReactNode | undefined;
 }
 
-export function VueCatalogue({ titre, description, produits }: VueCatalogueProps) {
+export function VueCatalogue({ titre, description, produits, entete }: VueCatalogueProps) {
   const [criteres, setCriteres] = useState<Criteres>({});
   const [tri, setTri] = useState<Tri>('nouveautes');
   const [page, setPage] = useState(1);
@@ -59,6 +61,11 @@ export function VueCatalogue({ titre, description, produits }: VueCatalogueProps
           </div>
           <p data-testid="compteur" className="whitespace-nowrap text-[15px] text-[var(--vs-gris)]">{libelle}</p>
         </div>
+        {entete && (
+          <div className="mt-8">
+            {entete}
+          </div>
+        )}
         <div className="mt-8">
           <FiltresBarre
             marques={marques}
