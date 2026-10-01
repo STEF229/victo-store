@@ -1,0 +1,13 @@
+108a	src/lib/arbre-categories.ts	tests/arbre-categories.test.ts	tickets/108a-arbre-categories.md	src/lib/catalogue.ts		
+108b	src/components/catalogue/SousCategories.tsx	tests/SousCategories.test.tsx	tickets/108b-sous-categories.md	src/lib/arbre-categories.ts,src/components/catalogue/filtres-affichage.ts	108a	
+108c	src/components/catalogue/VueCatalogue.tsx	tests/vue-catalogue-entete.test.tsx	tickets/108c-vue-catalogue-entete.md		108a	
+108d	src/app/femme/page.tsx	tests/page-femme-sous-categories.test.tsx	tickets/108d-page-femme.md	src/components/catalogue/SousCategories.tsx,src/lib/arbre-categories.ts	108b,108c	
+108e	src/app/homme/page.tsx	tests/page-homme-sous-categories.test.tsx	tickets/108e-page-homme.md	src/components/catalogue/SousCategories.tsx,src/lib/arbre-categories.ts	108b,108c	
+108f	src/app/chaussures/page.tsx	tests/page-chaussures-sous-categories.test.tsx	tickets/108f-page-chaussures.md	src/components/catalogue/SousCategories.tsx,src/lib/arbre-categories.ts	108b,108c	
+108g	src/components/catalogue/PageSousCategorie.tsx	tests/PageSousCategorie.test.tsx	tickets/108g-page-sous-categorie.md	src/lib/arbre-categories.ts,src/components/catalogue/SousCategories.tsx,src/components/produit/FilAriane.tsx	108a,108b,108c	
+108h	src/app/femme/[...chemin]/page.tsx	tests/route-femme-sous-categorie.test.tsx	tickets/108h-route-femme.md	src/components/catalogue/PageSousCategorie.tsx	108g	
+108i	src/app/homme/[...chemin]/page.tsx	tests/route-homme-sous-categorie.test.tsx	tickets/108i-route-homme.md	src/components/catalogue/PageSousCategorie.tsx	108g	
+108j	src/app/chaussures/[...chemin]/page.tsx	tests/route-chaussures-sous-categorie.test.tsx	tickets/108j-route-chaussures.md	src/components/catalogue/PageSousCategorie.tsx	108g	
+108k	src/components/navigation/NavigationPrincipale.tsx	tests/NavigationPrincipale.test.tsx	tickets/108k-navigation-principale.md	src/lib/arbre-categories.ts	108a	
+108l	src/components/navigation/MenuMobile.tsx	tests/MenuMobile.test.tsx	tickets/108l-menu-mobile.md	src/lib/arbre-categories.ts	108a	
+108m	src/components/ui/SiteHeader.tsx	tests/entete-navigation.test.tsx	tickets/108m-entete-navigation.md	src/components/navigation/NavigationPrincipale.tsx,src/components/navigation/MenuMobile.tsx	108k,108l	
