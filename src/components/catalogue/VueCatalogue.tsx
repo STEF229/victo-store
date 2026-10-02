@@ -52,7 +52,7 @@ export function VueCatalogue({ titre, description, produits, entete }: VueCatalo
     <>
       <SiteHeader navItems={NAV} />
       <main className="mx-auto max-w-[1440px] px-5 py-12 lg:px-12">
-        <div className="flex items-end justify-between gap-8">
+        <div className="flex items-end justify-between gap-8 max-sm:flex-col max-sm:items-start max-sm:gap-3">
           <div>
             <h1 data-testid="liste-titre" className="text-5xl font-black tracking-tight lg:text-6xl">{titre}</h1>
             {description && (
