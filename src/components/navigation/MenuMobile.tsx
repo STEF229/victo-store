@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeft, ChevronRight, Menu, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Menu, X, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import type { NavItem } from '@/components/ui/SiteHeader';
@@ -21,6 +21,14 @@ export function MenuMobile({ navItems }: { navItems: NavItem[] }) {
 
   const niveau1 = (
     <>
+      <form role="search" action="/recherche" method="get" className="my-3">
+        <label htmlFor="recherche-mobile" className="sr-only">Rechercher dans la boutique</label>
+        <div className="flex h-12 items-center gap-2.5 rounded-full bg-[var(--vs-surface)] px-4">
+          <Search aria-hidden size={17} className="shrink-0 text-[var(--vs-gris)]" />
+          <input id="recherche-mobile" name="q" type="search" placeholder="Rechercher" autoComplete="off"
+            className="h-10 min-w-0 flex-1 border-none bg-transparent text-base text-[var(--vs-noir)] outline-none" />
+        </div>
+      </form>
       {navItems.map((item) => {
         const segment = item.href.replace(/^\//, '');
         if (estRubrique(segment)) {
