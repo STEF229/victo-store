@@ -13,7 +13,7 @@ export function VuePanier() {
   
   if (!panier.pret) {
     return (
-      <div data-testid="panier-chargement" aria-busy="true" className="min-h-[320px]" />
+      <div data-testid="panier-chargement" aria-busy="true" className="min-h-[320px] max-sm:min-h-[96px]" />
     );
   }
   
