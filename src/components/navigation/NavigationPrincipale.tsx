@@ -30,7 +30,7 @@ function Tete({ titre, href, texte }: { titre: string; href: string; texte: stri
   return (
     <div className="col-span-full flex items-baseline justify-between border-b border-[var(--vs-ligne)] pb-4">
       <p className="text-2xl font-black">{titre}</p>
-      <Link href={href} className="flex items-center gap-1.5 text-[15px] font-extrabold">
+      <Link href={href} className="flex items-center gap-1.5 text-[15px] font-extrabold transition-colors hover:text-[var(--vs-accent)]">
         {texte}
         <ChevronRight aria-hidden size={16} />
       </Link>
@@ -44,7 +44,7 @@ function PanneauMega({ panneau }: { panneau: Panneau }) {
       <div role="region" aria-label="Sous-catégories de Marques" className={`${CADRE} grid-cols-5`}>
         <Tete titre="Marques" href="/marques" texte="Toutes les marques" />
         {listerMarques().map((m) => (
-          <Link key={m.slug} href={hrefMarque(m)} className="flex h-[110px] items-center justify-center rounded-[18px] bg-[var(--vs-surface)] text-lg font-black tracking-wide">
+          <Link key={m.slug} href={hrefMarque(m)} className="flex h-[110px] items-center justify-center rounded-[18px] bg-[var(--vs-surface)] text-lg font-black tracking-wide transition-colors hover:text-[var(--vs-accent)]">
             {m.nom}
           </Link>
         ))}
@@ -59,7 +59,7 @@ function PanneauMega({ panneau }: { panneau: Panneau }) {
       <div role="region" aria-label="Sous-catégories de Chaussures" className={`${CADRE} grid-cols-5`}>
         {tete}
         {racine.enfants.map((e) => (
-          <Link key={e.slug} href={hrefDe(panneau, [e.slug])} className="flex flex-col gap-2.5">
+          <Link key={e.slug} href={hrefDe(panneau, [e.slug])} className="flex flex-col gap-2.5 transition-colors hover:text-[var(--vs-accent)]">
             <span aria-hidden="true" className="h-[150px] rounded-[20px] bg-[var(--vs-surface)]" />
             <span className="text-base font-extrabold">{e.libelle}</span>
           </Link>
@@ -72,11 +72,11 @@ function PanneauMega({ panneau }: { panneau: Panneau }) {
       {tete}
       {racine.enfants.map((sc) => (
         <div key={sc.slug} className="flex flex-col">
-          <Link href={hrefDe(panneau, [sc.slug])} className="mb-1.5 text-base font-black">{sc.libelle}</Link>
+          <Link href={hrefDe(panneau, [sc.slug])} className="mb-1.5 text-base font-black transition-colors hover:text-[var(--vs-accent)]">{sc.libelle}</Link>
           {sc.enfants.map((f) => (
-            <Link key={f.slug} href={hrefDe(panneau, [sc.slug, f.slug])} className="py-1.5 text-[15px] font-medium">{f.libelle}</Link>
+            <Link key={f.slug} href={hrefDe(panneau, [sc.slug, f.slug])} className="py-1.5 text-[15px] font-medium transition-colors hover:text-[var(--vs-accent)]">{f.libelle}</Link>
           ))}
-          <Link href={hrefDe(panneau, [sc.slug])} className="mt-1.5 text-sm font-bold text-[var(--vs-gris)] underline">{`Tout ${sc.libelle.toLowerCase()}`}</Link>
+          <Link href={hrefDe(panneau, [sc.slug])} className="mt-1.5 text-sm font-bold text-[var(--vs-gris)] underline transition-colors hover:text-[var(--vs-accent)]">{`Tout ${sc.libelle.toLowerCase()}`}</Link>
         </div>
       ))}
     </div>
