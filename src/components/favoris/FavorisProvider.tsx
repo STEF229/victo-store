@@ -8,6 +8,7 @@ export interface ContexteFavoris {
   pret: boolean;
   estFavori: (slug: string) => boolean;
   basculer: (slug: string) => void;
+  present: boolean;
 }
 
 const contexteParDefaut: ContexteFavoris = {
@@ -15,6 +16,7 @@ const contexteParDefaut: ContexteFavoris = {
   pret: true,
   estFavori: () => false,
   basculer: () => {},
+  present: false,
 };
 
 const FavorisContext = createContext<ContexteFavoris>(contexteParDefaut);
@@ -60,7 +62,7 @@ export function FavorisProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <FavorisContext.Provider value={{ favoris, pret, estFavori, basculer }}>
+    <FavorisContext.Provider value={{ favoris, pret, estFavori, basculer, present: true }}>
       {children}
     </FavorisContext.Provider>
   );
