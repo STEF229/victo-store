@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Price } from '@/components/ui/Price';
 import { estEnPromotion, hrefProduit, remisePourcent, type Produit } from '@/lib/catalogue';
 import { Heart } from 'lucide-react';
+import { useFavoris } from '@/components/favoris/FavorisProvider';
 
 interface ProductCardProps {
   produit: Produit;
@@ -12,7 +13,10 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ produit, className = '' }: ProductCardProps) {
-  const [favori, setFavori] = useState(false);
+  const favoris = useFavoris();
+  const [favoriLocal, setFavoriLocal] = useState(false);
+  const favori = favoris.present ? favoris.estFavori(produit.slug) : favoriLocal;
+  const basculerFavori = () => (favoris.present ? favoris.basculer(produit.slug) : setFavoriLocal(!favoriLocal));
   
   return (
     <article 
@@ -73,7 +77,7 @@ export function ProductCard({ produit, className = '' }: ProductCardProps) {
           type="button" 
           aria-label="Ajouter aux favoris" 
           aria-pressed={favori}
-          onClick={() => setFavori(!favori)}
+          onClick={basculerFavori}
           className="absolute top-2 right-2 bg-white rounded-full w-11 h-11 flex items-center justify-center ml-4"
         >
           <Heart aria-hidden size={18} fill={favori ? 'currentColor' : 'none'} />
