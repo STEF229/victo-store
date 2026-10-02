@@ -1,0 +1,8 @@
+109a	src/app/layout.tsx	tests/layout-debordement.test.ts	tickets/109a-layout-debordement.md			
+109b	src/components/ui/SiteFooter.tsx	tests/pied-filigrane.test.tsx	tickets/109b-pied-filigrane.md			
+109c	src/components/catalogue/VueCatalogue.tsx	tests/liste-titre-mobile.test.tsx	tickets/109c-liste-titre-mobile.md			
+109d	src/components/panier/VuePanier.tsx	tests/panier-chargement-mobile.test.ts	tickets/109d-panier-chargement.md			
+109e	src/components/navigation/NavigationPrincipale.tsx	tests/survol-mega-menu.test.tsx	tickets/109e-survol-mega-menu.md			
+109f	src/components/navigation/MenuMobile.tsx	tests/recherche-menu-mobile.test.tsx	tickets/109f-recherche-menu-mobile.md			
+109g	src/components/favoris/FavorisProvider.tsx	tests/favoris-presence.test.tsx	tickets/109g-favoris-presence.md			
+109h	src/components/ui/ProductCard.tsx	tests/carte-favoris.test.tsx	tickets/109h-carte-favoris.md	src/components/favoris/FavorisProvider.tsx	109g	
