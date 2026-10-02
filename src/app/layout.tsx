@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning className="overflow-x-clip">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body>
+      <body className="overflow-x-clip" suppressHydrationWarning>
         <FavorisProvider>
           <PanierProvider>
             <SessionProvider>{children}</SessionProvider>
