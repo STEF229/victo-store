@@ -17,9 +17,10 @@ interface VueCatalogueProps {
   description?: string;
   produits: Produit[];
   entete?: ReactNode | undefined;
+  filAriane?: ReactNode | undefined;
 }
 
-export function VueCatalogue({ titre, description, produits, entete }: VueCatalogueProps) {
+export function VueCatalogue({ titre, description, produits, entete, filAriane }: VueCatalogueProps) {
   const [criteres, setCriteres] = useState<Criteres>({});
   const [tri, setTri] = useState<Tri>('nouveautes');
   const [page, setPage] = useState(1);
@@ -51,7 +52,8 @@ export function VueCatalogue({ titre, description, produits, entete }: VueCatalo
   return (
     <>
       <SiteHeader navItems={NAV} />
-      <main className="mx-auto max-w-[1440px] px-5 py-12 lg:px-12">
+      <main className="mx-auto max-w-[1440px] px-5 py-12 lg:px-12 max-sm:pt-6">
+        {filAriane}
         <div className="flex items-end justify-between gap-8 max-sm:flex-col max-sm:items-start max-sm:gap-3">
           <div>
             <h1 data-testid="liste-titre" className="text-5xl font-black tracking-tight lg:text-6xl">{titre}</h1>
@@ -62,11 +64,11 @@ export function VueCatalogue({ titre, description, produits, entete }: VueCatalo
           <p data-testid="compteur" className="whitespace-nowrap text-[15px] text-[var(--vs-gris)]">{libelle}</p>
         </div>
         {entete && (
-          <div className="mt-8">
+          <div className="mt-8 max-sm:mt-5">
             {entete}
           </div>
         )}
-        <div className="mt-8">
+        <div className="mt-8 max-sm:mt-5">
           <FiltresBarre
             marques={marques}
             tailles={taillesCatalogue()}
