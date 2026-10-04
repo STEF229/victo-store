@@ -25,7 +25,7 @@ export function SectionBonnesAffaires({ produits }: SectionBonnesAffairesProps) 
       
       <ul 
         data-testid="rail" 
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 md:gap-5 md:overflow-visible mt-6 max-sm:gap-3"
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 md:gap-5 md:overflow-visible mt-6 max-sm:gap-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {produits.map((p) => (
           <li 
