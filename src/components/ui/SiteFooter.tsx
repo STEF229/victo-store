@@ -18,7 +18,7 @@ export function SiteFooter({ colonnes, annee = new Date().getFullYear(), classNa
       data-ui="site-footer"
       className={`bg-[var(--vs-noir)] text-[var(--vs-blanc)] ${className}`}
     >
-      <div className="max-w-[var(--vs-maxw)] mx-auto px-4">
+      <div className="max-w-[var(--vs-maxw)] mx-auto px-4 pt-12 pb-8 max-sm:px-5 sm:px-10 lg:px-20 lg:pt-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Brand and slogan section */}
           <div className="md:col-span-2">
@@ -62,16 +62,16 @@ export function SiteFooter({ colonnes, annee = new Date().getFullYear(), classNa
         <p 
           aria-hidden="true" 
           data-testid="pied-filigrane"
-          className="select-none text-[200px] font-black leading-none text-[#1E1E26]"
+          className="block max-w-full select-none overflow-hidden whitespace-nowrap text-[200px] font-black leading-none text-[#1E1E26] max-sm:hidden"
         >
           VICTO
         </p>
         
         {/* Mentions with border */}
-        <div className="mt-8 pt-8 border-t border-[#B5B5BA] flex flex-col md:flex-row justify-between items-center">
+        <div className="mt-8 pt-8 border-t border-[#B5B5BA] flex flex-col md:flex-row justify-between items-center max-sm:mt-10 max-sm:items-start">
           <p 
             data-testid="pied-slogan"
-            className="text-[var(--vs-blanc)] mb-4 md:mb-0"
+            className="text-[var(--vs-blanc)] mb-4 md:mb-0 max-sm:hidden"
           >
             Des grandes marques, au bon prix.
           </p>
