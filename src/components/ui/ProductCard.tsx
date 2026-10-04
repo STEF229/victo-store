@@ -23,7 +23,7 @@ export function ProductCard({ produit, className = '' }: ProductCardProps) {
       data-ui="product-card" 
       data-testid="carte-produit"
       data-produit-id={produit.id}
-      className={`rounded-lg overflow-hidden bg-[var(--vs-surface)] ${className}`}
+      className={`rounded-lg overflow-hidden bg-[var(--vs-surface)] h-full ${className}`}
     >
       <div className="relative">
         <a href={hrefProduit(produit)}>
