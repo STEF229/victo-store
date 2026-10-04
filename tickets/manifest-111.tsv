@@ -1,0 +1,6 @@
+111a	src/components/catalogue/VueCatalogue.tsx	tests/mobile-vue-catalogue.test.tsx	tickets/111a-vue-catalogue.md			
+111b	src/components/catalogue/PageSousCategorie.tsx	tests/mobile-page-sous-categorie.test.tsx	tickets/111b-page-sous-categorie.md		111a	
+111c	src/components/catalogue/SousCategories.tsx	tests/mobile-sous-categories.test.tsx	tickets/111c-sous-categories.md			
+111d	src/components/ui/ProductCard.tsx	tests/mobile-carte-hauteur.test.tsx	tickets/111d-carte.md			
+111e	src/components/accueil/SectionBonnesAffaires.tsx	tests/mobile-bonnes-affaires-defilement.test.tsx	tickets/111e-bonnes-affaires.md			
+111f	src/components/ui/SiteFooter.tsx	tests/mobile-pied-colonnes.test.tsx	tickets/111f-pied-colonnes.md			
