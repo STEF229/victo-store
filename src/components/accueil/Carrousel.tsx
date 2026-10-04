@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Diapo {
@@ -53,6 +53,7 @@ interface CarrouselProps {
 
 export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) {
   const [index, setIndex] = useState(0);
+  const debutGlisse = useRef<number | null>(null);
 
   useEffect(() => {
     if (!auto) return;
@@ -78,6 +79,16 @@ export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) 
       aria-label="À la une" 
       aria-roledescription="carrousel"
       className="relative overflow-hidden"
+      onTouchStart={(e) => { debutGlisse.current = e.touches[0]?.clientX ?? null; }}
+      onTouchEnd={(e) => {
+        const fin = e.changedTouches[0]?.clientX;
+        if (debutGlisse.current !== null && fin !== undefined) {
+          const ecart = fin - debutGlisse.current;
+          if (ecart < -40) allerSuivant();
+          else if (ecart > 40) allerPrecedent();
+        }
+        debutGlisse.current = null;
+      }}
     >
       {/* Piste */}
       <div 
@@ -93,21 +104,21 @@ export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) 
             aria-hidden={n !== index}
             inert={n !== index ? true : undefined}
           >
-            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 max-sm:gap-0 max-sm:px-5 max-sm:pb-14 max-sm:pt-7">
               <div>
                 <span className="text-sm font-bold tracking-wider uppercase">{diapo.surTitre}</span>
                 {n === 0 ? (
-                  <h1 className="text-5xl font-black tracking-tight lg:text-7xl">{diapo.titre}</h1>
+                  <h1 className="text-5xl font-black tracking-tight lg:text-7xl max-sm:mt-2 max-sm:text-[30px] max-sm:leading-[1.05]">{diapo.titre}</h1>
                 ) : (
-                  <h2 className="text-5xl font-black tracking-tight lg:text-7xl">{diapo.titre}</h2>
+                  <h2 className="text-5xl font-black tracking-tight lg:text-7xl max-sm:mt-2 max-sm:text-[30px] max-sm:leading-[1.05]">{diapo.titre}</h2>
                 )}
-                <p className="mt-4 text-lg">{diapo.texte}</p>
-                <div className="mt-8 flex flex-wrap gap-4">
+                <p className="mt-4 text-lg max-sm:hidden">{diapo.texte}</p>
+                <div className="mt-8 flex flex-wrap gap-4 max-sm:mt-5 max-sm:gap-3">
                   {diapo.actions.map((action, i) => (
                     <a
                       key={i}
                       href={action.href}
-                      className={`rounded-full h-14 px-6 flex items-center justify-center ${
+                      className={`rounded-full h-14 px-6 flex items-center justify-center font-bold max-sm:h-11 max-sm:px-5 max-sm:text-[15px] ${
                         action.principale 
                           ? 'bg-[var(--vs-blanc)] text-[var(--vs-noir)]' 
                           : 'border border-[var(--vs-ligne)]'
@@ -118,7 +129,7 @@ export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) 
                   ))}
                 </div>
               </div>
-              <div>
+              <div className="max-sm:hidden">
                 <img src={diapo.image} alt="" className="h-[520px] w-full rounded-[28px] object-cover" />
               </div>
             </div>
@@ -130,7 +141,7 @@ export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) 
       <button 
         type="button" 
         aria-label="Diapositive précédente"
-        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-[var(--vs-blanc)] p-3 shadow-lg"
+        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-[var(--vs-blanc)] p-3 shadow-lg max-sm:hidden"
         onClick={allerPrecedent}
       >
         <ChevronLeft aria-hidden size={20} />
@@ -139,7 +150,7 @@ export function Carrousel({ intervalleMs = 5000, auto = true }: CarrouselProps) 
       <button 
         type="button" 
         aria-label="Diapositive suivante"
-        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-[var(--vs-blanc)] p-3 shadow-lg"
+        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-[var(--vs-blanc)] p-3 shadow-lg max-sm:hidden"
         onClick={allerSuivant}
       >
         <ChevronRight aria-hidden size={20} />
