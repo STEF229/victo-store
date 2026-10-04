@@ -11,7 +11,7 @@ export function BandeMarques({ marques }: BandeMarquesProps) {
     <section 
       data-testid="bande-marques" 
       aria-label="Nos marques"
-      className="overflow-hidden border-b border-[var(--vs-ligne)] h-24"
+      className="overflow-hidden border-b border-[var(--vs-ligne)] h-24 max-sm:h-16"
     >
       <style>
         {`@keyframes vs-defile{from{transform:translateX(0)}to{transform:translateX(-50%)}}`}
@@ -23,7 +23,7 @@ export function BandeMarques({ marques }: BandeMarquesProps) {
             <li key={m.id}>
               <a 
                 href={hrefMarque(m)} 
-                className="uppercase text-[26px] font-900"
+                className="uppercase text-[26px] font-900 font-black tracking-wide max-sm:text-lg"
               >
                 {m.nom} <span aria-hidden="true" className="text-[var(--vs-promo)]">✦</span>
               </a>
@@ -36,7 +36,7 @@ export function BandeMarques({ marques }: BandeMarquesProps) {
             <li key={`copie-${m.id}`}>
               <a 
                 href={hrefMarque(m)} 
-                className="uppercase text-[26px] font-900"
+                className="uppercase text-[26px] font-900 font-black tracking-wide max-sm:text-lg"
                 tabIndex={-1}
               >
                 {m.nom} <span aria-hidden="true" className="text-[var(--vs-promo)]">✦</span>
