@@ -1,4 +1,4 @@
-import { Container } from '@/components/ui/layout';
+import { ReactNode } from 'react';
 
 export interface ColonnePied {
   titre: string;
@@ -11,44 +11,78 @@ interface SiteFooterProps {
   className?: string;
 }
 
-export function SiteFooter({ colonnes, annee, className = '' }: SiteFooterProps) {
-  const anneeAffichee = annee ?? new Date().getFullYear();
-  
+export function SiteFooter({ colonnes, annee = new Date().getFullYear(), className = '' }: SiteFooterProps) {
   return (
     <footer 
       data-testid="pied" 
-      role="contentinfo"
-      className={className}
+      data-ui="site-footer"
+      className={`bg-[var(--vs-noir)] text-[var(--vs-blanc)] ${className}`}
     >
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8">
-          {colonnes.map((colonne, index) => (
-            <section key={index}>
-              <h2 className="text-lg font-bold mb-4">{colonne.titre}</h2>
-              <ul className="space-y-2">
-                {colonne.liens.map((lien, idx) => (
-                  <li key={idx}>
-                    <a 
-                      href={lien.href} 
-                      className="text-[var(--vs-noir)] hover:text-[var(--vs-accent)] transition-colors"
-                    >
-                      {lien.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
+      <div className="max-w-[var(--vs-maxw)] mx-auto px-4 pt-12 pb-8 max-sm:px-5 sm:px-10 lg:px-20 lg:pt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Brand and slogan section */}
+          <div className="md:col-span-2">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+              <div>
+                <p className="text-[26px] font-black tracking-[0.1em]">VICTO STORE</p>
+                <p className="text-[var(--vs-blanc)] mt-2">Des grandes marques, au bon prix.</p>
+              </div>
+            </div>
+            
+            {/* Columns */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-md:grid-cols-2 max-md:gap-6">
+              {colonnes.map((colonne, index) => (
+                <div key={index}>
+                  <h3 
+                    data-ui="footer-heading" 
+                    className="text-sm font-black uppercase mb-4 text-[#B5B5BA]"
+                  >
+                    {colonne.titre}
+                  </h3>
+                  <ul className="space-y-2">
+                    {colonne.liens.map((lien, idx) => (
+                      <li key={idx}>
+                        <a 
+                          href={lien.href} 
+                          data-ui="footer-link"
+                          className="text-[var(--vs-blanc)] hover:text-[var(--vs-promo)] transition-colors"
+                        >
+                          {lien.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
         
-        <p data-testid="pied-mentions" className="text-center text-[var(--vs-gris)] py-4">
-          © {anneeAffichee} VICTO STORE
+        {/* Decorative watermark */}
+        <p 
+          aria-hidden="true" 
+          data-testid="pied-filigrane"
+          className="block max-w-full select-none overflow-hidden whitespace-nowrap text-[200px] font-black leading-none text-[#1E1E26] max-sm:hidden"
+        >
+          VICTO
         </p>
         
-        <p data-testid="pied-slogan" className="text-center text-[var(--vs-gris)] py-4">
-          Des grandes marques, au bon prix.
-        </p>
-      </Container>
+        {/* Mentions with border */}
+        <div className="mt-8 pt-8 border-t border-[#B5B5BA] flex flex-col md:flex-row justify-between items-center max-sm:mt-10 max-sm:items-start">
+          <p 
+            data-testid="pied-slogan"
+            className="text-[var(--vs-blanc)] mb-4 md:mb-0 max-sm:hidden"
+          >
+            Des grandes marques, au bon prix.
+          </p>
+          <p 
+            data-testid="pied-mentions"
+            className="text-[#B5B5BA]"
+          >
+            © {annee} VICTO STORE
+          </p>
+        </div>
+      </div>
     </footer>
   );
 }
