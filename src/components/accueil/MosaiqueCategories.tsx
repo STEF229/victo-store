@@ -38,7 +38,7 @@ export function MosaiqueCategories() {
             </a>
           </li>
         ))}
-        <li className="col-span-2 relative overflow-hidden rounded-[28px] bg-[var(--vs-promo)] text-[var(--vs-blanc])">
+        <li className="col-span-2 relative overflow-hidden rounded-[28px] bg-[var(--vs-promo)] text-[var(--vs-blanc]) text-[var(--vs-blanc)]">
           <a 
             href="/soldes" 
             className="relative flex h-full min-h-[190px] flex-col justify-end p-7 max-sm:min-h-[160px] max-sm:p-5"
