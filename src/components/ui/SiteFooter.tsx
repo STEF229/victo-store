@@ -30,7 +30,7 @@ export function SiteFooter({ colonnes, annee = new Date().getFullYear(), classNa
             </div>
             
             {/* Columns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-md:grid-cols-2 max-md:gap-6">
               {colonnes.map((colonne, index) => (
                 <div key={index}>
                   <h3 
