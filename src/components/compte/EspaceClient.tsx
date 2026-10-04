@@ -27,7 +27,7 @@ export function EspaceClient({ actif, children }: { actif: EntreeCompte; childre
   }
   
   return (
-    <div data-testid="espace-client" className="grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-14">
+    <div data-testid="espace-client" className="grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-14 max-sm:gap-6">
       <MenuCompte actif={actif} />
       <div className="flex min-w-0 flex-col gap-7">{children}</div>
     </div>
