@@ -22,12 +22,8 @@ export function PageSousCategorie({ rubrique, chemin }: { rubrique: Rubrique; ch
     <VueCatalogue
       titre={titreDe(rubrique, chemin)}
       produits={produitsDe(tous, rubrique, chemin)}
-      entete={
-        <div className="flex flex-col gap-4">
-          <FilAriane items={[{ label: 'Accueil', href: '/' }, ...fil]} />
-          <SousCategories titre={`Sous-catégories de ${trouve.noeud.libelle}`} forme="pastilles" elements={pastilles} actif={hrefDe(rubrique, chemin)} />
-        </div>
-      }
+      filAriane={<FilAriane items={[{ label: 'Accueil', href: '/' }, ...fil]} />}
+      entete={<SousCategories titre={`Sous-catégories de ${trouve.noeud.libelle}`} forme="pastilles" elements={pastilles} actif={hrefDe(rubrique, chemin)} />}
     />
   );
 }
