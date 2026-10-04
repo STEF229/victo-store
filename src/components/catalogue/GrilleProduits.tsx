@@ -21,7 +21,7 @@ export function GrilleProduits({ produits, colonnes = 3, className = '' }: Grill
   return (
     <ul 
       data-testid="grille" 
-      className={`grid grid-cols-1 gap-6 sm:grid-cols-2 ${COLONNES[colonnes]} ${className}`}
+      className={`grid grid-cols-1 gap-6 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-3 max-sm:gap-y-6 ${COLONNES[colonnes]} ${className}`}
     >
       {produits.map((produit) => (
         <li 
