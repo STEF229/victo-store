@@ -44,7 +44,7 @@ export function Infolettre() {
                   placeholder="Votre courriel"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-14 w-full min-w-0 flex-1 rounded-full bg-[var(--vs-blanc)] px-6 text-[var(--vs-noir)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-noir)]"
+                  className="h-14 w-full min-w-0 flex-1 rounded-full bg-[var(--vs-blanc)] px-6 text-[var(--vs-noir)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-noir)] max-sm:flex-none"
                 />
                 <button 
                   type="submit" 
