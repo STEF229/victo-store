@@ -1,12 +1,13 @@
+import { chargerCatalogue } from '@/lib/catalogue-source';
 import { VueCatalogue } from '@/components/catalogue/VueCatalogue';
-import { listerProduits } from '@/lib/donnees';
 
-export default function PageBoutique() {
+export default async function PageBoutique() {
+  const { produits } = await chargerCatalogue();
   return (
     <VueCatalogue
       titre="Boutique"
       description="Toute la sélection, toutes marques confondues, au bon prix."
-      produits={listerProduits()}
+      produits={produits}
     />
   );
 }
