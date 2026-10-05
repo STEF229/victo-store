@@ -269,8 +269,13 @@ export function produitsDeMarque(slug: string): Produit[] {
 const ORDRE_ALPHA = ['S', 'M', 'L', 'XL'];
 
 export function taillesCatalogue(): string[] {
+  return taillesDe(PRODUITS);
+}
+
+/** Les tailles présentes dans une liste de produits : pointures croissantes, puis S, M, L, XL. */
+export function taillesDe(produits: Produit[]): string[] {
   const vues = new Set<string>();
-  for (const p of PRODUITS) for (const v of p.variantes) vues.add(v.taille);
+  for (const p of produits) for (const v of p.variantes) vues.add(v.taille);
   const toutes = [...vues];
   const num = toutes.filter((t) => /^\d+$/.test(t)).sort((a, b) => Number(a) - Number(b));
   const alpha = ORDRE_ALPHA.filter((t) => vues.has(t));
