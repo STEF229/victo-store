@@ -7,16 +7,16 @@ import { MARQUES, PRODUITS } from '../src/lib/donnees';
 const AVEC_PRODUITS = MARQUES.filter((m) => PRODUITS.some((p) => p.marque.slug === m.slug));
 
 describe('page des marques', () => {
-  it('assemble en-tête, titre, fil d’Ariane et pied', () => {
-    render(<PageMarques />);
+  it('assemble en-tête, titre, fil d’Ariane et pied', async () => {
+    render(await PageMarques());
     expect(screen.getByRole('banner')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: 'Marques' })).toBeInTheDocument();
     expect(within(screen.getByTestId('fil-ariane')).getByText('Marques')).toHaveAttribute('aria-current', 'page');
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('montre une tuile par marque qui a des produits, triées par nom', () => {
-    render(<PageMarques />);
+  it('montre une tuile par marque qui a des produits, triées par nom', async () => {
+    render(await PageMarques());
     const tuiles = within(screen.getByTestId('grille-marques')).getAllByRole('link');
     expect(tuiles).toHaveLength(AVEC_PRODUITS.length);
     const attendues = [...AVEC_PRODUITS].sort((a, b) => a.nom.localeCompare(b.nom, 'fr')).map((m) => hrefMarque(m));

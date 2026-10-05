@@ -5,8 +5,8 @@ import { sousCategories } from '../src/lib/arbre-categories';
 import { listerProduits } from '../src/lib/donnees';
 
 describe('page Homme — sous-catégories', () => {
-  it('affiche ses sous-catégories en vignettes, avec leur adresse', () => {
-    render(<Page />);
+  it('affiche ses sous-catégories en vignettes, avec leur adresse', async () => {
+    render(await Page());
     expect(screen.getByTestId('liste-titre').textContent).toBe('Homme');
     const nav = screen.getByRole('navigation', { name: 'Sous-catégories de Homme' });
     const attendues = sousCategories(listerProduits(), 'homme', []);

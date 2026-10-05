@@ -1,0 +1,25 @@
+114a	src/components/catalogue/CatalogueProvider.tsx	tests/catalogue-provider.test.tsx	tickets/114a-catalogue-provider.md			
+114b	src/lib/donnees.ts	tests/donnees-tailles.test.ts	tickets/114b-lib-donnees.md			
+114c	src/lib/arbre-categories.ts	tests/arbre-type-medusa.test.ts	tickets/114c-lib-arbre-categories.md			
+114d	src/lib/medusa/convertir.ts	tests/medusa-images.test.ts	tickets/114d-lib-medusa-convertir.md			
+114e	next.config.ts	tests/next-config-images.test.ts	tickets/114e-next.config.md			
+114f	src/components/navigation/NavigationPrincipale.tsx	tests/navigation-catalogue.test.tsx	tickets/114f-components-navigation-NavigationPrincipale.md	src/components/catalogue/CatalogueProvider.tsx	114a	
+114g	src/components/recherche/ChampRecherche.tsx	tests/recherche-catalogue.test.tsx	tickets/114g-components-recherche-ChampRecherche.md	src/components/catalogue/CatalogueProvider.tsx	114a	
+114h	src/components/panier/VuePanier.tsx	tests/bascule-components-panier-VuePanier.test.ts	tickets/114h-components-panier-VuePanier.md	src/components/catalogue/CatalogueProvider.tsx	114a	
+114i	src/app/compte/favoris/page.tsx	tests/bascule-app-compte-favoris.test.ts	tickets/114i-app-compte-favoris.md	src/components/catalogue/CatalogueProvider.tsx	114a	
+114j	src/components/catalogue/VueCatalogue.tsx	tests/bascule-components-catalogue-VueCatalogue.test.ts	tickets/114j-components-catalogue-VueCatalogue.md	src/components/catalogue/CatalogueProvider.tsx	114a,114b	
+114k	src/app/layout.tsx	tests/bascule-layout.test.ts	tickets/114k-layout.md	src/components/catalogue/CatalogueProvider.tsx,src/lib/catalogue-source.ts	114a	
+114l	src/app/boutique/page.tsx	tests/bascule-app-boutique.test.ts	tickets/114l-app-boutique.md			
+114m	src/app/chaussures/page.tsx	tests/bascule-app-chaussures.test.ts	tickets/114m-app-chaussures.md			
+114n	src/app/femme/page.tsx	tests/bascule-app-femme.test.ts	tickets/114n-app-femme.md			
+114o	src/app/homme/page.tsx	tests/bascule-app-homme.test.ts	tickets/114o-app-homme.md			
+114p	src/app/soldes/page.tsx	tests/bascule-app-soldes.test.ts	tickets/114p-app-soldes.md			
+114q	src/app/marques/page.tsx	tests/bascule-app-marques.test.ts	tickets/114q-app-marques.md			
+114r	src/app/marques/[slug]/page.tsx	tests/bascule-app-marques-slug.test.ts	tickets/114r-app-marques-slug.md			
+114s	src/app/page.tsx	tests/bascule-app-accueil.test.ts	tickets/114s-app-accueil.md			
+114t	src/app/produits/[slug]/page.tsx	tests/bascule-app-produits-slug.test.ts	tickets/114t-app-produits-slug.md			
+114u	src/app/recherche/page.tsx	tests/bascule-app-recherche.test.ts	tickets/114u-app-recherche.md			
+114v	src/components/catalogue/PageSousCategorie.tsx	tests/bascule-components-catalogue-PageSousCategorie.test.ts	tickets/114v-components-catalogue-PageSousCategorie.md			
+114w	src/app/femme/[...chemin]/page.tsx	tests/bascule-app-femme-routes.test.ts	tickets/114w-app-femme-routes.md		114v	
+114x	src/app/homme/[...chemin]/page.tsx	tests/bascule-app-homme-routes.test.ts	tickets/114x-app-homme-routes.md		114v	
+114y	src/app/chaussures/[...chemin]/page.tsx	tests/bascule-app-chaussures-routes.test.ts	tickets/114y-app-chaussures-routes.md		114v	

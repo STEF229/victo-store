@@ -5,8 +5,8 @@ import PageBoutique from '../src/app/boutique/page';
 import { listerProduits } from '../src/lib/donnees';
 
 describe('page boutique', () => {
-  it('affiche toute la sélection avec la vue des listes', () => {
-    render(<PageBoutique />);
+  it('affiche toute la sélection avec la vue des listes', async () => {
+    render(await PageBoutique());
     const n = listerProduits().length;
     expect(screen.getByRole('banner')).toBeInTheDocument();
     expect(screen.getByTestId('liste-titre').textContent).toBe('Boutique');
@@ -16,7 +16,7 @@ describe('page boutique', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('n’utilise plus l’ancien panneau de filtres', () => {
+  it('n’utilise plus l’ancien panneau de filtres', async () => {
     const source = readFileSync('src/app/boutique/page.tsx', 'utf8');
     expect(source).toContain('VueCatalogue');
     expect(source).not.toContain('FiltresPanneau');
