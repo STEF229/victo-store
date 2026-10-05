@@ -44,6 +44,7 @@ if [ ! -d "$MIROIR/.git" ]; then
   ln -sfn "$REPO/node_modules" "$MIROIR/node_modules"
 fi
 cd "$MIROIR"
+ln -sfn "$REPO/.env.local" "$MIROIR/.env.local"   # la configuration locale, non suivie par git
 
 SHA=""
 while true; do
