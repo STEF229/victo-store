@@ -1,13 +1,14 @@
-import { VueCatalogue } from '@/components/catalogue/VueCatalogue';
+import { chargerCatalogue } from '@/lib/catalogue-source';
 import { estEnPromotion } from '@/lib/catalogue';
-import { listerProduits } from '@/lib/donnees';
+import { VueCatalogue } from '@/components/catalogue/VueCatalogue';
 
-export default function PageSoldes() {
+export default async function PageSoldes() {
+  const { produits } = await chargerCatalogue();
   return (
     <VueCatalogue
       titre="Soldes"
       description="Toutes les remises du moment, jusqu'à moitié prix."
-      produits={listerProduits().filter(estEnPromotion)}
+      produits={produits.filter(estEnPromotion)}
     />
   );
 }
