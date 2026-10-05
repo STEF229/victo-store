@@ -16,7 +16,7 @@ const feuille = (slug: string, libelle: string): Noeud => ({ slug, libelle, enfa
 const TYPES_CHAUSSURES = [feuille('sneakers', 'Sneakers'), feuille('course', 'Course'), feuille('basket', 'Basket'), feuille('sandales', 'Sandales')];
 const PAR_GENRE: Noeud[] = [
   { slug: 'chaussures', libelle: 'Chaussures', enfants: TYPES_CHAUSSURES },
-  { slug: 'vetements', libelle: 'Vêtements', enfants: [feuille('t-shirts', 'T-shirts'), feuille('polos', 'Polos'), feuille('sweats', 'Sweats et hoodies'), feuille('jeans', 'Jeans'), feuille('vestes', 'Vestes')] },
+  { slug: 'vetements', libelle: 'Vêtements', enfants: [feuille('t-shirts', 'T-shirts'), feuille('polos', 'Polos'), feuille('sweats', 'Sweats et hoodies'), feuille('jeans', 'Jeans'), feuille('vestes', 'Vestes'), feuille('survetements', 'Survêtements')] },
   { slug: 'accessoires', libelle: 'Accessoires', enfants: [feuille('casquettes', 'Casquettes'), feuille('sacs', 'Sacs'), feuille('chaussettes', 'Chaussettes')] },
 ];
 
@@ -58,13 +58,13 @@ export function trouverNoeud(rubrique: Rubrique, chemin: string[]): { noeud: Noe
 export function produitsDe(produits: Produit[], rubrique: Rubrique, chemin: string[]): Produit[] {
   if (rubrique === 'chaussures') {
     const [type] = chemin;
-    return produits.filter((p) => p.categorie === 'chaussures' && (type === undefined || TYPES_DEMO[p.slug] === type));
+    return produits.filter((p) => p.categorie === 'chaussures' && (type === undefined || (p.type ?? TYPES_DEMO[p.slug]) === type));
   }
   const [categorie, type] = chemin;
   return produits.filter(
     (p) => correspondAuGenre(p, rubrique)
       && (categorie === undefined || p.categorie === categorie)
-      && (type === undefined || TYPES_DEMO[p.slug] === type),
+      && (type === undefined || (p.type ?? TYPES_DEMO[p.slug]) === type),
   );
 }
 
