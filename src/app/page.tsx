@@ -46,6 +46,7 @@ export function AccueilPage() {
         <Carrousel />
         <BandeMarques marques={listerMarques()} />
         <div className="mx-auto max-w-[1440px] px-5 py-24 lg:px-20 max-sm:py-12">
+          <RubriquesRapides items={NAV} />
           <SectionBonnesAffaires produits={bonnesAffaires} />
         </div>
         <div className="mx-auto max-w-[1440px] px-5 pb-24 lg:px-20 max-sm:pb-12">
