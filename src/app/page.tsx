@@ -3,6 +3,7 @@ import { Carrousel } from '@/components/accueil/Carrousel';
 import { Infolettre } from '@/components/accueil/Infolettre';
 import { MosaiqueCategories } from '@/components/accueil/MosaiqueCategories';
 import { Reassurance } from '@/components/accueil/Reassurance';
+import { RubriquesRapides } from '@/components/accueil/RubriquesRapides';
 import { SectionBonnesAffaires } from '@/components/accueil/SectionBonnesAffaires';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader, type NavItem } from '@/components/ui/SiteHeader';
