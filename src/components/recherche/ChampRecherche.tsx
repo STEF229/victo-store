@@ -4,16 +4,17 @@ import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { useState, type FocusEvent } from 'react';
 import { hrefMarque, hrefProduit } from '@/lib/catalogue';
-import { listerMarques, listerProduits } from '@/lib/donnees';
+import { useCatalogue } from '@/components/catalogue/CatalogueProvider';
 import { formatPrice } from '@/lib/formatPrice';
 import { marquesCorrespondantes, rechercherProduits } from '@/lib/recherche';
 
 export function ChampRecherche() {
+  const catalogue = useCatalogue();
   const [terme, setTerme] = useState('');
   const [ouvert, setOuvert] = useState(false);
   const actif = terme.trim().length >= 2;
-  const produits = actif ? rechercherProduits(listerProduits(), terme) : [];
-  const marques = actif ? marquesCorrespondantes(listerMarques(), terme).slice(0, 3) : [];
+  const produits = actif ? rechercherProduits(catalogue.produits, terme) : [];
+  const marques = actif ? marquesCorrespondantes(catalogue.marques, terme).slice(0, 3) : [];
   const visible = ouvert && (produits.length > 0 || marques.length > 0);
 
   function quitter(e: FocusEvent<HTMLFormElement>) {
