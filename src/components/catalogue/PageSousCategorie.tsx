@@ -1,14 +1,15 @@
+import type { Produit } from '@/lib/catalogue';
+import { listerProduits } from '@/lib/donnees';
 import { notFound } from 'next/navigation';
 import { SousCategories } from '@/components/catalogue/SousCategories';
 import { VueCatalogue } from '@/components/catalogue/VueCatalogue';
 import { FilAriane } from '@/components/produit/FilAriane';
 import { hrefDe, produitsDe, sousCategories, titreDe, trouverNoeud, type Rubrique } from '@/lib/arbre-categories';
-import { listerProduits } from '@/lib/donnees';
 
-export function PageSousCategorie({ rubrique, chemin }: { rubrique: Rubrique; chemin: string[] }) {
+export function PageSousCategorie({ rubrique, chemin, produits }: { rubrique: Rubrique; chemin: string[]; produits?: Produit[] | undefined }) {
   const trouve = trouverNoeud(rubrique, chemin);
   if (!trouve || chemin.length === 0) notFound();
-  const tous = listerProduits();
+  const tous = produits ?? listerProduits();
   // Un nœud qui a des enfants les propose ; une feuille propose ses sœurs, elle-même marquée.
   const base = trouve.noeud.enfants.length > 0 ? chemin : chemin.slice(0, -1);
   const pastilles = [
