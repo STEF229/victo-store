@@ -35,6 +35,7 @@ export interface Produit {
   description?: string;
   composition?: string;
   images?: string[];
+  type?: string;
 }
 
 export function hrefProduit(produit: Produit): string {
