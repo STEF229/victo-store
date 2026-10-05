@@ -35,6 +35,15 @@ export const IMAGE_ABSENTE = '/img/sans-photo.svg';
 export const STOCK_NON_SUIVI = 99;
 const RAYONS: Categorie[] = ['chaussures', 'vetements', 'accessoires'];
 
+/**
+ * Les photos téléversées dans Medusa (adresse finissant par /static/fichier.jpg) sont servies par la
+ * boutique elle-même, à /medusa-images/fichier.jpg, relayées vers Medusa (next.config.ts) : elles s'affichent partout,
+ * tunnel compris. Les autres adresses ne changent pas.
+ */
+export function imageLocale(url: string): string {
+  return url.includes('/static/') ? url.replace(/^.*?\/static\//, '/medusa-images/') : url;
+}
+
 const enCents = (montant: number) => Math.round(montant * 100);
 const estRayon = (handle: string | undefined): handle is Categorie => RAYONS.some((r) => r === handle);
 
@@ -80,7 +89,7 @@ export function convertirProduit(p: ProduitMedusa, categories: CategorieMedusa[]
     .map((v) => v.calculated_price)
     .filter((c): c is { calculated_amount: number; original_amount: number | null } => typeof c?.calculated_amount === 'number')
     .reduce<{ calculated_amount: number; original_amount: number | null } | undefined>((min, c) => (min === undefined || c.calculated_amount < min.calculated_amount ? c : min), undefined);
-  const images = (p.images ?? []).map((i) => i.url);
+  const images = (p.images ?? []).map((i) => imageLocale(i.url));
   const genre = genreDe(p.tags ?? []);
   const original = prix?.original_amount;
 
@@ -89,7 +98,7 @@ export function convertirProduit(p: ProduitMedusa, categories: CategorieMedusa[]
     slug: p.handle,
     nom: p.title,
     marque,
-    imageUrl: p.thumbnail ?? images.find(() => true) ?? IMAGE_ABSENTE,
+    imageUrl: (p.thumbnail ? imageLocale(p.thumbnail) : undefined) ?? images.find(() => true) ?? IMAGE_ABSENTE,
     prixCents: prix ? enCents(prix.calculated_amount) : 0,
     ...(prix && typeof original === 'number' && original > prix.calculated_amount ? { prixCompareCents: enCents(original) } : {}),
     variantes: (p.variants ?? []).map(varianteDe),
