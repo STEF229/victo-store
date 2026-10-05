@@ -8,7 +8,7 @@ import { SectionBonnesAffaires } from '@/components/accueil/SectionBonnesAffaire
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader, type NavItem } from '@/components/ui/SiteHeader';
 import { estEnPromotion } from '@/lib/catalogue';
-import { listerMarques, listerProduits } from '@/lib/donnees';
+import { chargerCatalogue } from '@/lib/catalogue-source';
 
 const NAV: NavItem[] = [
   { label: 'Femme', href: '/femme' },
@@ -37,15 +37,16 @@ const COLONNES_PIED = [
   },
 ];
 
-export function AccueilPage() {
-  const bonnesAffaires = listerProduits().filter(estEnPromotion).slice(0, 4);
+export async function AccueilPage() {
+  const catalogue = await chargerCatalogue();
+  const bonnesAffaires = catalogue.produits.filter(estEnPromotion).slice(0, 4);
 
   return (
     <>
       <SiteHeader navItems={NAV} />
       <main>
         <Carrousel />
-        <BandeMarques marques={listerMarques()} />
+        <BandeMarques marques={catalogue.marques} />
         <div className="mx-auto max-w-[1440px] px-5 py-24 lg:px-20 max-sm:py-12">
           <RubriquesRapides items={NAV} />
           <SectionBonnesAffaires produits={bonnesAffaires} />
