@@ -1,5 +1,6 @@
 import { chargerCatalogue } from '@/lib/catalogue-source';
 import { estEnPromotion } from '@/lib/catalogue';
+import { VueCatalogue } from '@/components/catalogue/VueCatalogue';
 
 export default async function PageSoldes() {
   const { produits } = await chargerCatalogue();
