@@ -8,7 +8,8 @@ import { Pagination } from '@/components/catalogue/Pagination';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
 import type { Produit } from '@/lib/catalogue';
-import { taillesCatalogue } from '@/lib/donnees';
+import { useCatalogue } from '@/components/catalogue/CatalogueProvider';
+import { taillesDe } from '@/lib/donnees';
 import { filtrerProduits, paginer, trierProduits, type Criteres, type Tri } from '@/lib/filtres';
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
 
@@ -21,6 +22,7 @@ interface VueCatalogueProps {
 }
 
 export function VueCatalogue({ titre, description, produits, entete, filAriane }: VueCatalogueProps) {
+  const catalogue = useCatalogue();
   const [criteres, setCriteres] = useState<Criteres>({});
   const [tri, setTri] = useState<Tri>('nouveautes');
   const [page, setPage] = useState(1);
@@ -71,7 +73,7 @@ export function VueCatalogue({ titre, description, produits, entete, filAriane }
         <div className="mt-8 max-sm:mt-5">
           <FiltresBarre
             marques={marques}
-            tailles={taillesCatalogue()}
+            tailles={taillesDe(catalogue.produits)}
             criteres={criteres}
             onChange={changerCriteres}
             tri={tri}
