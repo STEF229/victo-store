@@ -2,13 +2,14 @@ import { TuileMarque } from '@/components/marques/TuileMarque';
 import { FilAriane } from '@/components/produit/FilAriane';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
-import { MARQUES, PRODUITS } from '@/lib/donnees';
+import { chargerCatalogue } from '@/lib/catalogue-source';
 import { libelleMarques, resumerMarques } from '@/lib/marques';
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
 
-export default function PageMarques() {
-  const resumes = resumerMarques(MARQUES, PRODUITS);
-
+export default async function PageMarques() {
+  const { produits, marques } = await chargerCatalogue();
+  const resumes = resumerMarques(marques, produits);
+  
   return (
     <>
       <SiteHeader navItems={NAV} />
