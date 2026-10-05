@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { NavItem } from '@/components/ui/SiteHeader';
 import { ARBRE, estRubrique, hrefDe, produitsDe, type Rubrique } from '@/lib/arbre-categories';
 import { hrefMarque } from '@/lib/catalogue';
-import { listerMarques, listerProduits } from '@/lib/donnees';
+import { useCatalogue } from '@/components/catalogue/CatalogueProvider';
 
 type Panneau = Rubrique | 'marques';
 
@@ -39,11 +39,12 @@ function Tete({ titre, href, texte }: { titre: string; href: string; texte: stri
 }
 
 function PanneauMega({ panneau }: { panneau: Panneau }) {
+  const catalogue = useCatalogue();
   if (panneau === 'marques') {
     return (
       <div role="region" aria-label="Sous-catégories de Marques" className={`${CADRE} grid-cols-5`}>
         <Tete titre="Marques" href="/marques" texte="Toutes les marques" />
-        {listerMarques().map((m) => (
+        {catalogue.marques.map((m) => (
           <Link key={m.slug} href={hrefMarque(m)} className="flex h-[110px] items-center justify-center rounded-[18px] bg-[var(--vs-surface)] text-lg font-black tracking-wide transition-colors hover:text-[var(--vs-accent)]">
             {m.nom}
           </Link>
@@ -52,7 +53,7 @@ function PanneauMega({ panneau }: { panneau: Panneau }) {
     );
   }
   const racine = ARBRE[panneau];
-  const total = produitsDe(listerProduits(), panneau, []).length;
+  const total = produitsDe(catalogue.produits, panneau, []).length;
   const tete = <Tete titre={racine.libelle} href={hrefDe(panneau, [])} texte={`Tout voir ${racine.libelle} (${total} ${total > 1 ? 'produits' : 'produit'})`} />;
   if (panneau === 'chaussures') {
     return (
