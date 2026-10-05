@@ -8,15 +8,16 @@ import { ProductCard } from '@/components/ui/ProductCard';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
 import { hrefMarque, imagesProduit, remisePourcent } from '@/lib/catalogue';
-import { listerProduits, trouverProduit } from '@/lib/donnees';
+import { chargerCatalogue } from '@/lib/catalogue-source';
 import { filAriane, produitsSimilaires } from '@/lib/fiche-produit';
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
 
 export default async function PageProduit({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const produit = trouverProduit(slug);
+  const catalogue = await chargerCatalogue();
+  const produit = catalogue.produits.find((p) => p.slug === slug);
   if (!produit) notFound();
-  const similaires = produitsSimilaires(produit, listerProduits());
+  const similaires = produitsSimilaires(produit, catalogue.produits);
 
   return (
     <>
