@@ -9,7 +9,7 @@ import { FilAriane } from '@/components/produit/FilAriane';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
-import { trouverProduit } from '@/lib/donnees';
+import { useCatalogue } from '@/components/catalogue/CatalogueProvider';
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
 
 export default function PageFavoris() {
@@ -33,8 +33,9 @@ export default function PageFavoris() {
 
 function Favoris() {
   const favoris = useFavoris();
+  const catalogue = useCatalogue();
   const produits = favoris.favoris.flatMap((slug) => {
-    const p = trouverProduit(slug);
+    const p = catalogue.produits.find((x) => x.slug === slug);
     return p ? [p] : [];
   });
   const n = produits.length;
