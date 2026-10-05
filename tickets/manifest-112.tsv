@@ -1,0 +1,3 @@
+112a	src/components/accueil/RubriquesRapides.tsx	tests/rubriques-rapides.test.tsx	tickets/112a-rubriques-rapides.md			
+112b	src/app/page.tsx	tests/accueil-rubriques.test.ts	tickets/112b-accueil-rubriques.md		112a	
+112c	src/components/accueil/Carrousel.tsx	tests/carrousel-photo.test.tsx	tickets/112c-carrousel-photo.md			

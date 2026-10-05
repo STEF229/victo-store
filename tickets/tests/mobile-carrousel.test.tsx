@@ -14,10 +14,9 @@ describe('carrousel — téléphone', () => {
     for (const k of ['max-sm:px-5', 'max-sm:pt-7', 'max-sm:pb-14']) expect(classes(grille), k).toContain(k);
   });
 
-  it('masque la description, l’image et les flèches sur téléphone', () => {
+  it('masque la description et les flèches sur téléphone', () => {
     const { container } = render(<Carrousel auto={false} />);
     expect(classes(screen.getByText(/^Les marques que vous aimez/))).toContain('max-sm:hidden');
-    expect(classes(container.querySelector('img')?.closest('div') ?? null)).toContain('max-sm:hidden');
     for (const nom of ['Diapositive précédente', 'Diapositive suivante']) {
       expect(classes(screen.getByRole('button', { name: nom })), nom).toContain('max-sm:hidden');
     }
