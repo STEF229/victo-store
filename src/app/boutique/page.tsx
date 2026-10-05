@@ -1,5 +1,5 @@
 import { chargerCatalogue } from '@/lib/catalogue-source';
-import VueCatalogue from '@/components/catalogue/VueCatalogue';
+import { VueCatalogue } from '@/components/catalogue/VueCatalogue';
 
 export default async function PageBoutique() {
   const { produits } = await chargerCatalogue();
