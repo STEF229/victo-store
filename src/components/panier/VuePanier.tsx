@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { LignePanier } from '@/components/panier/LignePanier';
 import { usePanier } from '@/components/panier/PanierProvider';
 import { RecapPanier } from '@/components/panier/RecapPanier';
-import { trouverProduit } from '@/lib/donnees';
+import { useCatalogue } from '@/components/catalogue/CatalogueProvider';
 import { detaillerPanier, libelleArticles, recapitulerPanier } from '@/lib/panier-detail';
 
 export function VuePanier() {
   const panier = usePanier();
+  const catalogue = useCatalogue();
   
   if (!panier.pret) {
     return (
@@ -17,7 +18,7 @@ export function VuePanier() {
     );
   }
   
-  const lignes = detaillerPanier(panier.lignes, trouverProduit);
+  const lignes = detaillerPanier(panier.lignes, (slug) => catalogue.produits.find((p) => p.slug === slug));
   
   if (lignes.length === 0) {
     return (
