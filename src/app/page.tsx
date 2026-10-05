@@ -3,6 +3,7 @@ import { Carrousel } from '@/components/accueil/Carrousel';
 import { Infolettre } from '@/components/accueil/Infolettre';
 import { MosaiqueCategories } from '@/components/accueil/MosaiqueCategories';
 import { Reassurance } from '@/components/accueil/Reassurance';
+import { RubriquesRapides } from '@/components/accueil/RubriquesRapides';
 import { SectionBonnesAffaires } from '@/components/accueil/SectionBonnesAffaires';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader, type NavItem } from '@/components/ui/SiteHeader';
@@ -46,6 +47,7 @@ export function AccueilPage() {
         <Carrousel />
         <BandeMarques marques={listerMarques()} />
         <div className="mx-auto max-w-[1440px] px-5 py-24 lg:px-20 max-sm:py-12">
+          <RubriquesRapides items={NAV} />
           <SectionBonnesAffaires produits={bonnesAffaires} />
         </div>
         <div className="mx-auto max-w-[1440px] px-5 pb-24 lg:px-20 max-sm:pb-12">
