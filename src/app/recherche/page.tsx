@@ -5,14 +5,15 @@ import { VueCatalogue } from '@/components/catalogue/VueCatalogue';
 import { FilAriane } from '@/components/produit/FilAriane';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
-import { listerMarques, listerProduits } from '@/lib/donnees';
+import { chargerCatalogue } from '@/lib/catalogue-source';
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
 import { rechercherProduits } from '@/lib/recherche';
 
 export default async function PageRecherche({ searchParams }: { searchParams: Promise<{ q?: string | string[] }> }) {
   const { q } = await searchParams;
   const terme = (Array.isArray(q) ? q.join(' ') : q ?? '').trim();
-  const resultats = rechercherProduits(listerProduits(), terme);
+  const catalogue = await chargerCatalogue();
+  const resultats = rechercherProduits(catalogue.produits, terme);
 
   if (resultats.length > 0) {
     return (
@@ -41,7 +42,7 @@ export default async function PageRecherche({ searchParams }: { searchParams: Pr
           </p>
           <p className="text-[13px] font-extrabold uppercase tracking-[0.14em] text-[var(--vs-gris)]">Nos marques</p>
           <div className="flex max-w-[760px] flex-wrap justify-center gap-2.5">
-            {listerMarques().map((m) => (
+            {catalogue.marques.map((m) => (
               <Link key={m.slug} href={`/recherche?q=${encodeURIComponent(m.nom)}`} 
                 className="rounded-full bg-[var(--vs-blanc)] px-4 py-2 text-[15px] font-semibold text-[var(--vs-noir)]">
                 {m.nom}
@@ -51,7 +52,7 @@ export default async function PageRecherche({ searchParams }: { searchParams: Pr
         </section>
         <section className="mt-10 flex flex-col gap-5">
           <h2 className="text-[28px] font-black text-[var(--vs-noir)]">Ça pourrait vous plaire</h2>
-          <GrilleProduits produits={listerProduits().slice(0, 4)} colonnes={4} />
+          <GrilleProduits produits={catalogue.produits.slice(0, 4)} colonnes={4} />
         </section>
       </main>
       <SiteFooter colonnes={COLONNES_PIED} />
