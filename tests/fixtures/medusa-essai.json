@@ -1,0 +1,441 @@
+{
+ "produit_vu_par_la_boutique": {
+  "products": [
+   {
+    "id": "prod_01M44NZSNKV1SQH53B1XNAWRCH",
+    "title": "Air Zoom Pegasus 41 (essai)",
+    "subtitle": "Nike",
+    "description": "Produit d'essai créé par l'équipe technique pour brancher la boutique. À supprimer ensuite.",
+    "handle": "essai-air-zoom-pegasus-41",
+    "is_giftcard": false,
+    "discountable": true,
+    "thumbnail": null,
+    "collection_id": null,
+    "type_id": null,
+    "weight": null,
+    "length": null,
+    "height": null,
+    "width": null,
+    "hs_code": null,
+    "origin_country": null,
+    "mid_code": null,
+    "material": null,
+    "created_at": "2026-10-05T00:04:02.358Z",
+    "updated_at": "2026-10-05T00:04:02.358Z",
+    "variants": [
+     {
+      "id": "variant_01M44NZSTW7P1PTBDRZFDG818P",
+      "title": "41",
+      "sku": "essai-pegasus-41",
+      "barcode": null,
+      "ean": null,
+      "upc": null,
+      "allow_backorder": false,
+      "manage_inventory": true,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "metadata": null,
+      "variant_rank": 0,
+      "thumbnail": null,
+      "product_id": "prod_01M44NZSNKV1SQH53B1XNAWRCH",
+      "created_at": "2026-10-05T00:04:02.525Z",
+      "updated_at": "2026-10-05T00:04:02.525Z",
+      "deleted_at": null,
+      "options": [
+       {
+        "id": "optval_01M44NZSNNNTJ907M2XXAQXQDT",
+        "value": "41",
+        "rank": null,
+        "metadata": null,
+        "option_id": "opt_01M44NZSNKNRAHJWZNKB00FDVA",
+        "option": {
+         "id": "opt_01M44NZSNKNRAHJWZNKB00FDVA",
+         "title": "Pointure",
+         "is_exclusive": true,
+         "metadata": null,
+         "created_at": "2026-10-05T00:04:02.358Z",
+         "updated_at": "2026-10-05T00:04:02.358Z",
+         "deleted_at": null
+        },
+        "created_at": "2026-10-05T00:04:02.358Z",
+        "updated_at": "2026-10-05T00:04:02.358Z",
+        "deleted_at": null
+       }
+      ],
+      "calculated_price": {
+       "id": "pset_01M44NZSYPQ9ADZMK18B64WYS0",
+       "is_calculated_price_price_list": true,
+       "is_calculated_price_tax_inclusive": false,
+       "calculated_amount": 129,
+       "raw_calculated_amount": {
+        "value": "129",
+        "precision": 20
+       },
+       "is_original_price_price_list": false,
+       "is_original_price_tax_inclusive": false,
+       "original_amount": 159,
+       "raw_original_amount": {
+        "value": "159",
+        "precision": 20
+       },
+       "currency_code": "cad",
+       "calculated_price": {
+        "id": "price_01M44NZTH94Y5RX5ZMRZ04E17P",
+        "price_list_id": "plist_01M44NZTH9W70KBKCT409T21NT",
+        "price_list_type": "sale",
+        "min_quantity": null,
+        "max_quantity": null
+       },
+       "original_price": {
+        "id": "price_01M44NZSYNJP9ZJ6BYV9RFBDYJ",
+        "price_list_id": null,
+        "price_list_type": null,
+        "min_quantity": null,
+        "max_quantity": null
+       }
+      },
+      "inventory_quantity": 5
+     },
+     {
+      "id": "variant_01M44NZSTWSTC0VQFX44ZP5R21",
+      "title": "42",
+      "sku": "essai-pegasus-42",
+      "barcode": null,
+      "ean": null,
+      "upc": null,
+      "allow_backorder": false,
+      "manage_inventory": true,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "metadata": null,
+      "variant_rank": 0,
+      "thumbnail": null,
+      "product_id": "prod_01M44NZSNKV1SQH53B1XNAWRCH",
+      "created_at": "2026-10-05T00:04:02.525Z",
+      "updated_at": "2026-10-05T00:04:02.525Z",
+      "deleted_at": null,
+      "options": [
+       {
+        "id": "optval_01M44NZSNN9BEM545GZ38B5BDB",
+        "value": "42",
+        "rank": null,
+        "metadata": null,
+        "option_id": "opt_01M44NZSNKNRAHJWZNKB00FDVA",
+        "option": {
+         "id": "opt_01M44NZSNKNRAHJWZNKB00FDVA",
+         "title": "Pointure",
+         "is_exclusive": true,
+         "metadata": null,
+         "created_at": "2026-10-05T00:04:02.358Z",
+         "updated_at": "2026-10-05T00:04:02.358Z",
+         "deleted_at": null
+        },
+        "created_at": "2026-10-05T00:04:02.358Z",
+        "updated_at": "2026-10-05T00:04:02.358Z",
+        "deleted_at": null
+       }
+      ],
+      "calculated_price": {
+       "id": "pset_01M44NZSYPTETTT3WHVQM1WKDM",
+       "is_calculated_price_price_list": true,
+       "is_calculated_price_tax_inclusive": false,
+       "calculated_amount": 129,
+       "raw_calculated_amount": {
+        "value": "129",
+        "precision": 20
+       },
+       "is_original_price_price_list": false,
+       "is_original_price_tax_inclusive": false,
+       "original_amount": 159,
+       "raw_original_amount": {
+        "value": "159",
+        "precision": 20
+       },
+       "currency_code": "cad",
+       "calculated_price": {
+        "id": "price_01M44NZTH9XRQJVFNRFNSHQ2B0",
+        "price_list_id": "plist_01M44NZTH9W70KBKCT409T21NT",
+        "price_list_type": "sale",
+        "min_quantity": null,
+        "max_quantity": null
+       },
+       "original_price": {
+        "id": "price_01M44NZSYPN2P7WZDATTCW5YF7",
+        "price_list_id": null,
+        "price_list_type": null,
+        "min_quantity": null,
+        "max_quantity": null
+       }
+      },
+      "inventory_quantity": 5
+     }
+    ],
+    "type": null,
+    "collection": null,
+    "options": [
+     {
+      "id": "opt_01M44NZSNKNRAHJWZNKB00FDVA",
+      "title": "Pointure",
+      "is_exclusive": true,
+      "metadata": null,
+      "created_at": "2026-10-05T00:04:02.358Z",
+      "updated_at": "2026-10-05T00:04:02.358Z",
+      "deleted_at": null,
+      "values": [
+       {
+        "id": "optval_01M44NZSNNNTJ907M2XXAQXQDT",
+        "value": "41",
+        "rank": null,
+        "metadata": null,
+        "option_id": "opt_01M44NZSNKNRAHJWZNKB00FDVA",
+        "created_at": "2026-10-05T00:04:02.358Z",
+        "updated_at": "2026-10-05T00:04:02.358Z",
+        "deleted_at": null
+       },
+       {
+        "id": "optval_01M44NZSNN9BEM545GZ38B5BDB",
+        "value": "42",
+        "rank": null,
+        "metadata": null,
+        "option_id": "opt_01M44NZSNKNRAHJWZNKB00FDVA",
+        "created_at": "2026-10-05T00:04:02.358Z",
+        "updated_at": "2026-10-05T00:04:02.358Z",
+        "deleted_at": null
+       }
+      ]
+     }
+    ],
+    "tags": [
+     {
+      "id": "ptag_01M44NZNN6ZQR6TS98FTJ09QM4",
+      "value": "homme",
+      "external_id": null,
+      "metadata": null,
+      "created_at": "2026-10-05T00:03:58.246Z",
+      "updated_at": "2026-10-05T00:03:58.246Z",
+      "deleted_at": null
+     }
+    ],
+    "images": [],
+    "categories": [
+     {
+      "id": "pcat_01M44NZJPH8Z1CY3HXWADBPZQ2",
+      "name": "Course",
+      "description": "",
+      "handle": "course",
+      "mpath": "pcat_01M44NZJDKRFHQNFDV031D4VXP.pcat_01M44NZJPH8Z1CY3HXWADBPZQ2",
+      "is_active": true,
+      "is_internal": false,
+      "rank": 1,
+      "external_id": null,
+      "metadata": null,
+      "parent_category_id": "pcat_01M44NZJDKRFHQNFDV031D4VXP",
+      "parent_category": {
+       "id": "pcat_01M44NZJDKRFHQNFDV031D4VXP"
+      },
+      "created_at": "2026-10-05T00:03:55.217Z",
+      "updated_at": "2026-10-05T00:03:55.217Z",
+      "deleted_at": null
+     },
+     {
+      "id": "pcat_01M44NZMT1V09TM0T564QY74JN",
+      "name": "Nike",
+      "description": "",
+      "handle": "nike",
+      "mpath": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T.pcat_01M44NZMT1V09TM0T564QY74JN",
+      "is_active": true,
+      "is_internal": false,
+      "rank": 0,
+      "external_id": null,
+      "metadata": null,
+      "parent_category_id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T",
+      "parent_category": {
+       "id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T"
+      },
+      "created_at": "2026-10-05T00:03:57.377Z",
+      "updated_at": "2026-10-05T00:03:57.377Z",
+      "deleted_at": null
+     }
+    ]
+   }
+  ],
+  "count": 1,
+  "offset": 0,
+  "limit": 50
+ },
+ "categories_vues_par_la_boutique": {
+  "product_categories": [
+   {
+    "id": "pcat_01M3TNQ6NBEWKTSM4MF3CSTTQ9",
+    "name": "Urban_Set",
+    "handle": "Survetement Complet",
+    "parent_category_id": null
+   },
+   {
+    "id": "pcat_01M3TP06B5RGPN0NTADS0XZT6S",
+    "name": "Sneackers",
+    "handle": "Chaussures",
+    "parent_category_id": null
+   },
+   {
+    "id": "pcat_01M44NZJDKRFHQNFDV031D4VXP",
+    "name": "Chaussures",
+    "handle": "chaussures",
+    "parent_category_id": null
+   },
+   {
+    "id": "pcat_01M44NZJJ37952YJQWZBFP3SS5",
+    "name": "Sneakers",
+    "handle": "sneakers",
+    "parent_category_id": "pcat_01M44NZJDKRFHQNFDV031D4VXP"
+   },
+   {
+    "id": "pcat_01M44NZJPH8Z1CY3HXWADBPZQ2",
+    "name": "Course",
+    "handle": "course",
+    "parent_category_id": "pcat_01M44NZJDKRFHQNFDV031D4VXP"
+   },
+   {
+    "id": "pcat_01M44NZJV4Y1YDR7DRPWFMQX49",
+    "name": "Basket",
+    "handle": "basket",
+    "parent_category_id": "pcat_01M44NZJDKRFHQNFDV031D4VXP"
+   },
+   {
+    "id": "pcat_01M44NZJZ9KERE91RJ1C8XNWE9",
+    "name": "Sandales",
+    "handle": "sandales",
+    "parent_category_id": "pcat_01M44NZJDKRFHQNFDV031D4VXP"
+   },
+   {
+    "id": "pcat_01M44NZK49WGMDPWZSX8MP4N46",
+    "name": "Bottes",
+    "handle": "bottes",
+    "parent_category_id": "pcat_01M44NZJDKRFHQNFDV031D4VXP"
+   },
+   {
+    "id": "pcat_01M44NZK7Q4WMN1RPYS05H3SX3",
+    "name": "Vêtements",
+    "handle": "vetements",
+    "parent_category_id": null
+   },
+   {
+    "id": "pcat_01M44NZKC6MPEPCFMRRHPTYM9G",
+    "name": "T-shirts",
+    "handle": "t-shirts",
+    "parent_category_id": "pcat_01M44NZK7Q4WMN1RPYS05H3SX3"
+   },
+   {
+    "id": "pcat_01M44NZKH10J45CDBY9ZQ8V1C8",
+    "name": "Polos",
+    "handle": "polos",
+    "parent_category_id": "pcat_01M44NZK7Q4WMN1RPYS05H3SX3"
+   },
+   {
+    "id": "pcat_01M44NZKN2J9P71Q89NCKGM98X",
+    "name": "Sweats et hoodies",
+    "handle": "sweats",
+    "parent_category_id": "pcat_01M44NZK7Q4WMN1RPYS05H3SX3"
+   },
+   {
+    "id": "pcat_01M44NZKRXZ944PY5T8XK6XG9X",
+    "name": "Jeans",
+    "handle": "jeans",
+    "parent_category_id": "pcat_01M44NZK7Q4WMN1RPYS05H3SX3"
+   },
+   {
+    "id": "pcat_01M44NZKWP2DEH7SKS83Q84PAZ",
+    "name": "Vestes",
+    "handle": "vestes",
+    "parent_category_id": "pcat_01M44NZK7Q4WMN1RPYS05H3SX3"
+   },
+   {
+    "id": "pcat_01M44NZM0K6J9CMQ86JYMH29YE",
+    "name": "Survêtements",
+    "handle": "survetements",
+    "parent_category_id": "pcat_01M44NZK7Q4WMN1RPYS05H3SX3"
+   },
+   {
+    "id": "pcat_01M44NZM3QJYR29EW578WECDGT",
+    "name": "Accessoires",
+    "handle": "accessoires",
+    "parent_category_id": null
+   },
+   {
+    "id": "pcat_01M44NZM9FD6X2Z5DTKRJMS8A6",
+    "name": "Casquettes",
+    "handle": "casquettes",
+    "parent_category_id": "pcat_01M44NZM3QJYR29EW578WECDGT"
+   },
+   {
+    "id": "pcat_01M44NZMEABD0PCAH2QWZSANFA",
+    "name": "Sacs",
+    "handle": "sacs",
+    "parent_category_id": "pcat_01M44NZM3QJYR29EW578WECDGT"
+   },
+   {
+    "id": "pcat_01M44NZMJAXKJWTEJJN0D5TVNG",
+    "name": "Chaussettes",
+    "handle": "chaussettes",
+    "parent_category_id": "pcat_01M44NZM3QJYR29EW578WECDGT"
+   },
+   {
+    "id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T",
+    "name": "Marques",
+    "handle": "marques",
+    "parent_category_id": null
+   },
+   {
+    "id": "pcat_01M44NZMT1V09TM0T564QY74JN",
+    "name": "Nike",
+    "handle": "nike",
+    "parent_category_id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T"
+   },
+   {
+    "id": "pcat_01M44NZMYKH4ZR86NGQ1JF4W6T",
+    "name": "Adidas",
+    "handle": "adidas",
+    "parent_category_id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T"
+   },
+   {
+    "id": "pcat_01M44NZN2YFZ54PQFAXFAJ0GKA",
+    "name": "Converse",
+    "handle": "converse",
+    "parent_category_id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T"
+   },
+   {
+    "id": "pcat_01M44NZN76WTQ585DERVQ4GEX1",
+    "name": "Lacoste",
+    "handle": "lacoste",
+    "parent_category_id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T"
+   },
+   {
+    "id": "pcat_01M44NZNBA7CWAWADC38X91C2B",
+    "name": "Levi's",
+    "handle": "levis",
+    "parent_category_id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T"
+   },
+   {
+    "id": "pcat_01M44NZNFFTNWDTFA49ZVNMMSM",
+    "name": "New Balance",
+    "handle": "new-balance",
+    "parent_category_id": "pcat_01M44NZMNGTMDNMJTWWXVNAA1T"
+   }
+  ],
+  "count": 26,
+  "offset": 0,
+  "limit": 100
+ }
+}

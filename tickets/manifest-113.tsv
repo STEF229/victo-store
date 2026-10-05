@@ -1,0 +1,5 @@
+113a	src/lib/catalogue.ts	tests/produit-type.test.ts	tickets/113a-produit-type.md			
+113b	src/lib/medusa/convertir.ts	tests/medusa-convertir.test.ts	tickets/113b-medusa-convertir.md	src/lib/catalogue.ts,src/lib/recherche.ts	113a	
+113c	src/lib/medusa/client.ts	tests/medusa-client.test.ts	tickets/113c-medusa-client.md	src/lib/medusa/convertir.ts	113b	
+113d	src/lib/catalogue-source.ts	tests/catalogue-source.test.ts	tickets/113d-catalogue-source.md	src/lib/medusa/client.ts,src/lib/medusa/convertir.ts	113b,113c	
+113e	src/app/api/catalogue/route.ts	tests/api-catalogue.test.ts	tickets/113e-api-catalogue.md	src/lib/catalogue-source.ts	113d	
