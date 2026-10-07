@@ -13,9 +13,12 @@ import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
 import { COURRIEL_DEMO, MOT_DE_PASSE_DEMO } from '@/lib/compte';
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
+import { quand } from '@/lib/quand';
+import { useCatalogue } from '@/components/catalogue/CatalogueProvider';
 
 export default function PageConnexion() {
   const session = useSession();
+  const demo = useCatalogue().source !== 'medusa';
   const router = useRouter();
   const [courriel, setCourriel] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
@@ -24,12 +27,14 @@ export default function PageConnexion() {
 
   function soumettre(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (session.connecter(courriel, motDePasse)) {
-      setErreur(false);
-      router.push('/compte');
-    } else {
-      setErreur(true);
-    }
+    quand(session.connexion(courriel, motDePasse), (ok) => {
+      if (ok) {
+        setErreur(false);
+        router.push('/compte');
+      } else {
+        setErreur(true);
+      }
+    });
   }
 
   return (
@@ -43,9 +48,11 @@ export default function PageConnexion() {
               <h1 className={TITRE_PAGE}>Connexion</h1>
               <p className={SOUS_TITRE}>Heureux de vous revoir.</p>
             </div>
-            <p data-testid="connexion-demo" className="rounded-2xl bg-[var(--vs-surface)] p-4 text-sm text-[var(--vs-noir)]">
-              {`Compte de démonstration : ${COURRIEL_DEMO} — mot de passe ${MOT_DE_PASSE_DEMO}`}
-            </p>
+            {demo && (
+              <p data-testid="connexion-demo" className="rounded-2xl bg-[var(--vs-surface)] p-4 text-sm text-[var(--vs-noir)]">
+                {`Compte de démonstration : ${COURRIEL_DEMO} — mot de passe ${MOT_DE_PASSE_DEMO}`}
+              </p>
+            )}
             <div className={CHAMP}>
               <label htmlFor="courriel" className={CHAMP_LIBELLE}>Courriel</label>
               <input id="courriel" type="email" autoComplete="email" value={courriel}
