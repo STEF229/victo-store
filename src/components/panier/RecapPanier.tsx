@@ -1,7 +1,10 @@
 import { formatPrice } from '@/lib/formatPrice';
+import Link from 'next/link';
+import { useCatalogue } from '@/components/catalogue/CatalogueProvider';
 import { libelleArticles, type RecapPanier as Recap } from '@/lib/panier-detail';
 
 export function RecapPanier({ recap }: { recap: Recap }) {
+  const enLigne = useCatalogue().source === 'medusa';
   return (
     <aside data-testid="recap-panier" className="flex flex-col gap-[18px] rounded-3xl bg-[var(--vs-surface)] p-7">
       <h2 className="text-[22px] font-black text-[var(--vs-noir)]">Récapitulatif</h2>
@@ -27,10 +30,18 @@ export function RecapPanier({ recap }: { recap: Recap }) {
         <span data-testid="recap-total" className="text-[26px] font-black">{formatPrice(recap.totalCents)}</span>
       </div>
       <p className="text-[13px] text-[var(--vs-gris)]">Taxes (TPS et TVQ) calculées au paiement.</p>
-      <button type="button" disabled className="h-[58px] cursor-not-allowed rounded-full bg-[var(--vs-accent)] text-[17px] font-extrabold text-[var(--vs-blanc)] opacity-60">
-        Passer la commande
-      </button>
-      <p className="text-center text-[13px] text-[var(--vs-gris)]">Le paiement en ligne arrive bientôt.</p>
+      {enLigne ? (
+        <Link href="/commande" className="flex h-[58px] items-center justify-center rounded-full bg-[var(--vs-accent)] text-[17px] font-extrabold text-[var(--vs-blanc)]">
+          Passer la commande
+        </Link>
+      ) : (
+        <>
+          <button type="button" disabled className="h-[58px] cursor-not-allowed rounded-full bg-[var(--vs-accent)] text-[17px] font-extrabold text-[var(--vs-blanc)] opacity-60">
+            Passer la commande
+          </button>
+          <p className="text-center text-[13px] text-[var(--vs-gris)]">Le paiement en ligne arrive bientôt.</p>
+        </>
+      )}
     </aside>
   );
 }
