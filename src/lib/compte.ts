@@ -34,6 +34,8 @@ export interface Commande {
   statut: StatutCommande;
   lignes: LigneCommande[];
   adresseId: string;
+  /** Adresse de livraison, quand la commande vient de Medusa. */
+  adresse?: Adresse;
   paiement: string;
   suivi: string | null;
 }
