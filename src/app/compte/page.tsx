@@ -12,7 +12,8 @@ import { commandesDe, formaterDate, formaterMois, type Client } from '@/lib/comp
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
 
 function Tableau({ client }: { client: Client }) {
-  const commandes = commandesDe(client);
+  const session = useSession();
+  const commandes = session.commandes ?? commandesDe(client);
   const [derniere] = commandes;
   const adresse = client.adresses.find((a) => a.parDefaut);
   
