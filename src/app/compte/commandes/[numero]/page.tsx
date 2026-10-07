@@ -19,7 +19,8 @@ const ATTEINTE: Record<Exclude<StatutCommande, 'annulee'>, number> = { preparati
 const LIGNE_RECAP = 'flex justify-between';
 
 function Detail({ client, numero }: { client: Client; numero: string }) {
-  const commande = commandesDe(client).find((c) => c.numero === numero);
+  const session = useSession();
+  const commande = (session.commandes ?? commandesDe(client)).find((c) => c.numero === numero);
   
   if (!commande) {
     return (
@@ -32,7 +33,7 @@ function Detail({ client, numero }: { client: Client; numero: string }) {
   }
   
   const totaux = totauxCommande(commande);
-  const adresse = client.adresses.find((a) => a.id === commande.adresseId);
+  const adresse = commande.adresse ?? client.adresses.find((a) => a.id === commande.adresseId);
   const atteinte = commande.statut === 'annulee' ? -1 : ATTEINTE[commande.statut];
   
   return (
