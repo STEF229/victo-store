@@ -1,0 +1,4 @@
+117a	src/lib/medusa/commande-medusa.ts	tests/commande-medusa.test.ts	tickets/117a-commande-medusa.md	src/lib/adresses.ts		
+117b	src/app/commande/page.tsx	tests/page-commande.test.tsx	tickets/117b-page-commande.md	src/lib/medusa/commande-medusa.ts,src/components/compte/FormulaireAdresse.tsx	117a	
+117c	src/app/commande/confirmation/page.tsx	tests/page-confirmation.test.tsx	tickets/117c-page-confirmation.md			
+117d	src/components/panier/RecapPanier.tsx	tests/recap-commande.test.tsx	tickets/117d-recap-panier.md			

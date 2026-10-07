@@ -97,6 +97,35 @@ for f, s in specs.items():
             alerte(f, 'code à trous', 'un bloc de code contient « … » : le modèle doit deviner')
             break
 
+# ------------------------------------------------------------ nouveau sans garde (lot 116 : s.connexion)
+# Les noms qu'un lot AJOUTE (dans un « Après » sans être dans l'« Avant ») n'existent pas au pré-vol :
+# un test qui les appelle sur un module existant doit vérifier d'abord qu'ils existent, sinon il plante.
+_STANDARD = {'find', 'filter', 'some', 'every', 'reduce', 'includes', 'join', 'split', 'slice', 'push', 'then', 'catch', 'finally', 'json', 'text',
+             'resolve', 'getItem', 'setItem', 'removeItem', 'replace', 'trim', 'startsWith', 'endsWith', 'toLowerCase', 'toUpperCase', 'keys',
+             'entries', 'values', 'length', 'children', 'className', 'href', 'type', 'title', 'label', 'value', 'name', 'items', 'cart', 'source'}
+def _nouveaux_noms(texte_spec):
+    blocs = re.findall(r"Avant :\n```\w*\n(.*?)```\nAprès :\n```\w*\n(.*?)```", texte_spec, re.S)
+    noms = set()
+    for avant, apres in blocs:
+        definis = set(re.findall(r"^\s*([a-zA-Z_]\w{3,})\??\s*:", apres, re.M)) | set(re.findall(r"\b(?:const|let|function)\s+([a-zA-Z_]\w{3,})", apres))
+        cand = definis - set(re.findall(r"\b([a-zA-Z_]\w{3,})\b", avant)) - _STANDARD
+        noms |= cand
+    return noms
+def _sans_garde(dossier):
+    import glob, os
+    noms = set()
+    for f in glob.glob(os.path.join(dossier, '*.md')):
+        noms |= _nouveaux_noms(open(f, encoding='utf-8').read())
+    for t in glob.glob(os.path.join(dossier, 'tests', '*')):
+        for n, l in enumerate(open(t, encoding='utf-8').read().split('\n'), 1):
+            if 'ATTENDUS' in l or l.strip().startswith('//'): continue
+            for nom in noms:
+                if re.search(r"\.%s\s*[\(\.]" % re.escape(nom), l) and not re.search(r"typeof [\w.]*%s|Array\.isArray\([\w.]*%s\)|%s\?\." % (re.escape(nom), re.escape(nom), re.escape(nom)), l):
+                    yield os.path.basename(t), n, nom
+
+for _t, _n, _nom in _sans_garde(racine):
+    alerte(_t, 'nouveau sans garde', f"ligne {_n} : « .{_nom} » est créé par le lot ; au pré-vol il n'existe pas et le test plante. Vérifier d'abord (typeof … === 'function', Array.isArray(…))")
+
 for f, piege, detail in sorted(alertes):
     print(f'  ✗ {f:34} [{piege}] {detail}')
 print(f'  {len(alertes)} alerte(s) sur {len(specs)} specs et {len(tests)} tests')
