@@ -10,6 +10,7 @@ import { FilAriane } from '@/components/produit/FilAriane';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
 import type { Client } from '@/lib/compte';
+import { quand } from '@/lib/quand';
 import type { ErreursMotDePasse, ErreursProfil } from '@/lib/comptes-locaux';
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
 
@@ -50,21 +51,23 @@ function Formulaires({ client }: { client: Client }) {
 
   function enregistrerProfil(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const erreurs = session.modifierProfil(profil);
-    setErreursProfil(erreurs);
-    setProfilEnregistre(Object.keys(erreurs).length === 0);
+    quand(session.enregistrerProfil(profil), (erreurs) => {
+      setErreursProfil(erreurs);
+      setProfilEnregistre(Object.keys(erreurs).length === 0);
+    });
   }
   
   function changerMdp(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const erreurs = session.changerMotDePasse(actuel, nouveau);
-    setErreursMdp(erreurs);
-    const ok = Object.keys(erreurs).length === 0;
-    setMdpChange(ok);
-    if (ok) {
-      setActuel('');
-      setNouveau('');
-    }
+    quand(session.enregistrerMotDePasse(actuel, nouveau), (erreurs) => {
+      setErreursMdp(erreurs);
+      const ok = Object.keys(erreurs).length === 0;
+      setMdpChange(ok);
+      if (ok) {
+        setActuel('');
+        setNouveau('');
+      }
+    });
   }
 
   return (
