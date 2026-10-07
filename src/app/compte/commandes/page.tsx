@@ -20,8 +20,9 @@ const FILTRES: { valeur: FiltreCommandes; libelle: string }[] = [
 ];
 
 function Liste({ client }: { client: Client }) {
+  const session = useSession();
   const [filtre, setFiltre] = useState<FiltreCommandes>('toutes');
-  const commandes = filtrerCommandes(commandesDe(client), filtre);
+  const commandes = filtrerCommandes(session.commandes ?? commandesDe(client), filtre);
   return (
     <>
       <h1 className={TITRE_PAGE}>Mes commandes</h1>
