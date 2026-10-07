@@ -12,6 +12,7 @@ import { SiteFooter } from '@/components/ui/SiteFooter';
 import { SiteHeader } from '@/components/ui/SiteHeader';
 import { validerInscription, type DonneesInscription, type ErreursInscription } from '@/lib/compte';
 import { COLONNES_PIED, NAV } from '@/lib/navigation';
+import { quand } from '@/lib/quand';
 
 function Champ(props: {
   id: keyof DonneesInscription;
@@ -50,8 +51,10 @@ export default function PageInscription() {
     const trouvees = validerInscription(donnees);
     setErreurs(trouvees);
     if (Object.keys(trouvees).length === 0) {
-      session.inscrire(donnees);
-      router.push('/compte');
+      quand(session.inscription(donnees), (c) => {
+        if (c) router.push('/compte');
+        else setErreurs({ courriel: 'Inscription impossible : ce courriel a peut-être déjà un compte.' });
+      });
     }
   }
 
