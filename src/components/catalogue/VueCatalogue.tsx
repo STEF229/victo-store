@@ -32,7 +32,7 @@ export function VueCatalogue({ titre, description, produits, entete, filAriane }
     [produits, criteres, tri],
   );
   
-  const pagine = paginer(resultats, page, 6);
+  const pagine = paginer(resultats, page, 12);
   
   const marques = produits
     .map((p) => p.marque)
