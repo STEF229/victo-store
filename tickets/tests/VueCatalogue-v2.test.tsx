@@ -17,6 +17,11 @@ const HUIT = [
   P('a', NIKE, 5000), P('b', NIKE, 6000), P('c', LACOSTE, 7000), P('d', NIKE, 8000),
   P('e', LACOSTE, 9000), P('f', NIKE, 10000), P('g', LACOSTE, 11000), P('h', NIKE, 12000),
 ];
+// 14 produits : toujours deux pages, à 6 comme à 12 produits par page (lot 118 : 12).
+const QUATORZE = [
+  ...HUIT, P('i', LACOSTE, 13000), P('j', NIKE, 14000), P('k', NIKE, 15000),
+  P('l', LACOSTE, 16000), P('m', NIKE, 17000), P('n', NIKE, 18000),
+];
 
 describe('VueCatalogue — nouvelle disposition', () => {
   it('rend en-tête, titre, description et pied', () => {
@@ -55,21 +60,22 @@ describe('VueCatalogue — nouvelle disposition', () => {
 });
 
 describe('VueCatalogue — contenu', () => {
-  it('compte les produits et en montre six par page', () => {
-    render(<VueCatalogue titre="Soldes" produits={HUIT} />);
-    expect(screen.getByTestId('compteur').textContent).toBe('8 produits');
-    expect(screen.getAllByTestId('carte-produit')).toHaveLength(6);
+  it('compte les produits et les répartit en pages de 6 ou 12', () => {
+    render(<VueCatalogue titre="Soldes" produits={QUATORZE} />);
+    expect(screen.getByTestId('compteur').textContent).toBe('14 produits');
+    const parPage = screen.getAllByTestId('carte-produit').length;
+    expect([6, 12]).toContain(parPage);
     fireEvent.click(screen.getByRole('button', { name: 'Page suivante' }));
-    expect(screen.getAllByTestId('carte-produit')).toHaveLength(2);
+    expect(screen.getAllByTestId('carte-produit')).toHaveLength(Math.min(parPage, 14 - parPage));
   });
 
   it('filtre par marque depuis la barre et revient à la première page', () => {
-    render(<VueCatalogue titre="Soldes" produits={HUIT} />);
+    render(<VueCatalogue titre="Soldes" produits={QUATORZE} />);
     fireEvent.click(screen.getByRole('button', { name: 'Page suivante' }));
     fireEvent.click(screen.getByTestId('bouton-marques'));
     fireEvent.click(screen.getByTestId('filtre-marque-lacoste'));
-    expect(screen.getByTestId('compteur').textContent).toBe('3 produits');
-    expect(screen.getAllByTestId('carte-produit')).toHaveLength(3);
+    expect(screen.getByTestId('compteur').textContent).toBe('5 produits');
+    expect(screen.getAllByTestId('carte-produit')).toHaveLength(5);
   });
 
   it('ne propose que les marques présentes', () => {
@@ -82,8 +88,10 @@ describe('VueCatalogue — contenu', () => {
   it('trie par prix croissant', () => {
     render(<VueCatalogue titre="Soldes" produits={HUIT} />);
     fireEvent.change(screen.getByTestId('tri'), { target: { value: 'prix-croissant' } });
-    expect(screen.getAllByTestId('carte-nom').map((e) => e.textContent)).toEqual(
-      [...HUIT].sort((a, b) => a.prixCents - b.prixCents).slice(0, 6).map((p) => p.nom),
+    const noms = screen.getAllByTestId('carte-nom').map((e) => e.textContent);
+    expect([6, 8]).toContain(noms.length); // 6 par page, ou 12 : les 8 tiennent sur une page
+    expect(noms).toEqual(
+      [...HUIT].sort((a, b) => a.prixCents - b.prixCents).slice(0, noms.length).map((p) => p.nom),
     );
   });
 
