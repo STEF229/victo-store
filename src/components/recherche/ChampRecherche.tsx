@@ -34,6 +34,7 @@ export function ChampRecherche() {
       </div>
       {visible && (
         <div data-testid="suggestions-recherche"
+          onMouseDown={(e) => e.preventDefault()}
           className="absolute right-0 top-[54px] z-50 flex w-[480px] max-w-[calc(100vw-40px)] flex-col gap-3.5 rounded-[22px] bg-[var(--vs-blanc)] p-4 text-[var(--vs-noir)] shadow-[0_18px_50px_rgba(16,16,20,0.22)]">
           {marques.length > 0 && (
             <div className="flex flex-wrap gap-2 px-2.5">
